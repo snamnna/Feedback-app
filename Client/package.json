@@ -11,8 +11,13 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.6",
+    "antd": "^5.8.5",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "sort-by": "^1.2.0",
     "sweetalert": "^2.1.2",
     "tw-elements-react": "^1.0.0-alpha1"
   },

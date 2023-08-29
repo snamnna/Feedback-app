@@ -2,7 +2,6 @@ import React from "react";
 import {useState} from "react";
 import swal from 'sweetalert';
 
-//Täs nyt mihin pääsin, apin kanssa pitää vähän säätää, tää tämän tutoriaalin pohjalta https://javascript.plainenglish.io/basic-react-login-using-external-api-e33322e480cd
 
 async function loginUser(credentials) {
     return fetch('https://corsproxy.io/?https://www.mecallapi.com/api/login', {
@@ -34,7 +33,7 @@ const Login = () => {
                 .then((value) => {
                     localStorage.setItem('accessToken', response['accessToken']);
                     localStorage.setItem('user', JSON.stringify(response['user']));
-                    window.location.href = "/profile";
+                    window.location.href = "/Home";
                 });
         } else {
             swal("Failed", response.message, "error");
@@ -51,7 +50,7 @@ const Login = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
+                    <form className="space-y-6" action="Client/src/Pages/Auth/Login.jsx#" method="POST" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
                                 Username
