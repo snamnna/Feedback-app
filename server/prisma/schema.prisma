@@ -25,13 +25,14 @@ id            Int @id @default(autoincrement())
 owner         User @relation(fields: [ownerId], references: [id])
 ownerId       Int @unique
 lecture       Lecture @relation(fields: [lectureId], references: [id])
-lectureId     Ind @unique
+lectureId     Int @unique
 participants  User @relation(fields: [participantId], references: [id])
 participantId Int @unique
 }
 
 model Lecture {
-
+lectureId    Int @id @default(autoincrement())
+date         Date @db.Date
 }
 
 model Feedback {
