@@ -17,6 +17,7 @@ model User {
   role          Role @default(user)
   courses       Course[] 
   feedback      Feedback[]
+  
 }
 
 model Course {
