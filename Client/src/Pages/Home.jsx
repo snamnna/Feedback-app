@@ -13,23 +13,20 @@ const Home = () => {
 
     let token = localStorage.getItem("accessToken")
 
-    if(!token){
-        console.log("Ei tokenia")
+    //if(!token){
+    //    console.log("Ei tokenia")
+        //TODO:Navigointi vai login formi tähän suoraan jos ei ole tokenia?
+    //}
+    //else {
         return (
             <>
-            <h2>Lkirjaudu sisään </h2>
-                <Login></Login>
-            </>
-        )
-    }
-    else {
-        return (
-            <>
-                <div>Testi</div>
+                <div>
+                    <h1>Lisätään möyhemmin</h1>
+                </div>
                 <Button onClick={handleLogout}>Log out</Button>
             </>
         )
-    }
+    //}
 }
 
 export default Home
