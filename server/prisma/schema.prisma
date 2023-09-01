@@ -11,7 +11,12 @@ datasource db {
 }
 
 model User {
-
+  id            Int @id @default(autoincrement())
+  username      String @unique
+  password_hash String
+  role          Role @default(user)
+  courses       Course[] 
+  feedback      Feedback[]
 }
 
 model Course {
