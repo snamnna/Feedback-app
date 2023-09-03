@@ -36,6 +36,12 @@ date         Date @db.Date
 }
 
 model Feedback {
-
+feedback    String
+comment     String
+owner       User @relation(fields: [ownerId], references: [id])
+ownerId     Int @unique
+lecture     Lecture @relation(fields: [lectureId], references: [id])
+lectureId   Int @unique
 }
+
 
