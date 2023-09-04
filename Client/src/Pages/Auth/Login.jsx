@@ -77,7 +77,7 @@ const Login = () => {
                     </div>
 
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                        <form className="space-y-6" action="Client/src/Components/Auth/Login.jsx#" onSubmit={handleSubmit}>
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
                                     Username
