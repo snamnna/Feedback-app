@@ -4,7 +4,7 @@ const userService = require('../services/userService');
 const jwt = require('jsonwebtoken')
 const config = process.env
 
-const secretKey = 'salasana'
+const secretKey = process.env.SECRET_KEY || 'oletusavain'
 
 // TODO: Replace with real user data
 const user = { id: 1, username: 'user'}
@@ -18,20 +18,9 @@ app.post('/api/auth', async (req, res) => {
     if(userExists){
         const isValidPassword = await userService.validatePassword(username, password);
 
-        if (isValidPassword(username, password)) {
+        if (isValidPassword) {
             // TODO: Generate JWT
             const token = jwt.sign(user, secretKey, {expiresIn: '1h'})
-
-            //Check jwt
-            jwt.verify(token, secretKey, (err, decoded) => {
-                if (err) {
-                    console.error('JWT-verify failed: ', err)
-                }
-                else {
-                    console.log('Decoded JWT: ', decoded)
-                }
-            })
-
             res.send({
                 token
             })
@@ -44,4 +33,23 @@ app.post('/api/auth', async (req, res) => {
     else {
         res.status(401).send({ error: 'User does not exist' });
     }
+
+    //authenticate token
+    app.post("/api/auth", verifyToken, (req, res) => {
+        jwt.verify(req.token, "secretkey", (err, authData) => {
+            if (err) {
+                res.sendStatus(403)
+            } else {
+                res.json({ message: "POST created", authData})
+            }
+        })
+    })
+
+    //handle login and create token
+    app.post('/api/login', (req, res) => {
+        // TODO: Tässä voisi vielä tarkistaa käyttäjän tiedot ja salasanan ennen tokenin luomista?
+        jwt.sign({user: user}, "secretkey", (err, token) => {
+            res.json({token})
+        })
+    })
 })
