@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useContext } from 'react';
 //import AuthContext from "../../AuthProvider.js";
 import axios from '../../axios.js';
+import {Link} from "react-router-dom";
 
 const LOGIN_URL = '/api/auth';
 
@@ -64,7 +65,7 @@ const Login = () => {
                     <h1>You are logged in!</h1>
                     <br />
                     <p>
-                        <a href="#">Go to Home</a>
+                        <Link to="/home">To home</Link>
                     </p>
                 </section>
             ) : (
@@ -119,13 +120,12 @@ const Login = () => {
                                 <button
                                     className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                                     type="submit"
-                                    >Sign in</button>
+                                    >login</button>
                             </div>
                             <p className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm" >
                                 Need an Account?<br />
                                 <span className="line">
-                            {/*put router link here*/}
-                                    <a href="#">Sign Up</a>
+                            <Link to="/register">Register</Link>
                         </span>
                             </p>
                         </form>
