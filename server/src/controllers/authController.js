@@ -1,5 +1,5 @@
 const express = require('express')
-const app = express()
+const router = express.Router()
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken')
 
@@ -9,7 +9,7 @@ const secretKey = process.env.SECRET_KEY || 'oletusavain'
 const user = { id: 1, username: 'user'}
 
 //authenticate user / login
-app.post('/api/auth', async (req, res) => {
+router.post('/api/auth', async (req, res) => {
     const { username, password } = req.body;
 
     const userExists = await userService.checkUserExists(username);
@@ -35,8 +35,8 @@ app.post('/api/auth', async (req, res) => {
 })
 
 //authenticate token
-app.post("/api/auth", verifyToken, (req, res) => {
-    jwt.verify(req.token, "secretkey", (err, authData) => {
+router.get("/api/auth", verifyToken, (req, res) => {
+    jwt.verify(req.token, secretKey, (err, authData) => {
         if (err) {
             res.sendStatus(403)
         } else {
@@ -50,7 +50,7 @@ function verifyToken(req, res, next) {
     const bearerHeader = req.headers["authorization"]
 
     if (typeof bearerHeader !== "undefined"){
-        const bearerHeader = bearerHeader.split(" ")[1]
+        const bearerToken = bearerHeader.split(" ")[1]
         req.token = bearerToken
         next()
     } else {
@@ -63,3 +63,4 @@ function verifyToken(req, res, next) {
 
 // TODO: Myöhemmin delete / edit user
 
+module.exports = router
