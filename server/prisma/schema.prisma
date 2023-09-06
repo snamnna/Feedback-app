@@ -11,37 +11,42 @@ datasource db {
 }
 
 model User {
-  id            Int @id @default(autoincrement())
-  username      String @unique
+  id            Int        @id @default(autoincrement())
+  username      String     @unique
   password_hash String
-  role          Role @default(user)
-  courses       Course[] 
+  role          Role       @default(USER)
+  ownedCourses  Course[]   @relation(name: "OwnedCourses")
+  participatedCourses Course[] @relation("CourseToUser")
   feedback      Feedback[]
-  
 }
 
 model Course {
-id            Int @id @default(autoincrement())
-owner         User @relation(fields: [ownerId], references: [id])
-ownerId       Int @unique
-lecture       Lecture @relation(fields: [lectureId], references: [id])
-lectureId     Int @unique
-participants  User @relation(fields: [participantId], references: [id])
-participantId Int @unique
+  id            Int     @id @default(autoincrement())
+  owner         User    @relation(name: "OwnedCourses", fields: [ownerId], references: [id])
+  ownerId       Int
+  lecture       Lecture[]
+  participants  User[]  @relation("CourseToUser")
 }
 
 model Lecture {
-lectureId    Int @id @default(autoincrement())
-date         Date @db.Date
+  lectureId Int       @id @default(autoincrement())
+  date      DateTime  @db.Date
+  course    Course    @relation(fields: [courseId], references: [id])
+  courseId  Int
+  feedback  Feedback[]
 }
 
 model Feedback {
-feedback    String
-comment     String
-owner       User @relation(fields: [ownerId], references: [id])
-ownerId     Int @unique
-lecture     Lecture @relation(fields: [lectureId], references: [id])
-lectureId   Int @unique
+  id        Int     @id @default(autoincrement())
+  feedback  String
+  comment   String
+  owner     User    @relation(fields: [ownerId], references: [id])
+  ownerId   Int
+  lecture   Lecture @relation(fields: [lectureId], references: [lectureId])
+  lectureId Int
 }
 
-
+enum Role {
+  USER
+  ADMIN
+}
