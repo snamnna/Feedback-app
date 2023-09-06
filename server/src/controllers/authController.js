@@ -10,9 +10,6 @@ const database = process.env.DATABASE_URL
 
 // TODO: Decide user authentication with/without token and refactor
 
-// TODO: Replace with real user data
-const user = { id: 1, username: 'user'}
-
 //Authenticate User (without token)
 router.post("/api/auth", async (req, res) => {
 
