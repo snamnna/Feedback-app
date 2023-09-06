@@ -3,7 +3,8 @@ import { useRef, useState, useEffect, useContext } from 'react';
 import axios from '../../axios.js';
 import {Link} from "react-router-dom";
 
-const LOGIN_URL = '/api/auth';
+//TODO: korjaa url
+const LOGIN_URL = 'localhost://3000/api/auth';
 
 const Login = () => {
     //const { setAuth } = useContext(AuthContext);
