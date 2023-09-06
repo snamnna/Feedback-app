@@ -2,8 +2,12 @@ const express = require('express')
 const router = express.Router()
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 const secretKey = process.env.SECRET_KEY || 'oletusavain'
+const database = process.env.DATABASE_URL
+
+// TODO: Decide user authentication with/without token and refactor
 
 // TODO: Replace with real user data
 const user = { id: 1, username: 'user'}
@@ -62,37 +66,39 @@ function verifyToken(req, res, next) {
 
 //Registration
 router.post("/api/auth", async (req, res) => {
-    try{
+    try {
         const { username, password } = req.body;
 
         const userExists = await userService.checkUserExists(username);
 
-        if (userExists){
-            res.status(401).json({ message: "Email is already in use."})
+        if (userExists) {
+            return res.status(401).json({ message: "Email is already in use." });
         }
 
         const saltRounds = 10;
 
-        //Hashing password
-        bcrypt.hash(password, saltRounds, (err, hash) => {
-            if (err) throw new Error("Internal Server Error");
-   
-            //TODO: Miten tämä toteutetaan??
-            //Creating new user
-            let user = new userService({
+        // Hashing password
+        const hash = await bcrypt.hash(password, saltRounds);
+
+        // Creating a new user with hashed password
+        const newUser = new userService.User({
             username,
             password: hash,
-            });
-   
-            //Saving user to database
-            user.save().then(() => {
-            res.json({ message: "User created successfully", user });
-            });
         });
-        } catch (err) {
-        return res.status(401).send(err.message);
-        }
-})
+
+        // Connecting to the database
+        await userService.connectToDatabase(database);
+
+        // Saving the user to the database
+        await newUser.save();
+
+        res.json({ message: "User created successfully", user: newUser });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
 
 
 // TODO: Myöhemmin delete / edit user
