@@ -8,7 +8,7 @@ const secretKey = process.env.SECRET_KEY || 'oletusavain'
 // TODO: Replace with real user data
 const user = { id: 1, username: 'user'}
 
-//authenticate user
+//authenticate user / login
 app.post('/api/auth', async (req, res) => {
     const { username, password } = req.body;
 
@@ -45,14 +45,6 @@ app.post("/api/auth", verifyToken, (req, res) => {
     })
 })
 
-//handle login and create token
-app.post('/api/login', (req, res) => {
-    // TODO: Tässä voisi vielä tarkistaa käyttäjän tiedot ja salasanan ennen tokenin luomista?
-    jwt.sign({user: user}, "secretkey", (err, token) => {
-        res.json({token})
-    })
-})
-
 //Funktion that is used in token auth
 function verifyToken(req, res, next) {
     const bearerHeader = req.headers["authorization"]
@@ -65,3 +57,9 @@ function verifyToken(req, res, next) {
         res.sendStatus(403)
     }
 }
+
+
+//Registration
+
+// TODO: Myöhemmin delete / edit user
+
