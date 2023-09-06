@@ -3,6 +3,7 @@ const router = express.Router()
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
+const bcrypt = require('bcrypt');
 
 const secretKey = process.env.SECRET_KEY || 'oletusavain'
 const database = process.env.DATABASE_URL
