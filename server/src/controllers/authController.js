@@ -78,13 +78,17 @@ router.post("/api/auth", async (req, res) => {
         // Hashing password
         const hash = await bcrypt.hash(password, saltRounds);
 
-        // Creating a new user with hashed password
+        // Creating a new user with hashed password 
+
+        //TODO: Esimerkistä metodi User, millä korvataan?
         const newUser = new userService.User({
             username,
             password: hash,
         });
 
         // Connecting to the database
+
+        //TODO: Metodi esimerkistä, tällainen pitäisi tehdä userserviceen?
         await userService.connectToDatabase(database);
 
         // Saving the user to the database
