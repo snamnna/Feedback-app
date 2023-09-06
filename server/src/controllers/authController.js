@@ -18,22 +18,22 @@ router.post("/api/auth", async (req, res) => {
 
         // Check if user exists in database
         const user = await userService.checkUserExists(username);
-   
+
       if (!user) {
         return res.status(401).json({ message: "Invalid Credentials" });
       }
-   
+
       //Compare passwords
       bcrypt.compare(password, user.password, (err, result) => {
         if (result) {
           return res.status(200).json({ message: "User Logged in Successfully" });
         }
-        
+
         console.log(err);
         return res.status(401).json({ message: "Invalid Credentials" });
       });
     } catch (error) {
-      res.status(401).send(err.message);
+      res.status(401).send(error.message);
     }
   });
 
@@ -78,7 +78,7 @@ router.post("/api/auth", async (req, res) => {
         // Hashing password
         const hash = await bcrypt.hash(password, saltRounds);
 
-        // Creating a new user with hashed password 
+        // Creating a new user with hashed password
 
         //TODO: Esimerkistä metodi User, millä korvataan?
         const newUser = new userService.User({
@@ -112,7 +112,7 @@ module.exports = router
 /**
  * //authenticate user / login
 router.post('/api/auth', async (req, res) => {
-    
+
 
     if(userExists){
         const isValidPassword = await userService.validatePassword(username, password);
@@ -131,6 +131,6 @@ router.post('/api/auth', async (req, res) => {
     }
     else {
         res.status(401).send({ error: 'User does not exist' });
-    } 
+    }
 })
  */
