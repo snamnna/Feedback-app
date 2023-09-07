@@ -43,6 +43,11 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validName || !validPwd || !validMatch) {
+            setErrMsg("Please fill in all fields correctly.");
+            return;
+        }
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
@@ -174,17 +179,17 @@ const Register = () => {
                         </div>
 
                         <button
-                            disabled={!validName || !validPwd || !validMatch ? true : false}
-                            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                            type="submit">
+                            className={`bg-blue-700 text-white font-semibold py-2 px-4 rounded hover:bg-blue-800 hover:text-white"
+                            }`}
+                            type="submit"
+                        >
                             Sign Up
                         </button>
                     </form>
                     <p>
                         Already registered?<br />
                         <span className="line">
-                            {/*put router link here*/}
-                            <a href="#">Sign In</a>
+                            <a href="/Login">Sign In</a>
                         </span>
                     </p>
                 </div>

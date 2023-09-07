@@ -3,8 +3,7 @@ import { useRef, useState, useEffect, useContext } from 'react';
 import axios from '../../axios.js';
 import {Link} from "react-router-dom";
 
-//TODO: korjaa url
-const LOGIN_URL = 'localhost://3000/api/auth';
+const LOGIN_URL = 'http://localhost:3001/api/auth';
 
 const Login = () => {
     //const { setAuth } = useContext(AuthContext);
@@ -27,20 +26,24 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
+            const response = await axios.post(
+                LOGIN_URL,
                 {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
+                    user: user,
+                    pwd: pwd,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    withCredentials: true,
                 }
             );
             console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
+            //setAuth({ user, pwd, roles, accessToken });
             setUser('');
             setPwd('');
             setSuccess(true);
@@ -56,8 +59,7 @@ const Login = () => {
             }
             errRef.current.focus();
         }
-    }
-
+    };
 
     return (
         <>
@@ -72,13 +74,13 @@ const Login = () => {
             ) : (
                 <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                             Sign in to your account
                         </h2>
+                        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     </div>
 
-                    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
