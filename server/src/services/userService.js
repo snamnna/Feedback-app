@@ -9,16 +9,18 @@ async function checkUserExists(username) {
             username: username,
         }
     })
+    return user;
 }
 
 //luodaan tietokantaan uusi user
-async function createUser(username,password){
+async function createUser(username, password){
     const user = await prisma.user.create({
         data: {
             username: username,
-            password: password,
-        }
-    })
+            password_hash: password
+        },
+    });
+    return user;
 }
 
 // poistetaan käyttäjä tietokannasta
