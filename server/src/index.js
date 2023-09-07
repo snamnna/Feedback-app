@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 3001
-const authController = require(controllers/authController)
+const authController = require('./controllers/authController')
 
 app.get('/', (req, res) => {
 

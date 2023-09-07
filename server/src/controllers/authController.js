@@ -62,52 +62,22 @@ function verifyToken(req, res, next) {
 }
 
 
-//Registration
-router.post("/api/auth", async (req, res) => {
-    try {
-        const { username, password } = req.body;
-
-        const userExists = await userService.checkUserExists(username);
-
-        if (userExists) {
-            return res.status(401).json({ message: "Email is already in use." });
-        }
-
-        const saltRounds = 10;
-
-        // Hashing password
-        const hash = await bcrypt.hash(password, saltRounds);
-
-        // Creating a new user with hashed password
-
-        //TODO: Esimerkistä metodi User, millä korvataan?
-        const newUser = new userService.User({
-            username,
-            password: hash,
-        });
-
-        // Connecting to the database
-
-        //TODO: Metodi esimerkistä, tällainen pitäisi tehdä userserviceen?
-        await userService.connectToDatabase(database);
-
-        // Saving the user to the database
-        await newUser.save();
-
-        res.json({ message: "User created successfully", user: newUser });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Internal Server Error" });
-    }
-});
-
-
-
 // TODO: Myöhemmin delete / edit user
 
 module.exports = router
 
+
+
+
+
+
+
+
+
 //Alla vanha user authentication jota en uskaltanu vielä poistaa :D
+
+
+
 
 /**
  * //authenticate user / login
