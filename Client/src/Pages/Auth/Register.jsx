@@ -3,7 +3,6 @@ import axios from '../../axios.js';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
-const REGISTER_URL = '/register';
 
 const Register = () => {
     const userRef = useRef();
@@ -44,31 +43,20 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const registerData = {
+            username: user,
+            password: pwd,
+        };
+
         if (!validName || !validPwd || !validMatch) {
             setErrMsg("Please fill in all fields correctly.");
             return;
         }
-        // if button enabled with JS hack
-        const v1 = USER_REGEX.test(user);
-        const v2 = PWD_REGEX.test(pwd);
-        if (!v1 || !v2) {
-            setErrMsg("Invalid Entry");
-            return;
-        }
+
         try {
-            const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ user, pwd }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
-            );
-            console.log(response?.data);
-            console.log(response?.accessToken);
-            console.log(JSON.stringify(response))
+            const registerResponse = await createUser(registerData)
+            console.log("register successful:", registerResponse);
             setSuccess(true);
-            //clear state and controlled inputs
-            //need value attrib on inputs for this
             setUser('');
             setPwd('');
             setMatchPwd('');

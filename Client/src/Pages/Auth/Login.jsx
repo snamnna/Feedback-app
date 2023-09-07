@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, useContext } from 'react';
 //import AuthContext from "../../AuthProvider.js";
 import axios from '../../axios.js';
 import {Link} from "react-router-dom";
+import {loginUser} from "../../../services/userServices";
 
 const LOGIN_URL = 'http://localhost:3001/api/auth';
 
@@ -26,23 +27,13 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const loginData = {
+            username: user,
+            password: pwd,
+        };
         try {
-            const response = await axios.post(
-                LOGIN_URL,
-                {
-                    user: user,
-                    pwd: pwd,
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    withCredentials: true,
-                }
-            );
-            console.log(JSON.stringify(response?.data));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
+            const loginResponse = await loginUser(loginData);
+            console.log("Login successful:", loginResponse);
             //setAuth({ user, pwd, roles, accessToken });
             setUser('');
             setPwd('');
