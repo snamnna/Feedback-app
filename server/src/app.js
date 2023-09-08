@@ -9,4 +9,4 @@ app.use('/api/auth', authController)
 //Käytetään regcontrolleria reitin hallintaan
 app.use('/api/register', regController)
 
-
+module.exports = app
