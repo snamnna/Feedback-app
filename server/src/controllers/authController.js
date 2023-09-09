@@ -6,12 +6,11 @@ require('dotenv').config()
 const bcrypt = require('bcrypt');
 
 const secretKey = process.env.SECRET_KEY || 'oletusavain'
-const database = process.env.DATABASE_URL
 
 // TODO: Decide user authentication with/without token and refactor
 
 //Authenticate User (without token)
-router.post("/api/auth", async (req, res) => {
+router.post("/", async (req, res) => {
 
     try {
         const { username, password } = req.body;
@@ -24,7 +23,7 @@ router.post("/api/auth", async (req, res) => {
       }
 
       //Compare passwords
-      bcrypt.compare(password, user.password, (err, result) => {
+      bcrypt.compare(password, user.password_hash, (err, result) => {
         if (result) {
           return res.status(200).json({ message: "User Logged in Successfully" });
         }
