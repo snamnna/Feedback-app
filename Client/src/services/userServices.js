@@ -1,12 +1,12 @@
 import axios from "axios";
 
 
-const BASE_URL = "/auth";
+const BASE_URL = "/api";
 
 
 export const loginUser = async (loginData) => {
     try {
-        const res = await axios.post(BASE_URL, loginData);
+        const res = await axios.post(`${BASE_URL}/auth`, loginData);
         return res.data;
     } catch (error) {
         console.error("Login failed:", error);
