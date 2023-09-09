@@ -4,11 +4,11 @@ const prisma = new PrismaClient()
 
 //haetaan tietokannasta löytyykö useria
 async function checkUserExists(username) {
-    const user = await prisma.user.findUnique({
+    return prisma.user.findUnique({
         where: {
             username: username,
         }
-    })
+    });
 }
 
 //luodaan tietokantaan uusi user
