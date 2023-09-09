@@ -11,7 +11,7 @@ const database = process.env.DATABASE_URL
 //Registration
 
 
-router.post("/api/register", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const { username, password } = req.body;
 
