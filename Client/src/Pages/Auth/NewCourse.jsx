@@ -68,7 +68,7 @@ const NewCourse = () => {
                         </span>
                     </p>
                 </div>
-            )}
+            )
         </>
     )
 }
