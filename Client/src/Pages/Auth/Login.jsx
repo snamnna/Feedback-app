@@ -1,10 +1,6 @@
-import { useRef, useState, useEffect, useContext } from 'react';
-//import AuthContext from "../../AuthProvider.js";
-import axios from '../../axios.js';
+import { useRef, useState, useEffect } from 'react';
 import {Link} from "react-router-dom";
-import {loginUser} from "../../../services/userServices";
-
-const LOGIN_URL = 'http://localhost:3001/api/auth';
+import {loginUser} from "../../services/userServices";
 
 const Login = () => {
     //const { setAuth } = useContext(AuthContext);

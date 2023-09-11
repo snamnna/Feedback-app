@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import axios from '../../axios.js';
-import {createUser} from "../../../services/userServices";
+import {createUser} from "../../services/userServices";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
@@ -49,10 +48,10 @@ const Register = () => {
             password: pwd,
         };
 
-        if (!validName || !validPwd || !validMatch) {
-            setErrMsg("Please fill in all fields correctly.");
-            return;
-        }
+        // if (!validName || !validPwd || !validMatch) {
+        //     setErrMsg("Please fill in all fields correctly.");
+        //     return;
+        // }
 
         try {
             const registerResponse = await createUser(registerData)

@@ -3,6 +3,7 @@ import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } 
 import Home from './pages/Home';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import NewCourse from "./Pages/Auth/NewCourse";
 
 
 
@@ -13,6 +14,7 @@ const router = createBrowserRouter(
             <Route path="home" element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="newcourse" element={<NewCourse />} />
         </Route>
     )
 )
