@@ -1,16 +1,17 @@
 import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { loginUser } from "../../services/userServices";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../features/auth/authSlice";
 
 const Login = () => {
-  //const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
   const errRef = useRef();
-
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     userRef.current.focus();
@@ -29,7 +30,7 @@ const Login = () => {
     try {
       const loginResponse = await loginUser(loginData);
       console.log("Login successful:", loginResponse);
-      //setAuth({ user, pwd, roles, accessToken });
+      dispatch(setToken(loginResponse.token));
       setUser("");
       setPwd("");
       setSuccess(true);
