@@ -2,58 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-
-a, a:visited {
-    color: #1d4dd7;
+a,
+a:visited {
+  color: #1d4dd7;
 }
-a:hover{
-    color: #090994;
+a:hover {
+  color: #090994;
 }
 
 label,
 button {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 button {
-    padding: 0.5rem;
+  padding: 0.5rem;
 }
 
 .instructions {
-    font-size: 0.75rem;
-    border-radius: 0.5rem;
-    background: #1d4dd7;
-    color: #fff;
-    padding: 0.25rem;
-    position: relative;
-    bottom: -10px;
-    text-align: center;
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #1d4dd7;
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+  text-align: center;
 }
 
 .instructions > svg {
-    margin-right: 0.25rem;
+  margin-right: 0.25rem;
 }
 
 .offscreen {
-    position: absolute;
-    left: -9999px;
+  position: absolute;
+  left: -9999px;
 }
 
 .hide {
-    display: none;
+  display: none;
 }
 .errmsg {
-    background-color: lightpink;
-    color: firebrick;
-    font-weight: bold;
-    padding: 5px;
-    margin-top: 10px;
-    text-align: center;
-    border-radius: 5px;
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 5px;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 5px;
 }
 .flexGrow {
-    flex-grow: 1;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
