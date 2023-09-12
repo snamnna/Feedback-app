@@ -7,8 +7,6 @@ const bcrypt = require('bcrypt');
 
 const secretKey = process.env.SECRET_KEY || 'oletusavain'
 
-// TODO: Decide user authentication with/without token and refactor
-
 //Authenticate User (without token)
 router.post("/", async (req, res) => {
 
@@ -25,7 +23,9 @@ router.post("/", async (req, res) => {
       //Compare passwords
       bcrypt.compare(password, user.password_hash, (err, result) => {
         if (result) {
-          return res.status(200).json({ message: "User Logged in Successfully" });
+            //Sending token to frontend and message
+            const token = jwt.sign({ username }, secretKey, { expiresIn: '1h'});
+            return res.status(200).json({ message: "User Logged in Successfully", token });
         }
 
         console.log(err);
@@ -36,70 +36,31 @@ router.post("/", async (req, res) => {
     }
   });
 
-//authenticate token
-router.get("/api/auth", verifyToken, (req, res) => {
-    jwt.verify(req.token, secretKey, (err, authData) => {
-        if (err) {
-            res.sendStatus(403)
-        } else {
-            res.json({ message: "Token authenticated", authData})
-        }
-    })
-})
 
-//Funktion that is used in token auth
+// Funktion that is used in token auth (not used currently)
 function verifyToken(req, res, next) {
-    const bearerHeader = req.headers["authorization"]
+    const bearerHeader = req.headers["authorization"];
 
     if (typeof bearerHeader !== "undefined"){
-        const bearerToken = bearerHeader.split(" ")[1]
-        req.token = bearerToken
-        next()
+        const bearerToken = bearerHeader.split(" ")[1];
+        req.token = bearerToken;
+
+        jwt.verify(req.token, secretKey, (err, authData) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                req.authData = authData;
+                next();
+            }
+        });
     } else {
-        res.sendStatus(403)
+        res.sendStatus(403);
     }
 }
 
 
 // TODO: Myöhemmin delete / edit user
 
+
 module.exports = router
 
-
-
-
-
-
-
-
-
-//Alla vanha user authentication jota en uskaltanu vielä poistaa :D
-
-
-
-
-/**
- * //authenticate user / login
-router.post('/api/auth', async (req, res) => {
-
-
-    if(userExists){
-        const isValidPassword = await userService.validatePassword(username, password);
-
-        if (isValidPassword) {
-            //Generate jwt
-            const token = jwt.sign(user, secretKey, {expiresIn: '1h'})
-            res.send({
-                token
-            })
-        } else {
-            res.status(401).send({
-                error: 'Invalid username or password'
-            })
-        }
-    }
-    else {
-        res.status(401).send({ error: 'User does not exist' });
-    }
-})
- */
