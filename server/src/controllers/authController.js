@@ -2,12 +2,11 @@ const express = require('express')
 const router = express.Router()
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
 const bcrypt = require('bcrypt');
 
 const secretKey = process.env.SECRET_KEY || 'oletusavain'
 
-//Authenticate User (without token)
+//Authenticate User
 router.post("/", async (req, res) => {
 
     try {
