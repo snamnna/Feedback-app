@@ -57,9 +57,7 @@ function verifyToken(req, res, next) {
     }
 }
 
-
 // TODO: Myöhemmin delete / edit user
-
 
 module.exports = router
 
