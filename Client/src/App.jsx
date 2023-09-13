@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Route,
   createBrowserRouter,
@@ -9,6 +8,7 @@ import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import NewCourse from "./Pages/Auth/NewCourse";
+import Dashboard from "./Pages/Dashboard/Dashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,11 +18,12 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="newcourse" element={<NewCourse />} />
+      <Route path="dashboard" element={<Dashboard />} />
     </Route>
   )
 );
 
-function App({ routes }) {
+function App() {
   return (
     <>
       <RouterProvider router={router} />
