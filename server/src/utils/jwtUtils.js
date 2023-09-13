@@ -1,5 +1,7 @@
+const jwt_decode = require('jwt-decode');
 const jwt = require('jsonwebtoken')
 const secretKey = process.env.SECRET_KEY || 'oletus'
+
 
 //Function for signing token, using user object
 //Three arguments should be legal here?
@@ -9,13 +11,19 @@ function tokenSign(user){
 }
 
 //Function for token decoding
-function tokenVerify(token){
+function tokenDecode(token){
     try{
         const decoded = jwt.verify(token, secretKey)
         return decoded
     } catch (err){
         return null
     }
+}
+
+//Second function for token decoding
+function tokenDecode2(token){
+    const decoded = jwt_decode(token)
+    return decoded
 }
 
 module.exports = { tokenSign, tokenVerify }
