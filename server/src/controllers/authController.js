@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const userService = require('../services/userService');
+const jwtUtils = require('../utils/jwtUtils')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 
@@ -23,7 +24,7 @@ router.post("/", async (req, res) => {
       bcrypt.compare(password, user.password_hash, (err, result) => {
         if (result) {
             //Sending token to frontend and message
-            const token = jwt.sign({ username }, secretKey, { expiresIn: '1h'});
+            const token = jwtUtils.tokenSign(user)
             return res.status(200).json({ message: "User Logged in Successfully", token });
         }
 
@@ -56,10 +57,6 @@ function verifyToken(req, res, next) {
         res.sendStatus(403);
     }
 }
-
-
-// TODO: Myöhemmin delete / edit user
-
 
 module.exports = router
 
