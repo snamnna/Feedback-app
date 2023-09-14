@@ -1,8 +1,9 @@
-import { CoursesSection, Header } from "./components/Header";
+import { Header } from "./components/Header";
+import { CoursesSection } from "./components/CoursesSection";
 
 const Dashboard = () => {
   return (
-    <div className={"p-8"}>
+    <div className={"relative w-full overflow-hidden"}>
       <Header />
       <CoursesSection />
     </div>
