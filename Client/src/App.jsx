@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Route,
   createBrowserRouter,
@@ -10,7 +9,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import NewCourse from "./Pages/NewCourse";
 import PrivateRoute from "./PrivateRoute";
-import Layout from "./Layout";
+import Layout from "./Components/Layout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,7 +29,7 @@ const router = createBrowserRouter(
   )
 );
 
-function App({ routes }) {
+function App() {
   return (
     <>
       <RouterProvider router={router} />
