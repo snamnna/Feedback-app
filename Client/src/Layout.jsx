@@ -6,7 +6,6 @@ const Layout = () => {
   return (
     <>
       <Header></Header>
-      {/*TODO: joku perus navbar header tms*/}
       <Outlet />
     </>
   );

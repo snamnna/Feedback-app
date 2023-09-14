@@ -21,6 +21,12 @@ const Header = () => {
             >
               Register
             </a>
+            <a
+              href="/Home"
+              className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-blue-900 mr-4 visited:text-white"
+            >
+              Home
+            </a>
           </div>
         </div>
       </nav>
