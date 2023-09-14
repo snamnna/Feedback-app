@@ -10,11 +10,13 @@ import Register from "./pages/auth/Register";
 import NewCourse from "./Pages/NewCourse";
 import PrivateRoute from "./PrivateRoute";
 import Layout from "./Components/Layout";
+import Dashboard from "./Pages/Dashboard/Dashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Layout />}>
+        <Route path="dashboard" element={<Dashboard />} />
         {/*public*/}
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
