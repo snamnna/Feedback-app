@@ -8,16 +8,21 @@ import {
 import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import NewCourse from "./Pages/Auth/NewCourse";
+import NewCourse from "./Pages/NewCourse";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route index element={<Register />} />
-      <Route path="home" element={<Home />} />
+      <Route path="/" element={<Layout />} />
+      {/*public*/}
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
-      <Route path="newcourse" element={<NewCourse />} />
+      {/*private*/}
+      <Route path="/" element={<PrivateRoute />}>
+        <Route path="home" element={<Home />} />
+        <Route path="newcourse" element={<NewCourse />} />
+      </Route>
     </Route>
   )
 );
