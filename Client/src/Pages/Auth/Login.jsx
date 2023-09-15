@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { loginUser } from "../../services/userServices";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../features/auth/authSlice";
+import bgpic from "../../assets/bgpic.jpg";
 
 const Login = () => {
   const userRef = useRef();
@@ -59,44 +60,60 @@ const Login = () => {
           </p>
         </section>
       ) : (
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Sign in to your account
-            </h2>
-            <p
-              ref={errRef}
-              className={errMsg ? "errmsg" : "offscreen"}
-              aria-live="assertive"
-            >
-              {errMsg}
-            </p>
-          </div>
-
-          <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" onSubmit={handleSubmit}>
+        <div
+          className="h-screen w-auto"
+          style={{
+            backgroundImage: `url(${bgpic})`,
+          }}
+        >
+          <div className="max-w-full  flex justify-center items-center p-10">
+            <div className="px-20 py-5 max-w-full bg-white opacity-70 rounded-lg shadow-md">
               <div>
-                <label
-                  htmlFor="username"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                <div
+                  ref={errRef}
+                  className={errMsg ? "alert alert-error" : "hidden"}
+                  aria-live="assertive"
                 >
-                  Username
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    id="username"
-                    ref={userRef}
-                    autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="stroke-current shrink-0 h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  {errMsg}
                 </div>
+                <h1 className="mt-3 text-xl font-bold leading-9 tracking-tight text-gray-900 text-center">
+                  Sign in to your account
+                </h1>
               </div>
-
-              <div>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Username
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      id="username"
+                      ref={userRef}
+                      autoComplete="off"
+                      onChange={(e) => setUser(e.target.value)}
+                      value={user}
+                      required
+                      className="input  input-bordered input-primary  w-full max-w-xs "
+                    />
+                  </div>
+                </div>
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="password"
@@ -112,27 +129,27 @@ const Login = () => {
                     onChange={(e) => setPwd(e.target.value)}
                     value={pwd}
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="input input-bordered input-primary w-full max-w-xs"
                   />
                 </div>
-              </div>
 
-              <div>
-                <button
-                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                  type="submit"
-                >
-                  login
-                </button>
-              </div>
-              <p className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div>
+                  <button
+                    className="btn btn-primary my-2 w-full max-w-xs "
+                    type="submit"
+                  >
+                    login
+                  </button>
+                </div>
+              </form>
+              <p className="text-center">
                 Need an Account?
                 <br />
-                <span className="line">
-                  <Link to="/register">Register</Link>
-                </span>
+                <a className="link link-primary" href="/register">
+                  Register
+                </a>
               </p>
-            </form>
+            </div>
           </div>
         </div>
       )}
