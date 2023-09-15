@@ -4,6 +4,7 @@ const userService = require('./services/userService')
 
 //Checks jwt token and gets user info from db
 const checkToken = async (req, res, next) => {
+    
     const token = req.headers.authorization //Tätä varten tokenin pitää olla headerissa??
 
     if (!token){
@@ -25,6 +26,12 @@ const checkToken = async (req, res, next) => {
     } catch (err){
         next(err)
     }
+}
+
+//Tähän middleware joka tarkistaa onko palautteiden katselupyynnön lähettänyt opettaja vai oppilas
+const checkRole = async(req, res, next) => {
+
+    
 }
 
 module.exports = {checkToken} ;
