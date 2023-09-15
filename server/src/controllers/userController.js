@@ -29,8 +29,28 @@ router.get("/:id", middlewares.checkToken, async (req, res) => {
     }
 })
 
-router.put("/:id", checkToken, async (req, res) => {
+router.put("/:id", middlewares.checkToken, async (req, res) => {
     // tällä pitäis pystyä päivittään tietyn käyttäjän tietoja. Pitää siis huolehtia, että käyttäjä voi päivittää vaan omia käyttäjätietojaan
+
+    const userId = req.params.id
+    //const updated = req.body
+    const { username, password } = req.body
+
+    try {
+
+        const user = await userService.checkUserExists()
+
+        
+
+        if(user.id == req.user.id) {
+            const updated = await userService.editUser(username, password)
+            res.json(updated)
+        }
+
+    } catch (err) {
+
+    }
+
 })
 
 router.delete("/:id", checkToken, async (req, res) => {
