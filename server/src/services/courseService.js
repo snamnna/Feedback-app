@@ -3,11 +3,18 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 // check if course exists already in database
-async function checkCourseExists(name, lecturer) {
+async function getCourseById(id) {
     const course = await prisma.course.findUnique({
         where: {
-            name: name,
-            lecturer: lecturer
+            id: id
+        }
+    })
+}
+
+async function getCourseByName(name) {
+    const course = await prisma.course.findUnique({
+        where: {
+            name: name
         }
     })
 }
@@ -26,24 +33,19 @@ async function createCourse(name, description, lecturer, lectures, enrollments){
 }
 
 // delete course from database
-async function deleteCourse(name, lecturer){
+async function deleteCourse(id){
     const deleteCourse = await prisma.course.delete({
         where: {
-            name: name,
-            lecturer: lecturer
+            id: id
         },
     })
 }
 
 //edit course in db
-async function editCourse(name, description, lecturer, lectures, enrollments) {
+async function editCourse(id, name, description, lecturer, lectures, enrollments) {
     const updateCourse = await prisma.course.update({
         where: {
-            name: name,
-            description: description,
-            lecturer: lecturer,
-            lectures: lectures,
-            enrollments: enrollments
+            id: id
         },
         data: {
             name: name,
@@ -62,11 +64,10 @@ async function getAllCourses(){
 }
 
 // get all participants of specific course
-async function getAllParticipants(name, lecturer){
+async function getAllParticipants(id){
     const course = await prisma.course.findUnique({
         where: {
-            name: name,
-            lecturer: lecturer
+            id: id
         },
         select: {
             enrollments: true,
@@ -75,11 +76,10 @@ async function getAllParticipants(name, lecturer){
 }
 
 //get all lectures of specific course
-async function getAllLectures(name, lecturer){
+async function getAllLectures(id){
     const course = await prisma.course.findUnique({
         where: {
-            name: name,
-            lecturer: lecturer
+            id: id
         },
         select: {
             lectures: true,
@@ -88,7 +88,8 @@ async function getAllLectures(name, lecturer){
 }
 
 module.exports = {
-    checkCourseExists,
+    getCourseById,
+    getCourseByName,
     createCourse,
     deleteCourse,
     editCourse,
