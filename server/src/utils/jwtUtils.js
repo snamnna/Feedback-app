@@ -20,10 +20,10 @@ function tokenDecode(token){
     }
 }
 
-//Second function for token decoding
+//Second function for token decoding, which one is better?
 function tokenDecode2(token){
     const decoded = jwt_decode(token)
     return decoded
 }
 
-module.exports = { tokenSign, tokenVerify }
+module.exports = { tokenSign, tokenDecode, tokenDecode2 } //Vaihda tähän se decode kumpi on oikea

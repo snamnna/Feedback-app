@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const userService = require('./services/userService')
 
 //Checks jwt token and gets user info from db
-const authenticate = async (req, res, next) => {
+const checkToken = async (req, res, next) => {
     const token = req.headers.authorization //Tätä varten tokenin pitää olla headerissa??
 
     if (!token){
@@ -26,3 +26,5 @@ const authenticate = async (req, res, next) => {
         next(err)
     }
 }
+
+module.exports = {checkToken} ;
