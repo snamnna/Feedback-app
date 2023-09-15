@@ -44,7 +44,7 @@ const updateCourse = async (courseId, course) => {
 
 const getCourseStudents = async (courseId) => {
   try {
-    const res = await axios.get(`${BASE_URL}/${courseId}/students`);
+    const res = await axios.get(`${BASE_URL}/${courseId}/participants`);
     return res.data;
   } catch (error) {
     console.error("Course students retrieval failed:", error);
