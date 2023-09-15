@@ -3,6 +3,7 @@ const router = express.Router()
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken')
 const middlewares = require('../middlewares')
+const courseService = require('../services/courseService')
 
 //TODO: Tänne delete user / modify user ym
 
@@ -95,6 +96,22 @@ router.delete("/:id", checkToken, async (req, res) => {
 
 router.get("/:id/courses", checkToken, async (req, res) => {
     // palauttaa kurssit, joissa käyttäjä on. Tarvitaan esim siihen ku näytetään frontin dashboardissa niitä kursseja.
+
+    const userId = req.params.id
+
+    try {
+        const user = await userService.checkUserExists(userId)
+
+        if ( !user ){
+            return res.status(404).json({ error: "User can not be found"})
+        }
+
+        //Tätä ei voi tehdä vielä valmiiksi koska courseServicessä ei metodia jonka avulla saisi käyttäjän kaikki kurssit
+        // const courses = await courseService.getUserCourses ....
+
+    } catch (err) {
+
+    }
 })
 
 router.get("/:id/feedback", checkToken, async (req, res) => {
