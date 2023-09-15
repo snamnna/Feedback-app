@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { createUser } from "../../services/userServices";
+import bgpic from "../../assets/bgpic.jpg";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
@@ -82,146 +83,168 @@ const Register = () => {
           </p>
         </section>
       ) : (
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h1 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Register
-            </h1>
-          </div>
-          <p
-            ref={errRef}
-            className={errMsg ? "errmsg" : "offscreen"}
-            aria-live="assertive"
-          >
-            {errMsg}
-          </p>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Username:
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  id="username"
-                  ref={userRef}
-                  autoComplete="off"
-                  onChange={(e) => setUser(e.target.value)}
-                  value={user}
-                  required
-                  aria-invalid={validName ? "false" : "true"}
-                  aria-describedby="uidnote"
-                  onFocus={() => setUserFocus(true)}
-                  onBlur={() => setUserFocus(false)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-                <div className="block text-sm font-medium text-red-500">
-                  <p
-                    id="uidnote"
-                    className={
-                      userFocus && user && !validName
-                        ? "instructions"
-                        : "offscreen"
-                    }
+        <div
+          className="h-screen w-auto"
+          style={{
+            backgroundImage: `url(${bgpic})`,
+          }}
+        >
+          <div className="max-w-full  flex justify-center items-center p-10">
+            <div className="px-20 py-5 max-w-full bg-white opacity-70 rounded-lg shadow-md">
+              <div>
+                <div
+                  ref={errRef}
+                  className={errMsg ? "alert alert-error" : "hidden"}
+                  aria-live="assertive"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="stroke-current shrink-0 h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
                   >
-                    4 to 24 characters.
-                    <br />
-                    Must begin with a letter.
-                    <br />
-                    Letters, numbers, underscores, hyphens allowed.
-                  </p>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  {errMsg}
                 </div>
+                <h1 className="mt-3 text-xl font-bold leading-9 tracking-tight text-gray-900 text-center">
+                  Register
+                </h1>
               </div>
-            </div>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Username:
+                  </label>
+                  <div>
+                    <input
+                      type="text"
+                      id="username"
+                      ref={userRef}
+                      autoComplete="off"
+                      onChange={(e) => setUser(e.target.value)}
+                      value={user}
+                      required
+                      aria-invalid={validName ? "false" : "true"}
+                      aria-describedby="uidnote"
+                      onFocus={() => setUserFocus(true)}
+                      onBlur={() => setUserFocus(false)}
+                      className="input  input-bordered input-primary  w-full max-w-xs "
+                    />
+                    <div>
+                      <p
+                        id="uidnote"
+                        className={
+                          userFocus && user && !validName
+                            ? "text-sm text-white bg-primary rounded-lg mt-2 p-2 max-w-xs "
+                            : "hidden"
+                        }
+                      >
+                        4 to 24 characters.
+                        <br />
+                        Must begin with a letter.
+                        <br />
+                        Letters, numbers, underscores, hyphens allowed.
+                      </p>
+                    </div>
+                  </div>
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Password:
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    onChange={(e) => setPwd(e.target.value)}
+                    value={pwd}
+                    required
+                    aria-invalid={validPwd ? "false" : "true"}
+                    aria-describedby="pwdnote"
+                    onFocus={() => setPwdFocus(true)}
+                    onBlur={() => setPwdFocus(false)}
+                    className="input input-bordered input-primary w-full max-w-xs"
+                  />
+                  <div>
+                    <p
+                      id="pwdnote"
+                      className={
+                        pwdFocus && !validPwd
+                          ? "text-sm text-center text-white bg-primary rounded-lg  w-full max-w-xs my-2 p-2"
+                          : "hidden"
+                      }
+                    >
+                      8 to 24 characters.
+                      <br />
+                      Must include uppercase and lowercase letters, a number and
+                      a special character.
+                      <br />
+                      Allowed special characters:{" "}
+                      <span aria-label="exclamation mark">!</span>{" "}
+                      <span aria-label="at symbol">@</span>{" "}
+                      <span aria-label="hashtag">#</span>{" "}
+                      <span aria-label="dollar sign">$</span>{" "}
+                      <span aria-label="percent">%</span>
+                    </p>
+                  </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password:
-              </label>
-              <input
-                type="password"
-                id="password"
-                onChange={(e) => setPwd(e.target.value)}
-                value={pwd}
-                required
-                aria-invalid={validPwd ? "false" : "true"}
-                aria-describedby="pwdnote"
-                onFocus={() => setPwdFocus(true)}
-                onBlur={() => setPwdFocus(false)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-              <div className="block text-sm font-medium leading-6 text-red-500">
-                <p
-                  id="pwdnote"
-                  className={
-                    pwdFocus && !validPwd ? "instructions" : "offscreen"
-                  }
+                  <label
+                    htmlFor="confirm_pwd"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Confirm Password:
+                  </label>
+                  <input
+                    type="password"
+                    id="confirm_pwd"
+                    onChange={(e) => setMatchPwd(e.target.value)}
+                    value={matchPwd}
+                    required
+                    aria-invalid={validMatch ? "false" : "true"}
+                    aria-describedby="confirmnote"
+                    onFocus={() => setMatchFocus(true)}
+                    onBlur={() => setMatchFocus(false)}
+                    className="input input-bordered input-primary w-full max-w-xs"
+                  />
+                  <div>
+                    <p
+                      id="confirmnote"
+                      className={
+                        matchFocus && !validMatch
+                          ? "text-sm text-center text-white bg-primary rounded-lg  w-full max-w-xs my-2 p-2"
+                          : "hidden"
+                      }
+                    >
+                      Must match the first password input field.
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  class="btn btn-primary my-2 w-full max-w-xs "
+                  type="submit"
                 >
-                  8 to 24 characters.
-                  <br />
-                  Must include uppercase and lowercase letters, a number and a
-                  special character.
-                  <br />
-                  Allowed special characters:{" "}
-                  <span aria-label="exclamation mark">!</span>{" "}
-                  <span aria-label="at symbol">@</span>{" "}
-                  <span aria-label="hashtag">#</span>{" "}
-                  <span aria-label="dollar sign">$</span>{" "}
-                  <span aria-label="percent">%</span>
-                </p>
-              </div>
-
-              <label
-                htmlFor="confirm_pwd"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Confirm Password:
-              </label>
-              <input
-                type="password"
-                id="confirm_pwd"
-                onChange={(e) => setMatchPwd(e.target.value)}
-                value={matchPwd}
-                required
-                aria-invalid={validMatch ? "false" : "true"}
-                aria-describedby="confirmnote"
-                onFocus={() => setMatchFocus(true)}
-                onBlur={() => setMatchFocus(false)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-              <div className="block text-sm font-medium leading-6 text-red-500">
-                <p
-                  id="confirmnote"
-                  className={
-                    matchFocus && !validMatch ? "instructions" : "offscreen"
-                  }
-                >
-                  Must match the first password input field.
-                </p>
-              </div>
+                  Sign Up
+                </button>
+              </form>
+              <p className="text-center">
+                Already registered?
+                <br />
+                <a className="link link-primary" href="/Login">
+                  Sign In
+                </a>
+              </p>
             </div>
-
-            <button
-              className={`bg-blue-700 text-white font-semibold py-2 px-4 rounded hover:bg-blue-800 hover:text-white"
-                            }`}
-              type="submit"
-            >
-              Sign Up
-            </button>
-          </form>
-          <p>
-            Already registered?
-            <br />
-            <span className="line">
-              <a href="/Login">Sign In</a>
-            </span>
-          </p>
+          </div>
         </div>
       )}
     </>
