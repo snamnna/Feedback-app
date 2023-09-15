@@ -7,7 +7,15 @@ async function getCourseById(id) {
     const course = await prisma.course.findUnique({
         where: {
             id: id
-        }
+        },
+        select: {
+            name: true,
+            description: true,
+            lecturer: true,
+            lectures: true,
+            enrollments: true
+        },
+
     })
 }
 
@@ -15,7 +23,14 @@ async function getCourseByName(name) {
     const course = await prisma.course.findUnique({
         where: {
             name: name
-        }
+        },
+        select: {
+            id: true,
+            description: true,
+            lecturer: true,
+            lectures: true,
+            enrollments: true
+        },
     })
 }
 
@@ -28,7 +43,15 @@ async function createCourse(name, description, lecturer, lectures, enrollments){
             lecturer: lecturer,
             lectures: lectures,
             enrollments: enrollments
-        }
+        },
+        select: {
+            id: true,
+            name: true,
+            description: true,
+            lecturer: true,
+            lectures: true,
+            enrollments: true
+        },
     })
 }
 
@@ -53,7 +76,15 @@ async function editCourse(id, name, description, lecturer, lectures, enrollments
             lecturer: lecturer,
             lectures: lectures,
             enrollments: enrollments
-        }
+        },
+        select: {
+            id: true,
+            name: true,
+            description: true,
+            lecturer: true,
+            lectures: true,
+            enrollments: true
+        },
     })
 }
 
