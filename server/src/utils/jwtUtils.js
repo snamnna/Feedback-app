@@ -26,4 +26,4 @@ function tokenDecode2(token){
     return decoded
 }
 
-module.exports = { tokenSign, tokenVerify }
+module.exports = { tokenSign, tokenVerify, tokenDecode } //Vaihda tähän se decode kumpi on oikea
