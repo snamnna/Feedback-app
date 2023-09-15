@@ -7,6 +7,9 @@ async function checkUserExists(username) {
     return prisma.user.findUnique({
         where: {
             username: username,
+        },
+        select: {
+            username: true
         }
     });
 }
@@ -51,6 +54,21 @@ async function editUser(username, password) {
         data: {
             username: username,
             password: password
+        },
+        select: {
+            username : true
+        }
+    })
+}
+
+// courses by user
+async function getUserCourses(user){
+    const course = await prisma.course.findMany({
+        where: {
+            user: user
+        },
+        select: {
+           courses : true
         }
     })
 }
@@ -60,5 +78,6 @@ module.exports = {
     createUser,
     deleteUser,
     validatePassword,
-    editUser
+    editUser,
+    getUserCourses
 };

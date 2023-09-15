@@ -89,7 +89,6 @@ async function editCourse(id, name, description, lecturer, lectures, enrollments
 }
 
 // get all courses from db
-//TODO: myöhemmin käyttäjän mukaan
 async function getAllCourses(){
     const courses = await prisma.course.findMany()
 }
