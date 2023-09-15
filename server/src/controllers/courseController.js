@@ -31,7 +31,7 @@ router.post("/", checkToken,  async (req, res) => {
 router.get("/:id", checkToken, async (req, res) => {
     try {
         const id = req.params.id;
-        const course = await courseService.checkCourseExists(id)
+        const course = await courseService.getCourseById(id)
 
         if(!course){
             return res.status(404).json({ error: "Course not found" });
@@ -47,13 +47,13 @@ router.get("/:id", checkToken, async (req, res) => {
 router.get("/:id/participants", checkToken, async (req, res) => {
     try {
         const id = req.params.id;
-        const course = await courseService.checkCourseExists(id)
+        const course = await courseService.getCourseById(id)
 
         if(!course){
             return res.status(404).json({ error: "Course not found" });
 
         }
-        const participants = await courseService.getParticipants(id);
+        const participants = await courseService.getAllParticipants(id);
         res.status(200).json({message: "participants found successfully", participants});
 
     }catch (error){
@@ -66,7 +66,7 @@ router.get("/:id/participants", checkToken, async (req, res) => {
 router.get("/:id/feedback", checkToken,  async (req, res) => {
     try {
         const id = req.params.id;
-        const course = await courseService.checkCourseExists(id)
+        const course = await courseService.getCourseById(id)
         if (!course) {
             return res.status(404).json({error: "Course not found"});
         }
@@ -80,12 +80,12 @@ router.get("/:id/feedback", checkToken,  async (req, res) => {
 router.get("/:id/lectures", checkToken,  async (req, res) => {
     try {
         const id = req.params.id;
-        const course = await courseService.checkCourseExists(id)
+        const course = await courseService.getCourseById(id)
         if (!course) {
             return res.status(404).json({error: "Course not found"});
         }
 
-        const lectures = await courseService.getLectures(id);
+        const lectures = await courseService.getAllLectures(id);
         res.status(200).json({message: "Lectures found successfully", lectures});
     }catch (error){
         console.log("Getting lectures failed", error);
