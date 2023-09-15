@@ -63,7 +63,7 @@ const Register = () => {
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
-      } else if (err.response?.status === 409) {
+      } else if (err.response?.status === 401) {
         setErrMsg("Username Taken");
       } else {
         setErrMsg("Registration Failed");
@@ -78,7 +78,7 @@ const Register = () => {
         <section>
           <h1>Success!</h1>
           <p>
-            <a href="#">Sign In</a>
+            <a href="/login">Sign In</a>
           </p>
         </section>
       ) : (

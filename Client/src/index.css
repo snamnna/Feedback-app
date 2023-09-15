@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-a,
-a:visited {
+a {
   color: #1d4dd7;
 }
 a:hover {

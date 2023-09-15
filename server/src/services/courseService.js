@@ -17,6 +17,7 @@ async function createCourse(owner){
     const course = await prisma.course.create({
         data: {
             owner: owner
+
         }
     })
 }
@@ -44,10 +45,17 @@ async function editCourse(id, owner) {
         }
     })
 }
+async function getAllCourses(){
+    const courses = await prisma.course.findMany()
+}
+
+//TODO: getParticipants(courseId)
+//TODO: getLectures(id)
 
 module.exports = {
     checkCourseExists,
     createCourse,
     deleteCourse,
-    editCourse
+    editCourse,
+    getAllCourses
 };

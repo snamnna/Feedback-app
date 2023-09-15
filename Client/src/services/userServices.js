@@ -32,3 +32,13 @@ export const createUser = async (user) => {
     throw error;
   }
 };
+
+export const getUserCourses = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/users/:id/courses`);
+    return response.data;
+  } catch (error) {
+    console.log("getting user courses failed", error);
+    throw error;
+  }
+};
