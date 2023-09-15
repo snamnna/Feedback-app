@@ -38,17 +38,27 @@ router.put("/:id", middlewares.checkToken, async (req, res) => {
 
     try {
 
-        const user = await userService.checkUserExists()
+        const user = await userService.checkUserExists(userId)
 
-        
+        if( !user ){
+            return res.status(404).json({ error: "User can not be found"})
+        }
 
-        if(user.id == req.user.id) {
+        if (user.id !== req.user.id){
+            return res.status(403).json({ error: "No permission to update user information"})
+        }
+
+        if ( !username || !password ){
+            return res.status(403).json({ error: "Please enter username and password"})
+        }
+
+        if (user.id == req.user.id) {
             const updated = await userService.editUser(username, password)
             res.json(updated)
         }
 
     } catch (err) {
-
+        res.status(500).json({ error: "Initial server errorr"})
     }
 
 })
