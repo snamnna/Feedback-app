@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken')
+const middleware = require('../middlewares')
 
 //TODO: Tänne delete user / modify user ym
 
