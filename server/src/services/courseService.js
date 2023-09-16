@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-// todo: pitäis palauttaa kontrollerille haettu kurssi
+// TODO: pitäis palauttaa haettu kurssi kontrollerille
 // check if course exists already in database
 async function getCourseById(id) {
   const course = await prisma.course.findUnique({
@@ -19,7 +19,7 @@ async function getCourseById(id) {
   });
 }
 
-// todo: pitäis palauttaa kontrollerille haettu kurssi
+// todo: pitäis palauttaa haettu kurssi kontrollerille
 async function getCourseByName(name) {
   const course = await prisma.course.findUnique({
     where: {
