@@ -8,41 +8,58 @@ async function getUserByUsername(username) {
     where: {
       username,
     },
+    select: {
+      id: true,
+      username: true,
+    },
   });
 }
 
+// get user by id
 async function getUserById(id) {
   return prisma.user.findUnique({
     where: {
       id,
     },
+    select: {
+      id: true,
+      username: true,
+    },
   });
 }
 
-// todo: pitäis palauttaa kontrolleriin että voi tarkistaa onnistuiko luonti
-// luodaan tietokantaan uusi user
+// pitäis palauttaa kontrolleriin että voi tarkistaa onnistuiko luonti
+// creates a new user to db
 async function createUser(username, password) {
   const user = await prisma.user.create({
     data: {
       username,
       password_hash: password,
     },
+    select: {
+      id: true,
+      username: true,
+    },
   });
 }
 
-// todo: pitäis palauttaa kontrolleriin arvoja että tietää mitä poistettiin ja onnistuiko poisto
-// poistetaan käyttäjä tietokannasta
+// pitäis palauttaa kontrolleriin arvoja että tietää mitä poistettiin ja onnistuiko poisto
+// delete user from db
 async function deleteUser(username, password) {
   const deletedUser = await prisma.user.delete({
     where: {
       username,
       password,
     },
+    select: {
+      id: true,
+      username: true,
+    },
   });
 }
 
-// todo: pitäis palauttaa kontrolleriin se päivitetty käyttäjä et kontrolleri voi palauttaa sen fronttiin
-// muokataan käyttäjää
+// pitäis palauttaa kontrolleriin se päivitetty käyttäjä et kontrolleri voi palauttaa sen fronttiin
+// edit user in db
 async function editUser(username, password) {
   const updateUser = await prisma.user.update({
     where: {
@@ -54,20 +71,21 @@ async function editUser(username, password) {
       password,
     },
     select: {
+      id: true,
       username: true,
-    },
+    }
   });
 }
 
-// todo: tää pitäis varmaa siirtää courseServiceen ku tää on kurssiin liittyvä funktio eikä käyttäjään
 // courses by user
-async function getUserCourses(user) {
-  const course = await prisma.course.findMany({
+async function getUserCourses(id) {
+  const user = await prisma.user.findMany({
     where: {
-      user,
+      id,
     },
-    select: {
-      courses: true,
+    include: {
+      lecturedCourses: true,
+      enrolledCourses: true
     },
   });
 }
@@ -78,4 +96,5 @@ module.exports = {
   deleteUser,
   editUser,
   getUserById,
+  getUserCourses
 };
