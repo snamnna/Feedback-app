@@ -1,6 +1,6 @@
 import { Avatar } from "./Avatar";
 
-export const Header = () => {
+export const DashboardHeader = () => {
   return (
     <div className="flex justify-between items-center p-4 bg-gray-200 border-b border-gray-300">
       <h1 className="text-2xl font-semibold">Dashboard</h1>
