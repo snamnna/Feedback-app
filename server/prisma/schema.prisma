@@ -31,7 +31,7 @@ model User {
   password_hash   String
   userType        UserType           @default(STUDENT) // the type of user (student, lecturer, admin)
   lecturedCourses Course[] // courses that the user is a lecturer of
-  courses         CourseEnrollment[] // courses that the user is enrolled in
+  enrolledCourses CourseEnrollment[] // courses that the user is enrolled in
   feedback        Feedback[] // feedback that the user has given
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
