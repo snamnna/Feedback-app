@@ -5,6 +5,7 @@ const cors = require("cors");
 require("express-async-errors");
 const authController = require("./controllers/authController");
 const regController = require("./controllers/regController");
+const courseController = require("./controllers/courseController");
 const errorHandler = require("./middlewares/errorHandler");
 
 app.use(cors());
@@ -21,6 +22,8 @@ app.use("/api/auth", authController);
 
 // Käytetään regcontrolleria reitin hallintaan
 app.use("/api/register", regController);
+
+app.use("/api/courses", courseController);
 
 app.use(errorHandler);
 
