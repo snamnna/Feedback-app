@@ -3,6 +3,7 @@ const app = express()
 const authController = require('./controllers/authController')
 const regController = require('./controllers/regController')
 const cors = require("cors");
+const errorHandler = require('./middlewares/errorHandler')
 
 app.use(cors());
 
@@ -18,5 +19,7 @@ app.use('/api/auth', authController)
 
 //Käytetään regcontrolleria reitin hallintaan
 app.use('/api/register', regController)
+
+app.use(errorHandler)
 
 module.exports = app
