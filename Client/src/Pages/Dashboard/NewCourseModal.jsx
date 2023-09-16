@@ -2,6 +2,7 @@ import { FiX } from "react-icons/fi";
 import { useState } from "react";
 import courseService from "../../services/courseService";
 import * as PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 const CourseForm = ({
   onSubmit,
@@ -80,6 +81,7 @@ CourseForm.propTypes = {
 const NewCourseModal = () => {
   const [courseName, setCourseName] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
+  const token = useSelector((state) => state.auth.token);
 
   const handleClose = () => {
     setCourseName("");
@@ -94,16 +96,11 @@ const NewCourseModal = () => {
       courseDescription,
     };
 
-    try {
-      const newCourse = await courseService.createCourse(data);
-      console.log(newCourse);
+    const newCourse = await courseService.createCourse(data, token);
+    console.log(newCourse);
 
-      // TODO: implement courseSlice to update state
-      // TODO: add new course to the state
-    } catch (error) {
-      console.error("course creation failed:", error);
-      throw error;
-    }
+    // TODO: implement courseSlice to update state
+    // TODO: add new course to the state
   };
 
   return (
