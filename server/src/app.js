@@ -6,6 +6,7 @@ require("express-async-errors");
 const authController = require("./controllers/authController");
 const regController = require("./controllers/regController");
 const courseController = require("./controllers/courseController");
+const userController = require("./controllers/userController");
 const errorHandler = require("./middlewares/errorHandler");
 
 app.use(cors());
@@ -24,6 +25,8 @@ app.use("/api/auth", authController);
 app.use("/api/register", regController);
 
 app.use("/api/courses", courseController);
+
+app.use("/api/users", userController);
 
 app.use(errorHandler);
 
