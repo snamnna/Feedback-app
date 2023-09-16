@@ -1,17 +1,8 @@
 import { FiX } from "react-icons/fi";
 import { useState } from "react";
 import courseService from "../../services/courseService";
-import * as PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { CourseForm } from "./components/CourseForm";
-
-CourseForm.propTypes = {
-  onSubmit: PropTypes.func,
-  courseName: PropTypes.string,
-  setCourseName: PropTypes.func,
-  courseDescription: PropTypes.string,
-  setCourseDescription: PropTypes.func,
-};
+import CourseForm from "./components/CourseForm";
 
 const NewCourseModal = () => {
   const [courseName, setCourseName] = useState("");
