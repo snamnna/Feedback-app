@@ -1,21 +1,27 @@
-const { PrismaClient } = require('@prisma/client')
+const {PrismaClient} = require('@prisma/client')
+
 
 const prisma = new PrismaClient()
 
-//haetaan tietokannasta löytyykö useria
-async function checkUserExists(username) {
+// get user by username
+async function getUserByUsername(username) {
     return prisma.user.findUnique({
         where: {
             username: username,
         },
-        select: {
-            username: true
-        }
-    });
+    })
+}
+
+async function getUserById(id) {
+    return prisma.user.findUnique({
+        where: {
+            id: id,
+        },
+    })
 }
 
 //luodaan tietokantaan uusi user
-async function createUser(username,password){
+async function createUser(username, password) {
     const user = await prisma.user.create({
         data: {
             username: username,
@@ -25,22 +31,12 @@ async function createUser(username,password){
 }
 
 // poistetaan käyttäjä tietokannasta
-async function deleteUser(username,password){
+async function deleteUser(username, password) {
     const deleteUser = await prisma.user.delete({
         where: {
             username: username,
             password: password
         },
-    })
-}
-
-//vertaa salasanaa tietokantaan
-async function validatePassword(username, password){
-    const user = await prisma.user.findUnique({
-        where: {
-            username: username,
-            password: password
-        }
     })
 }
 
@@ -56,28 +52,28 @@ async function editUser(username, password) {
             password: password
         },
         select: {
-            username : true
+            username: true
         }
     })
 }
 
+// todo: voisko nimee paremmin? Et nimestä jo näkis että tää hakee kurssit missä käyttäjä on lecturer
 // courses by user
-async function getUserCourses(user){
+async function getUserCourses(user) {
     const course = await prisma.course.findMany({
         where: {
             user: user
         },
         select: {
-           courses : true
+            courses: true
         }
     })
 }
 
 module.exports = {
-    checkUserExists,
+    getUserByUsername,
     createUser,
     deleteUser,
-    validatePassword,
     editUser,
-    getUserCourses
+    getUserById
 };
