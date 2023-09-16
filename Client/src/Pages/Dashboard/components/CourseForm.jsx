@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-export const CourseForm = ({
+const CourseForm = ({
   onSubmit,
   courseName,
   setCourseName,
@@ -13,7 +13,11 @@ export const CourseForm = ({
   if (courseName.length > 64) setCourseName(courseName.slice(0, 64));
 
   return (
-    <form className="form-control w-full max-w-lg" onSubmit={onSubmit}>
+    <form
+      className="form-control w-full max-w-lg"
+      onSubmit={onSubmit}
+      data-testid="course-form"
+    >
       {/*  course name */}
       <label className="label">
         <span className="label-text">Course name</span>
@@ -73,3 +77,5 @@ CourseForm.propTypes = {
   courseDescription: PropTypes.string,
   setCourseDescription: PropTypes.func,
 };
+
+export default CourseForm;

@@ -2,11 +2,14 @@ import PropTypes from "prop-types";
 
 const CourseCard = ({ course }) => {
   return (
-    <div className="card w-80 bg-base-100 shadow-xl image-full">
+    <div
+      className="card w-80 bg-base-100 shadow-xl image-full"
+      data-testid="course-card"
+    >
       <figure>
-        <img src={course.image} alt="Placeholder" />
+        <img src={course.image} alt="Placeholder" data-testid="course-image" />
       </figure>
-      <div className="card-body">
+      <div className="card-body" data-testid="course-card-body">
         <h2 className="card-title">{course.name}</h2>
         <p>{course.description}</p>
       </div>
