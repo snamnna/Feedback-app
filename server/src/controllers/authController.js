@@ -1,7 +1,9 @@
 const express = require("express");
 
-const router = express.Router();
 const bcrypt = require("bcrypt");
+const CustomError = require("../utils/CustomError");
+
+const router = express.Router();
 const userService = require("../services/userService");
 const jwtUtils = require("../utils/jwtUtils");
 
@@ -12,21 +14,11 @@ router.post("/", async (req, res) => {
   // Check if user exists in database
   const user = await userService.getUserByUsername(username);
 
-  if (!user) {
-    return res.status(401).json({ message: "Invalid Credentials" });
-  }
+  // If user doesn't exist or password is incorrect, throw error
+  if (!user || !(await bcrypt.compare(password, user.password_hash)))
+    throw new CustomError(401, "Invalid Credentials");
 
-  // todo: tässä vois käyttää custom erroria ja error handleria
-  // todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
-  // todo: error handler sit käsittelee ne errorit ja palauttaa ne fronttiin
-  // Compare passwords
-  const token = bcrypt.compare(password, user.password_hash, (err, result) => {
-    if (result) {
-      return jwtUtils.tokenSign(user);
-    }
-    console.log(err);
-    return res.status(401).json({ message: "Invalid Credentials" });
-  });
+  const token = await jwtUtils.tokenSign(user);
 
   return res
     .status(200)
