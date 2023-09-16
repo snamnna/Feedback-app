@@ -2,6 +2,7 @@ const express = require("express");
 
 const app = express();
 const cors = require("cors");
+require("express-async-errors");
 const authController = require("./controllers/authController");
 const regController = require("./controllers/regController");
 const errorHandler = require("./middlewares/errorHandler");
