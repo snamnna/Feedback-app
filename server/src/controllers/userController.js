@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const userService = require("../services/userService");
 const verifyToken = require("../middlewares/verifyToken");
+const CustomError = require("../utils/CustomError");
 
 // TODO: Tänne delete user / modify user ym
 
@@ -12,10 +13,6 @@ const verifyToken = require("../middlewares/verifyToken");
 // todo: try-catchit pois ja käytä custom erroria ja error handleria
 // todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
 // todo: error handler sit käsittelee ne errorit ja palauttaa ne fronttiin
-
-router.get("/", verifyToken, async (req, res) => {
-  // tän pitäis palauttaa kaikki käyttäjät databasesta ---- tarvitaan medodi joka palauttaisi kaikki, ei yksittäistä?
-});
 
 router.get("/:id", verifyToken, async (req, res) => {
   // tän pitäis palauttaa tietty käyttäjä urlissa parametrina olevan idn perusteella
@@ -109,28 +106,15 @@ router.delete("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "User deleted successfully" });
 });
 
-// todo: try-catchit pois ja käytä custom erroria ja error handleria
-// todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
-// todo: error handler sit käsittelee ne errorit ja palauttaa ne fronttiin
 router.get("/:id/courses", verifyToken, async (req, res) => {
-  // palauttaa kurssit, joissa käyttäjä on. Tarvitaan esim siihen ku näytetään frontin dashboardissa niitä kursseja.
+  const userId = parseInt(req.params.id, 10);
+  const user = await userService.getUserById(userId);
 
-  const userId = req.params.id;
+  if (!user) throw new CustomError(404, "User not found");
 
-  try {
-    const user = await userService.checkUserExists(userId);
+  const courses = await userService.getUserCourses(userId);
 
-    if (!user) {
-      return res.status(404).json({ error: "User can not be found" });
-    }
-
-    // Tätä ei voi tehdä vielä valmiiksi koska courseServicessä ei metodia jonka avulla saisi käyttäjän kaikki kurssit
-    // const courses = await courseService.getUserCourses ....
-  } catch (err) {
-    /*  */
-  }
-  // todo: tässä returnissa pitäis palauttaa ne kurssit mitä käyttäjällä on
-  return res.status(200).json({ message: "User courses found successfully" });
+  return res.status(200).json({ ...courses });
 });
 
 router.get("/:id/feedback", verifyToken, async (req, res) => {
