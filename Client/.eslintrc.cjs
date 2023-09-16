@@ -1,11 +1,12 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true, node: true },
+  env: { browser: true, es2020: true, node: true, "vitest-globals/env": true },
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
+    "plugin:vitest-globals/recommended",
     "plugin:prettier/recommended",
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
