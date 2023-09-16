@@ -69,17 +69,26 @@ async function editUser(username, password) {
   });
 }
 
-// courses by user
+// all courses that user is lecturing or enrolled in
 async function getUserCourses(id) {
-  const user = await prisma.user.findMany({
+  const user = await prisma.user.findUnique({
     where: {
       id,
     },
-    include: {
+    select: {
       lecturedCourses: true,
-      enrolledCourses: true,
+      enrolledCourses: {
+        select: {
+          course: true,
+        },
+      },
     },
   });
+
+  return {
+    ...user.lecturedCourses,
+    ...user.enrolledCourses.map((enrollment) => enrollment.course),
+  };
 }
 
 module.exports = {
