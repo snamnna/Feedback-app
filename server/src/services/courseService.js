@@ -1,129 +1,149 @@
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require("@prisma/client");
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
+// todo: pitäis palauttaa kontrollerille haettu kurssi
 // check if course exists already in database
 async function getCourseById(id) {
-    const course = await prisma.course.findUnique({
-        where: {
-            id: id
-        },
-        select: {
-            name: true,
-            description: true,
-            lecturer: true,
-            lectures: true,
-            enrollments: true
-        },
-
-    })
+  const course = await prisma.course.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      name: true,
+      description: true,
+      lecturer: true,
+      lectures: true,
+      enrollments: true,
+    },
+  });
 }
 
+// todo: pitäis palauttaa kontrollerille haettu kurssi
 async function getCourseByName(name) {
-    const course = await prisma.course.findUnique({
-        where: {
-            name: name
-        },
-        select: {
-            id: true,
-            description: true,
-            lecturer: true,
-            lectures: true,
-            enrollments: true
-        },
-    })
+  const course = await prisma.course.findUnique({
+    where: {
+      name,
+    },
+    select: {
+      id: true,
+      description: true,
+      lecturer: true,
+      lectures: true,
+      enrollments: true,
+    },
+  });
 }
 
-//create new course to database
-async function createCourse(name, description, lecturer, lectures, enrollments){
-    const course = await prisma.course.create({
-        data: {
-            name: name,
-            description: description,
-            lecturer: lecturer,
-            lectures: lectures,
-            enrollments: enrollments
-        },
-        select: {
-            id: true,
-            name: true,
-            description: true,
-            lecturer: true,
-            lectures: true,
-            enrollments: true
-        },
-    })
+// todo: pitäis palauttaa kontrollerille luotu kurssi
+// create new course to database
+async function createCourse(
+  name,
+  description,
+  lecturer,
+  lectures,
+  enrollments,
+) {
+  const course = await prisma.course.create({
+    data: {
+      name,
+      description,
+      lecturer,
+      lectures,
+      enrollments,
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      lecturer: true,
+      lectures: true,
+      enrollments: true,
+    },
+  });
 }
 
+// todo: pitäis palauttaa kontrolleriin se poistettu kurssi
 // delete course from database
-async function deleteCourse(id){
-    const deleteCourse = await prisma.course.delete({
-        where: {
-            id: id
-        },
-    })
+async function deleteCourse(id) {
+  const course = await prisma.course.delete({
+    where: {
+      id,
+    },
+  });
 }
 
-//edit course in db
-async function editCourse(id, name, description, lecturer, lectures, enrollments) {
-    const updateCourse = await prisma.course.update({
-        where: {
-            id: id
-        },
-        data: {
-            name: name,
-            description: description,
-            lecturer: lecturer,
-            lectures: lectures,
-            enrollments: enrollments
-        },
-        select: {
-            id: true,
-            name: true,
-            description: true,
-            lecturer: true,
-            lectures: true,
-            enrollments: true
-        },
-    })
+// todo: pitäis palauttaa kontrolleriin
+// edit course in db
+async function editCourse(
+  id,
+  name,
+  description,
+  lecturer,
+  lectures,
+  enrollments,
+) {
+  const updateCourse = await prisma.course.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      description,
+      lecturer,
+      lectures,
+      enrollments,
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      lecturer: true,
+      lectures: true,
+      enrollments: true,
+    },
+  });
 }
 
+// todo: pitäis palauttaa kontrolleriin
 // get all courses from db
-async function getAllCourses(){
-    const courses = await prisma.course.findMany()
+async function getAllCourses() {
+  const courses = await prisma.course.findMany();
 }
 
+// todo: pitäis palauttaa kontrolleriin arvot
 // get all participants of specific course
-async function getAllParticipants(id){
-    const course = await prisma.course.findUnique({
-        where: {
-            id: id
-        },
-        select: {
-            enrollments: true,
-        },
-    })
+async function getAllParticipants(id) {
+  const course = await prisma.course.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      enrollments: true,
+    },
+  });
 }
 
-//get all lectures of specific course
-async function getAllLectures(id){
-    const course = await prisma.course.findUnique({
-        where: {
-            id: id
-        },
-        select: {
-            lectures: true,
-        },
-    })
+// todo: pitäis palauttaa kontrolleriin
+// get all lectures of specific course
+async function getAllLectures(id) {
+  const course = await prisma.course.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      lectures: true,
+    },
+  });
 }
 
 module.exports = {
-    getCourseById,
-    getCourseByName,
-    createCourse,
-    deleteCourse,
-    editCourse,
-    getAllCourses,
-    getAllParticipants,
-    getAllLectures
+  getCourseById,
+  getCourseByName,
+  createCourse,
+  deleteCourse,
+  editCourse,
+  getAllCourses,
+  getAllParticipants,
+  getAllLectures,
 };
