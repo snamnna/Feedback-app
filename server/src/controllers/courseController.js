@@ -20,22 +20,18 @@ router.get("/", verifyToken, async (req, res) => {
   res.status(200).json({ message: "courses found successfully" });
 });
 
-// todo: try-catch pois ja käytä custom erroria ja error handleria
-// todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
 // create a new course
 router.post("/", verifyToken, async (req, res) => {
-  try {
-    // TODO: hae käyttäjän tiedot
-    // todo: käyttäjän tiedot ja tyyppi löytyy nyt req.user:sta
+  const { courseName, courseDescription } = req.body;
+  const { id } = req.user;
+  const data = {
+    name: courseName,
+    description: courseDescription,
+    lecturerId: id,
+  };
 
-    const data = req.body;
-    const newCourse = await courseService.createCourse(data);
-  } catch (error) {
-    console.log("creating a new course failed", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-  // TODO: kurssin luominen tietokantaan tässä ja liitä responseen se luotu kurssi
-  res.status(200).json({ message: "course created successfully" });
+  const newCourse = await courseService.createCourse(data);
+  res.status(200).json(newCourse);
 });
 
 // todo: try-catch pois ja käytä custom erroria ja error handleria
@@ -112,3 +108,5 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
   // todo: hae kurssin luennot tässä ja liitä tähän responseen ne luennot
   return res.status(200).json({ message: "lectures found successfully" });
 });
+
+module.exports = router;
