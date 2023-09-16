@@ -2,28 +2,20 @@ const jwt_decode = require('jwt-decode');
 const jwt = require('jsonwebtoken')
 const secretKey = process.env.SECRET_KEY || 'oletus'
 
-
-//Function for signing token, using user object
-//Three arguments should be legal here?
-function tokenSign(user){
-    const token = jwt.sign({ username: user.username }, secretKey, { expiresIn: '1h'})
-    return token
+// generic function for token signing
+function tokenSign(payload) {
+    return jwt.sign(payload, secretKey, {expiresIn: '1h'})
 }
 
-//Function for token decoding
-function tokenDecode(token){
-    try{
-        const decoded = jwt.verify(token, secretKey)
-        return decoded
-    } catch (err){
-        return null
-    }
+// function for token decoding
+function tokenDecode(token) {
+    return jwt.verify(token, secretKey, (err, data) => {
+        if (err) {
+            throw err
+        } else {
+            return data
+        }
+    })
 }
 
-//Second function for token decoding, which one is better?
-function tokenDecode2(token){
-    const decoded = jwt_decode(token)
-    return decoded
-}
-
-module.exports = { tokenSign, tokenDecode, tokenDecode2 } //Vaihda tähän se decode kumpi on oikea
+module.exports = {tokenSign, secretKey, tokenDecode} //Vaihda tähän se decode kumpi on oikea
