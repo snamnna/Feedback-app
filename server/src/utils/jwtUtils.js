@@ -9,12 +9,14 @@ function tokenSign(payload) {
 
 // function for token decoding
 function tokenDecode(token) {
-    return jwt.verify(token, secretKey, (err, data) => {
-        if (err) {
-            throw err
-        } else {
-            return data
-        }
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, secretKey, (err, data) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(data)
+            }
+        })
     })
 }
 
