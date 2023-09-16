@@ -35,30 +35,13 @@ async function getCourseByName(name) {
   });
 }
 
-// todo: pitäis palauttaa kontrollerille luotu kurssi
 // create new course to database
-async function createCourse(
-  name,
-  description,
-  lecturer,
-  lectures,
-  enrollments,
-) {
-  const course = await prisma.course.create({
+async function createCourse({ name, description, lecturerId }) {
+  return prisma.course.create({
     data: {
       name,
       description,
-      lecturer,
-      lectures,
-      enrollments,
-    },
-    select: {
-      id: true,
-      name: true,
-      description: true,
-      lecturer: true,
-      lectures: true,
-      enrollments: true,
+      lecturerId,
     },
   });
 }
