@@ -8,10 +8,6 @@ async function getUserByUsername(username) {
     where: {
       username,
     },
-    select: {
-      id: true,
-      username: true,
-    },
   });
 }
 
@@ -20,10 +16,6 @@ async function getUserById(id) {
   return prisma.user.findUnique({
     where: {
       id,
-    },
-    select: {
-      id: true,
-      username: true,
     },
   });
 }
@@ -73,7 +65,7 @@ async function editUser(username, password) {
     select: {
       id: true,
       username: true,
-    }
+    },
   });
 }
 
@@ -85,7 +77,7 @@ async function getUserCourses(id) {
     },
     include: {
       lecturedCourses: true,
-      enrolledCourses: true
+      enrolledCourses: true,
     },
   });
 }
@@ -96,5 +88,5 @@ module.exports = {
   deleteUser,
   editUser,
   getUserById,
-  getUserCourses
+  getUserCourses,
 };
