@@ -1,30 +1,18 @@
-import React from "react";
 import { Button } from "antd";
-import Login from "./Auth/Login.jsx";
+import { useDispatch } from "react-redux";
+import Dashboard from "./Dashboard/Dashboard";
+import { resetAuth } from "../features/auth/authSlice";
 
 const Home = () => {
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("user");
-    window.location.href = "/";
-  };
+  const dispatch = useDispatch();
+  const handleLogout = () => dispatch(resetAuth());
 
-  let token = localStorage.getItem("accessToken");
-
-  //if(!token){
-  //    console.log("Ei tokenia")
-  //TODO:Navigointi vai login formi tähän suoraan jos ei ole tokenia?
-  //}
-  //else {
   return (
     <>
-      <div>
-        <h1>Lisätään möyhemmin</h1>
-      </div>
+      <Dashboard />
       <Button onClick={handleLogout}>Log out</Button>
     </>
   );
-  //}
 };
 
 export default Home;
