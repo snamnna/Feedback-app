@@ -2,9 +2,13 @@ import axios from "axios";
 
 const BASE_URL = "/api/courses";
 
-const createCourse = async (course) => {
+const createCourse = async (course, token) => {
   try {
-    const response = await axios.post(BASE_URL, course);
+    const response = await axios.post(BASE_URL, course, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Course creation failed:", error);
