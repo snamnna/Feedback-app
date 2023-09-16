@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
 
   return res
     .status(200)
-    .json({ message: "User Logged in Successfully", token });
+    .json({ message: "User Logged in Successfully", token, user });
 });
 
 module.exports = router;
