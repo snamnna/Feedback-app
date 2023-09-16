@@ -9,11 +9,13 @@ async function getUserByUsername(username) {
       username,
     },
     select: {
+      id: true,
       username: true,
     },
   });
 }
 
+// get user by id
 async function getUserById(id) {
   return prisma.user.findUnique({
     where: {
@@ -21,6 +23,7 @@ async function getUserById(id) {
     },
     select: {
       id: true,
+      username: true,
     },
   });
 }
@@ -74,10 +77,24 @@ async function editUser(username, password) {
   });
 }
 
+// courses by user
+async function getUserCourses(id) {
+  const user = await prisma.user.findMany({
+    where: {
+      id,
+    },
+    include: {
+      lecturedCourses: true,
+      enrolledCourses: true
+    },
+  });
+}
+
 module.exports = {
   getUserByUsername,
   createUser,
   deleteUser,
   editUser,
   getUserById,
+  getUserCourses
 };
