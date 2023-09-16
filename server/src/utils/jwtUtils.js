@@ -20,4 +20,4 @@ function tokenDecode(token) {
   });
 }
 
-module.exports = { tokenSign, secretKey, tokenDecode }; // Vaihda tähän se decode kumpi on oikea
+module.exports = { tokenSign, secretKey, tokenDecode };
