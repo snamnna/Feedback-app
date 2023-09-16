@@ -10,6 +10,8 @@ const verifyToken = require("../middlewares/verifyToken");
 // TODO: Ei tarvitse siis hakea databasesta käyttäjää id:n perusteella tai liittää bodyyn usernamea tai id:tä parametrin lisäksi
 
 // todo: try-catchit pois ja käytä custom erroria ja error handleria
+// todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
+// todo: error handler sit käsittelee ne errorit ja palauttaa ne fronttiin
 
 router.get("/", verifyToken, async (req, res) => {
   // tän pitäis palauttaa kaikki käyttäjät databasesta ---- tarvitaan medodi joka palauttaisi kaikki, ei yksittäistä?
@@ -34,6 +36,8 @@ router.get("/:id", verifyToken, async (req, res) => {
 });
 
 // todo: try-catchit pois ja käytä custom erroria ja error handleria
+// todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
+// todo: error handler sit käsittelee ne errorit ja palauttaa ne fronttiin
 router.put("/:id", verifyToken, async (req, res) => {
   // tällä pitäis pystyä päivittään tietyn käyttäjän tietoja. Pitää siis huolehtia, että käyttäjä voi päivittää vaan omia käyttäjätietojaan
 
@@ -72,6 +76,8 @@ router.put("/:id", verifyToken, async (req, res) => {
 });
 
 // todo: try-catchit pois ja käytä custom erroria ja error handleria
+// todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
+// todo: error handler sit käsittelee ne errorit ja palauttaa ne fronttiin
 router.delete("/:id", verifyToken, async (req, res) => {
   // tällä pitäis pystyä poistamaan käyttäjä (pitää taas huolehtii samast ku ylemmässä)
 
@@ -104,6 +110,8 @@ router.delete("/:id", verifyToken, async (req, res) => {
 });
 
 // todo: try-catchit pois ja käytä custom erroria ja error handleria
+// todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
+// todo: error handler sit käsittelee ne errorit ja palauttaa ne fronttiin
 router.get("/:id/courses", verifyToken, async (req, res) => {
   // palauttaa kurssit, joissa käyttäjä on. Tarvitaan esim siihen ku näytetään frontin dashboardissa niitä kursseja.
 

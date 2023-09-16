@@ -17,6 +17,8 @@ router.post("/", async (req, res) => {
   }
 
   // todo: tässä vois käyttää custom erroria ja error handleria
+  // todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
+  // todo: error handler sit käsittelee ne errorit ja palauttaa ne fronttiin
   // Compare passwords
   const token = bcrypt.compare(password, user.password_hash, (err, result) => {
     if (result) {

@@ -4,8 +4,9 @@ const router = express.Router();
 const courseService = require("../services/courseService");
 const verifyToken = require("../middlewares/verifyToken");
 
-// todo: try-catch pois ja käytä custom erroria ja error handleria
-// todo: lopussa tulis aina olla se onnistunu response ja nakellaan erroria aiemmin jos joku mättää
+// todo: try-catch pois ja käytä custom erroria ja error handleria,
+//  servicen voi laittaa heittää sen custom errorin jos joku menee pieleen eikä tarvi catchata et se menee error handleriin
+// todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
 // get all courses
 router.get("/", verifyToken, async (req, res) => {
   try {
@@ -20,6 +21,7 @@ router.get("/", verifyToken, async (req, res) => {
 });
 
 // todo: try-catch pois ja käytä custom erroria ja error handleria
+// todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
 // create a new course
 router.post("/", verifyToken, async (req, res) => {
   try {

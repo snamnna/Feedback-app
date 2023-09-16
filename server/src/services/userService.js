@@ -28,6 +28,7 @@ async function getUserById(id) {
 }
 
 // todo: pitäis palauttaa kontrolleriin että voi tarkistaa onnistuiko luonti
+// todo: tai throwaa errori jos ei onnistu nii error handler käsittelee sen ja palauttaa sen fronttiin
 // luodaan tietokantaan uusi user
 async function createUser(username, password) {
   const user = await prisma.user.create({
@@ -39,6 +40,7 @@ async function createUser(username, password) {
 }
 
 // todo: pitäis palauttaa kontrolleriin arvoja että tietää mitä poistettiin ja onnistuiko poisto
+// todo: tai throwaa errori jos ei onnistu nii error handler käsittelee sen ja palauttaa sen fronttiin
 // poistetaan käyttäjä tietokannasta
 async function deleteUser(username, password) {
   const deletedUser = await prisma.user.delete({
