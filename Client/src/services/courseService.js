@@ -16,26 +16,6 @@ const createCourse = async (course, token) => {
   }
 };
 
-const getCourses = async () => {
-  try {
-    const res = await axios.get(BASE_URL);
-    return res.data;
-  } catch (error) {
-    console.error("Course retrieval failed:", error);
-    throw error;
-  }
-};
-
-const getCourse = async (courseId) => {
-  try {
-    const res = await axios.get(`${BASE_URL}/${courseId}`);
-    return res.data;
-  } catch (error) {
-    console.error("Course retrieval failed:", error);
-    throw error;
-  }
-};
-
 const updateCourse = async (courseId, course) => {
   try {
     const response = await axios.put(`${BASE_URL}/${courseId}`, course);
@@ -58,8 +38,6 @@ const getCourseStudents = async (courseId) => {
 
 export default {
   createCourse,
-  getCourses,
-  getCourse,
   updateCourse,
   getCourseStudents,
 };
