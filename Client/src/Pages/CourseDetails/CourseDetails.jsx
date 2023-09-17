@@ -9,7 +9,8 @@ const CourseDetails = () => {
 
   useEffect(() => {
     if (data) {
-      setCourse(data);
+      const { course } = data;
+      setCourse(course);
     }
   }, [data]);
 
