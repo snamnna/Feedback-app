@@ -3,34 +3,7 @@ import CourseCard from "./CourseCard";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-
-const placeholderCourses = [
-  {
-    name: "Course 1",
-    description: "Course description",
-    image: "https://picsum.photos/400/250",
-  },
-  {
-    name: "Course 2",
-    description: "Course description",
-    image: "https://picsum.photos/400/250",
-  },
-  {
-    name: "Course 3",
-    description: "Course description",
-    image: "https://picsum.photos/400/250",
-  },
-  {
-    name: "Course 4",
-    description: "Course description",
-    image: "https://picsum.photos/400/250",
-  },
-  {
-    name: "Course 5",
-    description: "Course description",
-    image: "https://picsum.photos/400/250",
-  },
-];
+import { useNavigate } from "react-router-dom";
 
 export const CoursesSection = () => {
   const courses = useSelector((state) => state.courses);
@@ -68,15 +41,23 @@ export const CoursesSection = () => {
   );
 };
 
-const CourseList = ({ courses }) => (
-  <div className="grid grid-cols-3">
-    {courses.map((course, index) => (
-      <div className="p-2" key={index}>
-        <CourseCard key={index} course={course} />
-      </div>
-    ))}
-  </div>
-);
+const CourseList = ({ courses }) => {
+  const navigate = useNavigate();
+  const handleClick = (courseId) => {
+    // redirect to course details page
+    navigate(`/courses/${courseId}`);
+  };
+
+  return (
+    <ul className="grid grid-cols-3">
+      {courses.map((course, index) => (
+        <li className="p-2" key={index} onClick={() => handleClick(course.id)}>
+          <CourseCard key={index} course={course} />
+        </li>
+      ))}
+    </ul>
+  );
+};
 
 CourseList.propTypes = {
   courses: PropTypes.arrayOf(
