@@ -57,15 +57,6 @@ const CourseForm = ({
       </label>
 
       {/*  Create button */}
-      <div className="flex justify-end pt-4">
-        <button
-          id={"create_course"}
-          className="btn btn-primary"
-          onClick={onSubmit}
-        >
-          Create
-        </button>
-      </div>
     </form>
   );
 };

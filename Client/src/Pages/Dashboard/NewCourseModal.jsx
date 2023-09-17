@@ -1,13 +1,15 @@
 import { FiX } from "react-icons/fi";
 import { useState } from "react";
 import courseService from "../../services/courseService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CourseForm from "./components/CourseForm";
+import { addCourse } from "../../features/courses/courseSlice";
 
 const NewCourseModal = () => {
   const [courseName, setCourseName] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
   const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
 
   const handleClose = () => {
     setCourseName("");
@@ -24,9 +26,7 @@ const NewCourseModal = () => {
 
     const newCourse = await courseService.createCourse(data, token);
     console.log(newCourse);
-
-    // TODO: implement courseSlice to update state
-    // TODO: add new course to the state
+    dispatch(addCourse(newCourse));
   };
 
   return (
@@ -52,6 +52,17 @@ const NewCourseModal = () => {
           courseName={courseName}
           setCourseName={setCourseName}
         />
+        <div className="flex justify-end pt-4">
+          <form method="dialog">
+            <button
+              id={"create_course"}
+              className="btn btn-primary"
+              onSubmit={handleSubmit}
+            >
+              Create
+            </button>
+          </form>
+        </div>
       </div>
 
       <form method="dialog" className="modal-backdrop" onClick={handleClose}>

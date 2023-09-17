@@ -2,6 +2,7 @@ import { FiPlus } from "react-icons/fi";
 import CourseCard from "./CourseCard";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const placeholderCourses = [
   {
@@ -32,14 +33,15 @@ const placeholderCourses = [
 ];
 
 export const CoursesSection = () => {
+  const courses = useSelector((state) => state.courses);
   const [search, setSearch] = useState("");
 
-  const filterCourses = placeholderCourses.filter((course) =>
+  const filterCourses = courses.filter((course) =>
     course.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="relative w-full overflow-hidden p-4">
+    <div className="flex flex-col w-full overflow-hidden p-4">
       <div className="flex justify-between items-center pb-2">
         <div className="text-2xl font-semibold mb-4">
           Courses
@@ -67,12 +69,12 @@ export const CoursesSection = () => {
 };
 
 const CourseList = ({ courses }) => (
-  <div className="flex h-full relative overflow-hidden">
-    <div className="grid w-full col-auto row-auto gap-4 grid-flow-col">
-      {courses.map((course, index) => (
+  <div className="grid grid-cols-3">
+    {courses.map((course, index) => (
+      <div className="p-2" key={index}>
         <CourseCard key={index} course={course} />
-      ))}
-    </div>
+      </div>
+    ))}
   </div>
 );
 

@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/userServices";
 import { useDispatch } from "react-redux";
-import { setToken } from "../../features/auth/authSlice";
+import { setAuth } from "../../features/auth/authSlice";
 import bgpic from "../../assets/bgpic.jpg";
 import { useLocation } from "react-router";
 
@@ -33,7 +33,8 @@ const Login = () => {
     try {
       const loginResponse = await loginUser(loginData);
       console.log("Login successful:", loginResponse);
-      dispatch(setToken(loginResponse.token));
+      const { token, user } = loginResponse;
+      dispatch(setAuth({ token, user }));
       setUser("");
       setPwd("");
       navigate(location.state?.from ? location.state.from : "/");
