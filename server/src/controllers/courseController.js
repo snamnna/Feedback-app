@@ -14,7 +14,7 @@ router.get("/", verifyToken, async (req, res) => {
   
   if (!courses) 
     throw new CustomError(404, "Can't fetch all courses")
-    
+   
   // TODO: palauta kaikki kurssit tietokannasta tässä
   res.status(200).json({ message: "Courses found successfully" });
   res.json(courses);
@@ -37,20 +37,14 @@ router.post("/", verifyToken, async (req, res) => {
 // todo: try-catch pois ja käytä custom erroria ja error handleria
 // find a course with id
 router.get("/:id", verifyToken, async (req, res) => {
-  try {
     const { id } = req.params;
     const course = await courseService.getCourseById(id);
 
-    if (!course) {
-      return res.status(404).json({ error: "Course not found" });
-    }
-    res.status(200).json({ message: "course found successfully", course });
-  } catch (error) {
-    console.log("Getting a specific courses failed", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+    if (!course) 
+      throw new CustomError(404, "Course not found")
+  
   // TODO: hae kurssi id:n perusteella tässä ja liitä tähän responseen se kurssi
-  return res.status(200).json({ message: "course found successfully" });
+  return res.status(200).json({ message: "course found successfully", course });
 });
 
 // todo: try-catch pois ja käytä custom erroria ja error handleria
