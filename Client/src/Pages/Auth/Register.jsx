@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { createUser } from "../../services/userServices";
-import bgpic from "../../assets/bgpic.jpg";
+import authBg from "../../assets/authBg.jpg";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
@@ -84,9 +84,9 @@ const Register = () => {
         </section>
       ) : (
         <div
-          className="h-screen w-auto"
+          className="bg-no-repeat bg-cover"
           style={{
-            backgroundImage: `url(${bgpic})`,
+            backgroundImage: `url(${authBg})`,
           }}
         >
           <div className="max-w-full  flex justify-center items-center p-10">
@@ -230,7 +230,7 @@ const Register = () => {
                 </div>
 
                 <button
-                  class="btn btn-primary my-2 w-full max-w-xs "
+                  className="btn btn-primary my-2 w-full max-w-xs "
                   type="submit"
                 >
                   Sign Up

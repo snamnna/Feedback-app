@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/userServices";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../features/auth/authSlice";
-import bgpic from "../../assets/bgpic.jpg";
+import authBg from "../../assets/authBg.jpg";
 import { useLocation } from "react-router";
 
 const Login = () => {
@@ -54,9 +54,9 @@ const Login = () => {
 
   return (
     <div
-      className="h-screen w-auto"
+      className="bg-no-repeat bg-cover"
       style={{
-        backgroundImage: `url(${bgpic})`,
+        backgroundImage: `url(${authBg})`,
       }}
     >
       <div className="max-w-full  flex justify-center items-center p-10">
