@@ -64,25 +64,19 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
   
   // todo: hae kurssin feedback tässä ja liitä tähän responseen se feedback
   //const feedback = await courseService. HUOM EI OLE VIELÄ TOTEUTETTAVISSA
-  return res.status(200).json({ message: "feedback found successfully" });
+  return res.status(200).json({ message: "Feedback found successfully" });
 });
 
+//Get course lecturees
 router.get("/:id/lectures", verifyToken, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const course = await courseService.getCourseById(id);
-    if (!course) {
-      return res.status(404).json({ error: "Course not found" });
-    }
+  const { id } = req.params;
+  const course = await courseService.getCourseById(id);
 
-    const lectures = await courseService.getAllLectures(id);
-    res.status(200).json({ message: "Lectures found successfully", lectures });
-  } catch (error) {
-    console.log("Getting lectures failed", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-  // todo: hae kurssin luennot tässä ja liitä tähän responseen ne luennot
-  return res.status(200).json({ message: "lectures found successfully" });
+  if (!course) throw new CustomError(404, "Lectures not found")
+  
+  //Get lectures and add to response
+  const lectures = await courseService.getAllLectures(id);
+  return res.status(200).json({ message: "Lectures found successfully", lectures });
 });
 
 module.exports = router;
