@@ -1,7 +1,7 @@
 const Header = () => {
   return (
     <>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-accent text-neutral-content">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -22,24 +22,24 @@ const Header = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 bg-accent text-accent-content"
             >
               <li>
-                <a href="/home">Home</a>
+                <a href="/">Home</a>
               </li>
               <li>
                 <a href="/login">Login</a>
               </li>
             </ul>
           </div>
-          <a className="btn btn-ghost normal-case text-xl" href="/home">
+          <a className="btn btn-ghost normal-case text-xl" href="/">
             FeedbackApp
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a href="/home">Home</a>
+              <a href="/">Home</a>
             </li>
             <li>
               <a href="/login">Login</a>

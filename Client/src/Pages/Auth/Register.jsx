@@ -49,11 +49,6 @@ const Register = () => {
       password: pwd,
     };
 
-    // if (!validName || !validPwd || !validMatch) {
-    //     setErrMsg("Please fill in all fields correctly.");
-    //     return;
-    // }
-
     try {
       const registerResponse = await createUser(registerData);
       console.log("register successful:", registerResponse);
@@ -84,7 +79,7 @@ const Register = () => {
         </section>
       ) : (
         <div
-          className="bg-no-repeat bg-cover"
+          className="h-screen bg-cover bg-no-repeat"
           style={{
             backgroundImage: `url(${authBg})`,
           }}
