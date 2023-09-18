@@ -79,6 +79,14 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
 // course enrollment
 router.post("/id/enrollment", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id)
+  const userId = parseInt(req.user.id)
+
+  //Tarkistetaan onko opiskelija jo ilmoittautunut
+  //Jos on, error
+  //Jos ei ole, lisätään kurssille
+  //Ilmoitetaan että onnistui
+
+  //Tähän tarvitaan courseServicestä funktio jolla enrollata
 })
 
 module.exports = router;
