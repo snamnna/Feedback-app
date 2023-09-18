@@ -9,12 +9,10 @@ const CustomError = require("../utils/CustomError");
 router.get("/", verifyToken, async (req, res) => {
   const courses = await courseService.getAllCourses();
   
-  if (!courses) 
-    throw new CustomError(404, "Can't fetch all courses")
+  if (!courses) throw new CustomError(404, "Can't fetch all courses")
    
   //return all courses
-  res.status(200).json({ message: "Courses found successfully" });
-  res.json(courses);
+  res.status(200).json({ message: "Courses found successfully", courses });
 });
 
 // create a new course
@@ -36,8 +34,7 @@ router.get("/:id", verifyToken, async (req, res) => {
     const { id } = req.params;
     const course = await courseService.getCourseById(id);
 
-    if (!course) 
-      throw new CustomError(404, "Course not found")
+    if (!course) throw new CustomError(404, "Course not found")
   
   //get course by id and add it to response
   return res.status(200).json({ message: "Course found successfully", course });
