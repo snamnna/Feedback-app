@@ -18,7 +18,7 @@ router.get("/", verifyToken, async (req, res) => {
 // create a new course
 router.post("/", verifyToken, async (req, res) => {
   const { courseName, courseDescription } = req.body;
-  const id = parseInt(req.user)
+  const id = parseInt(req.user.id)
   const data = {
     name: courseName,
     description: courseDescription,
@@ -31,7 +31,7 @@ router.post("/", verifyToken, async (req, res) => {
 
 // find a course with id
 router.get("/:id", verifyToken, async (req, res) => {
-    const id = parseInt(req.params)
+    const id = parseInt(req.params.id)
     const course = await courseService.getCourseById(id);
 
     if (!course) throw new CustomError(404, "Course not found")
@@ -40,21 +40,21 @@ router.get("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Course found successfully", course });
 });
 
-//Get course participants
+// get course participants
 router.get("/:id/participants", verifyToken, async (req, res) => {
-  const id = parseInt(req.params)
+  const id = parseInt(req.params.id)
   const course = await courseService.getCourseById(id);
 
   if (!course) throw new CustomError(404, "Participants can not be found")
   
-  //Get participants by id and add to response
+  // get participants by id and add to response
   const participants = await courseService.getAllParticipants(id);
   return res.status(200).json({ message: "Participants found successfully", participants });
 });
 
 // Get feedback for a course KESKEN
 router.get("/:id/feedback", verifyToken, async (req, res) => {
-  const id = parseInt(req.params)
+  const id = parseInt(req.params.id)
   const course = await courseService.getCourseById(id);
 
   if (!course) throw new CustomError(404, "Feedback can not be found")
@@ -64,9 +64,9 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Feedback found successfully" });
 });
 
-//Get course lecturees
+// get course lecturees
 router.get("/:id/lectures", verifyToken, async (req, res) => {
-  const id = parseInt(req.params)
+  const id = parseInt(req.params.id)
   const course = await courseService.getCourseById(id);
 
   if (!course) throw new CustomError(404, "Lectures not found")
@@ -75,5 +75,10 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
   const lectures = await courseService.getAllLectures(id);
   return res.status(200).json({ message: "Lectures found successfully", lectures });
 });
+
+// course enrollment
+router.post("/id/enrollment", verifyToken, async (req, res) => {
+  const courseId = parseInt(req.params.id)
+})
 
 module.exports = router;
