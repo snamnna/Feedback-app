@@ -3,21 +3,21 @@ const express = require("express");
 const router = express.Router();
 const courseService = require("../services/courseService");
 const verifyToken = require("../middlewares/verifyToken");
+const CustomError = require("../utils/CustomError");
 
 // todo: try-catch pois ja käytä custom erroria ja error handleria,
 //  servicen voi laittaa heittää sen custom errorin jos joku menee pieleen eikä tarvi catchata et se menee error handleriin
 // todo: custom errorin saa heitettyä esim. throw new CustomError(404, "User not found");
 // get all courses
 router.get("/", verifyToken, async (req, res) => {
-  try {
-    const courses = await courseService.getAllCourses();
-    res.json(courses);
-  } catch (error) {
-    console.log("Getting all courses failed", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+  const courses = await courseService.getAllCourses();
+  
+  if (!courses) 
+    throw new CustomError(404, "Can't fetch all courses")
+    
   // TODO: palauta kaikki kurssit tietokannasta tässä
-  res.status(200).json({ message: "courses found successfully" });
+  res.status(200).json({ message: "Courses found successfully" });
+  res.json(courses);
 });
 
 // create a new course
