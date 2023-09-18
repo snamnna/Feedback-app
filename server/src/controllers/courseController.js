@@ -18,7 +18,7 @@ router.get("/", verifyToken, async (req, res) => {
 // create a new course
 router.post("/", verifyToken, async (req, res) => {
   const { courseName, courseDescription } = req.body;
-  const { id } = req.user;
+  const id = parseInt(req.user)
   const data = {
     name: courseName,
     description: courseDescription,
@@ -31,7 +31,7 @@ router.post("/", verifyToken, async (req, res) => {
 
 // find a course with id
 router.get("/:id", verifyToken, async (req, res) => {
-    const { id } = req.params;
+    const id = parseInt(req.params)
     const course = await courseService.getCourseById(id);
 
     if (!course) throw new CustomError(404, "Course not found")
@@ -42,7 +42,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 
 //Get course participants
 router.get("/:id/participants", verifyToken, async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params)
   const course = await courseService.getCourseById(id);
 
   if (!course) throw new CustomError(404, "Participants can not be found")
@@ -54,10 +54,10 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
 
 // Get feedback for a course KESKEN
 router.get("/:id/feedback", verifyToken, async (req, res) => {
-    const { id } = req.params;
-    const course = await courseService.getCourseById(id);
+  const id = parseInt(req.params)
+  const course = await courseService.getCourseById(id);
 
-    if (!course) throw new CustomError(404, "Feedback can not be found")
+  if (!course) throw new CustomError(404, "Feedback can not be found")
   
   // todo: hae kurssin feedback tässä ja liitä tähän responseen se feedback
   //const feedback = await courseService. HUOM EI OLE VIELÄ TOTEUTETTAVISSA
@@ -66,7 +66,7 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
 
 //Get course lecturees
 router.get("/:id/lectures", verifyToken, async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params)
   const course = await courseService.getCourseById(id);
 
   if (!course) throw new CustomError(404, "Lectures not found")
