@@ -55,20 +55,15 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Participants found successfully", participants });
 });
 
-// todo: try-catch pois ja käytä custom erroria ja error handleria
-// Get feedback for a course
+// Get feedback for a course KESKEN
 router.get("/:id/feedback", verifyToken, async (req, res) => {
-  try {
     const { id } = req.params;
     const course = await courseService.getCourseById(id);
-    if (!course) {
-      return res.status(404).json({ error: "Course not found" });
-    }
-  } catch (error) {
-    console.log("Getting feedback failed", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+
+    if (!course) throw new CustomError(404, "Feedback can not be found")
+  
   // todo: hae kurssin feedback tässä ja liitä tähän responseen se feedback
+  //const feedback = await courseService. HUOM EI OLE VIELÄ TOTEUTETTAVISSA
   return res.status(200).json({ message: "feedback found successfully" });
 });
 
