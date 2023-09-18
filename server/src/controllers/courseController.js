@@ -40,28 +40,19 @@ router.get("/:id", verifyToken, async (req, res) => {
       throw new CustomError(404, "Course not found")
   
   //get course by id and add it to response
-  return res.status(200).json({ message: "course found successfully", course });
+  return res.status(200).json({ message: "Course found successfully", course });
 });
 
-// todo: try-catch pois ja käytä custom erroria ja error handleria
+//Get course participants
 router.get("/:id/participants", verifyToken, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const course = await courseService.getCourseById(id);
+  const { id } = req.params;
+  const course = await courseService.getCourseById(id);
 
-    if (!course) {
-      return res.status(404).json({ error: "Course not found" });
-    }
-    const participants = await courseService.getAllParticipants(id);
-    res
-      .status(200)
-      .json({ message: "participants found successfully", participants });
-  } catch (error) {
-    console.log("Getting participants failed", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-  // TODO: hae kurssin osallistujat tässä ja liitä tähän responseen ne osallistujat
-  return res.status(200).json({ message: "participants found successfully" });
+  if (!course) throw new CustomError(404, "Participants can not be found")
+  
+  //Get participants by id and add to response
+  const participants = await courseService.getAllParticipants(id);
+  return res.status(200).json({ message: "Participants found successfully", participants });
 });
 
 // todo: try-catch pois ja käytä custom erroria ja error handleria
