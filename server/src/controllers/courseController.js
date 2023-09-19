@@ -81,6 +81,8 @@ router.post("/id/enrollment", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id)
   const userId = parseInt(req.user.id)
 
+  
+
   //Tarkistetaan onko opiskelija jo ilmoittautunut
   //Jos on, error
   //Jos ei ole, lisätään kurssille
