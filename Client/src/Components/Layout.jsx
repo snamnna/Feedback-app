@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import NewCourseModal from "../Pages/Dashboard/NewCourseModal";
+import Footer from "./Footer";
 
 const Layout = () => {
   return (
@@ -8,6 +9,7 @@ const Layout = () => {
       <NewCourseModal />
       <Header />
       <Outlet />
+      <Footer />
     </>
   );
 };
