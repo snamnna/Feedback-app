@@ -9,7 +9,7 @@ const LectureCard = ({ lecture }) => {
       data-testid="lecture-card"
     >
       <div
-        className="card-body rounded bg-secondary-content shadow-inner"
+        className="card-body rounded bg-base-100 shadow-md opacity-80"
         data-testid="lecture-card-body"
       >
         <h2 className="card-title">{lecture.name}</h2>
