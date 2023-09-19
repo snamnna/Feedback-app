@@ -54,13 +54,13 @@ const Login = () => {
 
   return (
     <div
-      className="bg-no-repeat bg-cover"
+      className="bg-no-repeat bg-cover w-screen h-screen"
       style={{
         backgroundImage: `url(${authBg})`,
       }}
     >
-      <div className="max-w-full  flex justify-center items-center p-10">
-        <div className="px-20 py-5 max-w-full bg-white opacity-70 rounded-lg shadow-md">
+      <div className=" w-screen flex justify-center items-center p-10">
+        <div className="px-20 py-5  bg-white opacity-70 rounded-lg shadow-md">
           <div>
             <div
               ref={errRef}
