@@ -91,4 +91,7 @@ router.post("/id/enrollment", verifyToken, async (req, res) => {
   //Tähän tarvitaan courseServicestä funktio jolla enrollata
 })
 
+// get the students who have enrolled to spesific course?
+
+
 module.exports = router;
