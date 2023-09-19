@@ -56,13 +56,13 @@ const CourseDetails = () => {
       setCourse(course);
 
       //Yritystä enrollmentstatuksen hakuun.Pitäskö pystyä hakee tokenilla vrt userId jos ei, mitenhän saan käyttöön userid
-      const findEnrollmentStatus = courseEnrollment.find(
+      /*      const findEnrollmentStatus = courseEnrollment.find(
         (enrollment) => enrollment.user.id === token
       );
       //jos kurssin ilmottautumisista löytyy käyttäjä lisätään status
       if (findEnrollmentStatus) {
         setEnrollmentStatus(enrollmentStatus.status);
-      }
+      }*/
     }
   }, [data]);
 
