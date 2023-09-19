@@ -36,8 +36,20 @@ const getCourseStudents = async (courseId) => {
   }
 };
 
+//TODO: tarviiko headerin?
+const courseEnrollment = async (courseId, token) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/${courseId}/enrollment`, token);
+    return res.data;
+  } catch (error) {
+    console.error("course enrollment failed", error);
+    throw error;
+  }
+};
+
 export default {
   createCourse,
   updateCourse,
   getCourseStudents,
+  courseEnrollment,
 };
