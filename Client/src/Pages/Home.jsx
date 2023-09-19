@@ -17,12 +17,10 @@ const Home = () => {
       dispatch(setCourses(coursesArray));
     }
   }, [courses, isLoading, isError, dispatch]);
-  const handleLogout = () => dispatch(resetAuth());
 
   return (
     <>
       <Dashboard />
-      <Button onClick={handleLogout}>Log out</Button>
     </>
   );
 };
