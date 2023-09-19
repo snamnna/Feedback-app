@@ -30,7 +30,7 @@ const router = createBrowserRouter(
           </Route>
         </Route>
 
-        {/*Courses*/}
+        {/*Lectures*/}
         <Route path={"/lectures/:lectureId"}>
           <Route index element={<LectureDetails />} />
         </Route>
