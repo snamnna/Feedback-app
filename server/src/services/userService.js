@@ -23,49 +23,37 @@ async function getUserById(id) {
 // pitäis palauttaa kontrolleriin että voi tarkistaa onnistuiko luonti
 // creates a new user to db
 async function createUser(username, password) {
-  const user = await prisma.user.create({
+  return prisma.user.create({
     data: {
       username,
       password_hash: password,
-    },
-    select: {
-      id: true,
-      username: true,
-    },
+    }
   });
 }
 
 // pitäis palauttaa kontrolleriin arvoja että tietää mitä poistettiin ja onnistuiko poisto
 // delete user from db
 async function deleteUser(username, password) {
-  const deletedUser = await prisma.user.delete({
+  return prisma.user.delete({
     where: {
       username,
       password,
-    },
-    select: {
-      id: true,
-      username: true,
-    },
+    }
   });
 }
 
 // pitäis palauttaa kontrolleriin se päivitetty käyttäjä et kontrolleri voi palauttaa sen fronttiin
 // edit user in db
 async function editUser(username, password) {
-  const updateUser = await prisma.user.update({
+  return prisma.user.update({
     where: {
       username,
       password,
     },
     data: {
       username,
-      password,
-    },
-    select: {
-      id: true,
-      username: true,
-    },
+      password_hash: password,
+    }
   });
 }
 
