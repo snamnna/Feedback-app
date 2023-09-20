@@ -8,7 +8,11 @@ async function getCourseById(id) {
   return prisma.course.findUnique({
     where: {
       id,
-    }
+    } ,
+    include: {
+      lectures: true,
+      enrollments: true,
+    },
   });
 }
 
