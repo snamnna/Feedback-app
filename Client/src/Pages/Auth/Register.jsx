@@ -84,8 +84,8 @@ const Register = () => {
             backgroundImage: `url(${authBg})`,
           }}
         >
-          <div className="max-w-full  flex justify-center items-center p-10">
-            <div className="px-20 py-5 max-w-full bg-white opacity-70 rounded-lg shadow-md">
+          <div className=" flex justify-center items-center p-10">
+            <div className="px-20 mt-10 py-5 w-xl bg-white opacity-70 rounded-lg shadow-md">
               <div>
                 <div
                   ref={errRef}
