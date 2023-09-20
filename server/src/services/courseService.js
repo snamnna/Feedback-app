@@ -8,7 +8,7 @@ async function getCourseById(id) {
   return prisma.course.findUnique({
     where: {
       id,
-    } ,
+    },
     include: {
       lectures: true,
       enrollments: true,
@@ -21,28 +21,24 @@ async function getCourseByName(name) {
   return prisma.course.findUnique({
     where: {
       name,
-    }
+    },
   });
 }
 
 // create new course to database
-async function createCourse(name, description, lecturerId) {
+async function createCourse(courseData) {
   return prisma.course.create({
-    data: {
-      name,
-      description,
-      lecturerId,
-    }
+    data: courseData,
   });
 }
 
 // pitäis palauttaa kontrolleriin se poistettu kurssi
 // delete course from database
 async function deleteCourse(id) {
-  return  prisma.course.delete({
+  return prisma.course.delete({
     where: {
       id,
-    }
+    },
   });
 }
 
@@ -56,8 +52,8 @@ async function editCourse(id, name, description, lectures) {
     data: {
       name,
       description,
-      lectures
-    }
+      lectures,
+    },
   });
 }
 
@@ -101,5 +97,5 @@ module.exports = {
   editCourse,
   getAllCourses,
   getAllParticipants,
-  getAllLectures
+  getAllLectures,
 };
