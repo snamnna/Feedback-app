@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 const CourseCard = ({ course }) => {
   return (
     <div
-      className="card card-compact h-full shadow-lg rounded-md overflow-hidden cursor-pointer max-w-lg mx-auto aspect-h-3 aspect-w-10"
+      className=" card card-compact h-auto shadow-lg rounded-md overflow-hidden cursor-pointer max-w-3l mx-auto aspect-h-3 aspect-w-10"
       data-testid="course-card"
     >
       <div className="card-image">
         <img className="object-cover" src={course.image} alt={course.name} />
       </div>
       <div
-        className="card-body rounded bg-secondary-content shadow-inner"
+        className="card-body rounded bg-base-100 shadow-md opacity-80"
         data-testid="course-card-body"
       >
         <h2 className="card-title">{course.name}</h2>
