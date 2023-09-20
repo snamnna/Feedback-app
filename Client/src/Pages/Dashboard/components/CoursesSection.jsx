@@ -14,9 +14,9 @@ export const CoursesSection = () => {
   );
 
   return (
-    <div className="flex flex-col w-full overflow-hidden p-4">
-      <div className="flex justify-between items-center pb-2">
-        <div className="text-2xl font-semibold mb-4">
+    <div className="bg-secondary h-screen flex flex-col overflow-hidden">
+      <div className=" px-10 py-3 flex justify-between items-center bg-base-100 shadow-md">
+        <div className="text-2xl font-semibold">
           Courses
           <button
             className="btn btn-xs m-0 px-1.5 py-1 box-content text-sm ml-4"
@@ -29,7 +29,7 @@ export const CoursesSection = () => {
           </button>
         </div>
         <input
-          className="p-2 border border-gray-300 rounded-md"
+          className="border border-gray-300 rounded-md"
           type="text"
           placeholder="Search courses"
           value={search}
@@ -49,9 +49,9 @@ const CourseList = ({ courses }) => {
   };
 
   return (
-    <ul className="grid grid-cols-3">
+    <ul className="grid grid-cols-3 mx-7">
       {courses.map((course, index) => (
-        <li className="p-2" key={index} onClick={() => handleClick(course.id)}>
+        <li className="p-3" key={index} onClick={() => handleClick(course.id)}>
           <CourseCard key={index} course={course} />
         </li>
       ))}
