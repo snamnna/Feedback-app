@@ -2,6 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 const courseService = require("../services/courseService");
+const feedbackService = require("../services/feedbackService")
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 
@@ -54,7 +55,7 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Participants found successfully", participants });
 });
 
-// Get feedback for a course KESKEN
+// Get feedback for a course 
 router.get("/:id/feedback", verifyToken, async (req, res) => {
   const id = parseInt(req.params.id, 10)
   const course = await courseService.getCourseById(id);
@@ -62,13 +63,9 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
   if (!course) throw new CustomError(404, "Feedback can not be found")
   
   // todo: hae kurssin feedback tässä ja liitä tähän responseen se feedback
-
-  //          HUOM EI OLE VIELÄ TOTEUTETTAVISSA
   
-  
-  //const feedback = await courseService.getCourseFeedback(id) // Tätä funktiota ei vielä ole
-
-  //if (!feedback) throw new CustomError(404, "Feedback not found")
+  const feedback = await courseService.getCourseFeedback(id) //
+  if (!feedback) throw new CustomError(404, "Feedback not found")
 
   return res.status(200).json({ message: "Feedback found successfully", feedback});
 });
@@ -86,7 +83,7 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
 });
 
 // course enrollment (tietyn kurssin ilmoittautuneet)
-router.get("/id/participants", verifyToken, async (req, res) => {
+router.get("/:id/enrollment", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10)
   const enrollments = await courseService.getAllParticipants(courseId)
 
