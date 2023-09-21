@@ -141,22 +141,11 @@ const CourseDetails = () => {
 };
 
 const LectureList = ({ lectures }) => {
-  const navigate = useNavigate();
-  console.log(lectures);
-  const handleClick = (lectureId) => {
-    // redirect to lecture details page
-    navigate(`/lectures/${lectureId}`);
-  };
-
   return (
     <div>
       <ul className="flex flex-col mt-3">
         {lectures.map((lecture) => (
-          <li
-            className="mx-10"
-            key={lecture.id}
-            onClick={() => handleClick(lecture.id)}
-          >
+          <li className="mx-10" key={lecture.id}>
             <LectureCard lecture={lecture} />
           </li>
         ))}
