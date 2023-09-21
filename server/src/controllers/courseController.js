@@ -18,7 +18,7 @@ router.get("/", verifyToken, async (req, res) => {
 // create a new course
 router.post("/", verifyToken, async (req, res) => {
   const { courseName, courseDescription } = req.body;
-  const id = parseInt(req.user.id)
+  const id = parseInt(req.user.id, 10)
   const data = {
     name: courseName,
     description: courseDescription,
@@ -31,7 +31,7 @@ router.post("/", verifyToken, async (req, res) => {
 
 // find a course with id
 router.get("/:id", verifyToken, async (req, res) => {
-    const id = parseInt(req.params.id)
+    const id = parseInt(req.params.id, 10)
     const course = await courseService.getCourseById(id);
 
     if (!course) throw new CustomError(404, "Course not found")
@@ -40,10 +40,12 @@ router.get("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Course found successfully", course });
 });
 
-// get course participants
+// get course participants (tämä palauttaa kaikki enrollmentit)
 router.get("/:id/participants", verifyToken, async (req, res) => {
-  const id = parseInt(req.params.id)
+  const id = parseInt(req.params.id, 10)
   const course = await courseService.getCourseById(id);
+
+  // Participants palauttaa enrolled, pitäisi saada vielä palauttamaan oikeasti participants??
 
   if (!course) throw new CustomError(404, "Participants can not be found")
   
@@ -54,19 +56,26 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
 
 // Get feedback for a course KESKEN
 router.get("/:id/feedback", verifyToken, async (req, res) => {
-  const id = parseInt(req.params.id)
+  const id = parseInt(req.params.id, 10)
   const course = await courseService.getCourseById(id);
 
   if (!course) throw new CustomError(404, "Feedback can not be found")
   
   // todo: hae kurssin feedback tässä ja liitä tähän responseen se feedback
-  //const feedback = await courseService. HUOM EI OLE VIELÄ TOTEUTETTAVISSA
-  return res.status(200).json({ message: "Feedback found successfully" });
+
+  //          HUOM EI OLE VIELÄ TOTEUTETTAVISSA
+  
+  
+  //const feedback = await courseService.getCourseFeedback(id) // Tätä funktiota ei vielä ole
+
+  //if (!feedback) throw new CustomError(404, "Feedback not found")
+
+  return res.status(200).json({ message: "Feedback found successfully", feedback});
 });
 
 // get course lecturees
 router.get("/:id/lectures", verifyToken, async (req, res) => {
-  const id = parseInt(req.params.id)
+  const id = parseInt(req.params.id, 10)
   const course = await courseService.getCourseById(id);
 
   if (!course) throw new CustomError(404, "Lectures not found")
@@ -76,22 +85,19 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Lectures found successfully", lectures });
 });
 
-// course enrollment
-router.post("/id/enrollment", verifyToken, async (req, res) => {
-  const courseId = parseInt(req.params.id)
-  const userId = parseInt(req.user.id)
+// course enrollment (tietyn kurssin ilmoittautuneet)
+router.post("/id/participants", verifyToken, async (req, res) => {
+  const courseId = parseInt(req.params.id, 10)
+  const enrollments = await courseService.getAllParticipants(courseId)
 
-  
+  //Huom, participants palauttaa enrolled
 
-  //Tarkistetaan onko opiskelija jo ilmoittautunut
-  //Jos on, error
-  //Jos ei ole, lisätään kurssille
-  //Ilmoitetaan että onnistui
+  if(!enrollments) throw new CustomError(404, "Enrollments not found")
 
-  //Tähän tarvitaan courseServicestä funktio jolla enrollata
+  //Get enrollments and add to response
+  return res.status(200).json({ message: "Enrollments found successfully", enrollments})
 })
 
 // get the students who have enrolled to spesific course?
-
 
 module.exports = router;
