@@ -86,11 +86,11 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
 });
 
 // course enrollment (tietyn kurssin ilmoittautuneet)
-router.post("/id/participants", verifyToken, async (req, res) => {
+router.get("/id/participants", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10)
   const enrollments = await courseService.getAllParticipants(courseId)
 
-  //Huom, participants palauttaa enrolled
+  //Huom, participants palauttaa enrolled, tämä siis tällä ok?
 
   if(!enrollments) throw new CustomError(404, "Enrollments not found")
 
