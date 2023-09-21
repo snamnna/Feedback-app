@@ -14,8 +14,8 @@ export const CoursesSection = () => {
   );
 
   return (
-    <div className="bg-secondary h-screen flex flex-col overflow-hidden">
-      <div className=" px-10 py-3 flex justify-between items-center bg-base-100 shadow-md">
+    <div className="bg-secondary min-h-screen flex flex-col">
+      <div className="px-10 py-3 flex justify-between items-center bg-base-100 shadow-md">
         <div className="text-2xl font-semibold">
           Courses
           <button

@@ -18,7 +18,7 @@ const NewCourseModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("handlesubmit");
     const data = {
       courseName,
       courseDescription,
@@ -28,6 +28,8 @@ const NewCourseModal = () => {
     console.log(newCourse);
     dispatch(addCourse(newCourse));
   };
+
+  //TODO: modal ei sulkeudu jos buttoniin lisää onClickiin ton handlesubmitin mut ei kutsu handlesubmittii onsubmitil
 
   return (
     <dialog id="new_course_modal" className="modal">
@@ -46,17 +48,19 @@ const NewCourseModal = () => {
         </div>
 
         <CourseForm
-          onSubmit={handleSubmit}
           courseDescription={courseDescription}
           setCourseDescription={setCourseDescription}
           courseName={courseName}
           setCourseName={setCourseName}
+          onSubmit={handleSubmit}
         />
         <div className="flex justify-end pt-4">
           <form method="dialog">
             <button
               id={"create_course"}
               className="btn btn-primary"
+              type="submit"
+              onClick={handleSubmit}
               onSubmit={handleSubmit}
             >
               Create
