@@ -6,12 +6,12 @@ const prisma = new PrismaClient();
   async function getCourseFeedback(id) {
     return prisma.course.findUnique({
       where: {
-        id,
+        id
       },
       include: {
-        feedback: true,
-      },
-    });
+        feedback: true
+      }
+    })
   }
 
   // create feedback
@@ -21,6 +21,18 @@ const prisma = new PrismaClient();
     })
   }
 
+  // get user feedback
+  async function getUserFeedback(userId) {
+    return prisma.feedback.findUnique({
+      where: {
+        userId
+      },
+      include: {
+        feedback: true
+      }
+    })
+  }
+
   module.exports = {
-    getCourseFeedback
+    getCourseFeedback, createFeedback
   }
