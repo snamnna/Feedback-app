@@ -1,4 +1,3 @@
-const Joi = require("joi");
 const CustomError = require("../utils/CustomError");
 
 const validate = (schema, data) => {
