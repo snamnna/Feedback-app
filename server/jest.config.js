@@ -19,8 +19,12 @@ const config = {
     "json",
     "node",
   ],
-  setupFilesAfterEnv: ["jest-extended/all", "./src/testSetup.js"],
-  testEnvironment: "node",
+  setupFilesAfterEnv: [
+    "jest-extended/all",
+    "./src/testSetup.js",
+    "jest-expect-message",
+  ],
+  testPathIgnorePatterns: ["/node_modules/"],
   testMatch: [
     "**/__tests__/**/*.[jt]s?(x)",
     "**/?(*.)+(spec|test).[tj]s?(x)",
@@ -29,6 +33,10 @@ const config = {
   transform: {
     "^.+\\.js$": "babel-jest",
   },
+  moduleNameMapper: {
+    "@prisma/client": "<rootDir>/__mocks__/@prisma/client.js",
+  },
+  verbose: true,
 };
 
 module.exports = config;

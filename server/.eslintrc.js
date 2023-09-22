@@ -31,5 +31,11 @@ module.exports = {
     "no-console": "off",
     "no-unused-vars": "warn",
     "prettier/prettier": "error",
+    "jest/valid-expect": [
+      "error",
+      {
+        maxArgs: 2,
+      },
+    ],
   },
 };

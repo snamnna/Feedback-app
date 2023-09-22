@@ -14,3 +14,4 @@ router.get("/:id", verifyToken, async (req, res) => {
 
 // feedback from spesific user
 
+module.exports = router;
