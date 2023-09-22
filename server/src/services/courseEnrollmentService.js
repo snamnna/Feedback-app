@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 // create new enrollment to database and return enrollment data
 async function createEnrollment(userId, courseId) {
-    return prisma.course.create({
+    return prisma.courseEnrollment.create({
         data: {
             userId,
             courseId,
@@ -14,7 +14,7 @@ async function createEnrollment(userId, courseId) {
 
 //update enrollment in db and return updated enrollment
 async function updateEnrollment(userId, courseId) {
-    return prisma.course.update({
+    return prisma.courseEnrollment.update({
         where: {
             userId,
             courseId
@@ -28,7 +28,7 @@ async function updateEnrollment(userId, courseId) {
 
 //delete enrollment from db and return deleted data
 async function deleteEnrollment(userId, courseId) {
-    return prisma.course.delete({
+    return prisma.courseEnrollment.delete({
         where: {
             userId,
             courseId
@@ -38,7 +38,7 @@ async function deleteEnrollment(userId, courseId) {
 
 // get all enrollments for course by courseId
 async function getCourseEnrollmentsByCourseId(courseId) {
-    return prisma.course.findMany({
+    return prisma.courseEnrollment.findMany({
         where: {
             courseId,
         },
@@ -46,7 +46,7 @@ async function getCourseEnrollmentsByCourseId(courseId) {
 }
 // get all courses enrolled by userId
 async function getUserEnrollmentsByUserId(userId) {
-    return prisma.course.findMany({
+    return prisma.courseEnrollment.findMany({
         where: {
             userId,
         },
