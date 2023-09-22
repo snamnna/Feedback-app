@@ -1,6 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../utils/prisma");
 
 // pitäis palauttaa haettu kurssi kontrollerille
 // check if course exists already in database

@@ -1,6 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-
-const prisma = new PrismaClient();
+const prisma = require("../utils/prisma");
 
 // get user by username
 async function getUserByUsername(username) {
@@ -27,7 +25,7 @@ async function createUser(username, password) {
     data: {
       username,
       password_hash: password,
-    }
+    },
   });
 }
 
@@ -38,7 +36,7 @@ async function deleteUser(username, password) {
     where: {
       username,
       password,
-    }
+    },
   });
 }
 
@@ -53,7 +51,7 @@ async function editUser(username, password) {
     data: {
       username,
       password_hash: password,
-    }
+    },
   });
 }
 
