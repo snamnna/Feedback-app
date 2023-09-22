@@ -5,103 +5,109 @@ const prisma = new PrismaClient();
 
 async function main() {
   const hashedPassword = await bcrypt.hash("test", 10);
-  // Create Users
-  const admin = await prisma.user.create({
-    data: {
+
+  const admin = await prisma.user.upsert({
+    where: { username: "admin" },
+    update: { password_hash: hashedPassword },
+    create: {
       username: "admin",
       password_hash: hashedPassword,
       userType: "ADMIN",
     },
   });
 
-  const teacher = await prisma.user.create({
-    data: {
-      username: "teacher",
+  const teacher1 = await prisma.user.upsert({
+    where: { username: "teacher1" },
+    update: { password_hash: hashedPassword },
+    create: {
+      username: "teacher1",
       password_hash: hashedPassword,
       userType: "TEACHER",
     },
   });
 
-  const anotherTeacher = await prisma.user.create({
-    data: {
-      username: "test",
+  const teacher2 = await prisma.user.upsert({
+    where: { username: "teacher2" },
+    update: { password_hash: hashedPassword },
+    create: {
+      username: "teacher2",
       password_hash: hashedPassword,
       userType: "TEACHER",
     },
   });
 
-  const student = await prisma.user.create({
-    data: {
-      username: "student",
+  const student1 = await prisma.user.upsert({
+    where: { username: "student1" },
+    update: { password_hash: hashedPassword },
+    create: {
+      username: "student1",
       password_hash: hashedPassword,
       userType: "STUDENT",
     },
   });
 
-  // Create Course
-  const course = await prisma.course.create({
+  const student2 = await prisma.user.upsert({
+    where: { username: "student2" },
+    update: { password_hash: hashedPassword },
+    create: {
+      username: "student2",
+      password_hash: hashedPassword,
+      userType: "STUDENT",
+    },
+  });
+
+  const course1 = await prisma.course.create({
     data: {
       name: "Introduction to Mathematics",
       description: "A beginner course on mathematics",
       lecturer: {
         connect: {
-          id: teacher.id,
+          id: teacher1.id,
         },
       },
     },
   });
 
-  const anotherCourse = await prisma.course.create({
+  const course2 = await prisma.course.create({
     data: {
-      name: "Introduction to Mathematics",
-      description: "A beginner course on mathematics",
+      name: "Advanced Mathematics",
+      description: "An advanced course on mathematics",
       lecturer: {
         connect: {
-          id: anotherTeacher.id,
+          id: teacher2.id,
         },
       },
     },
   });
 
-  // Enroll student to the course
+  // Enroll students to the courses
   await prisma.courseEnrollment.create({
     data: {
-      userId: student.id,
-      courseId: course.id,
+      userId: student1.id,
+      courseId: course1.id,
       status: "APPROVED",
     },
   });
 
   await prisma.courseEnrollment.create({
     data: {
-      userId: student.id,
-      courseId: anotherCourse.id,
+      userId: student2.id,
+      courseId: course2.id,
       status: "APPROVED",
     },
   });
 
-  // Create Lecture
-  const lecture = await prisma.lecture.create({
+  const lecture1 = await prisma.lecture.create({
     data: {
       name: "Lecture 1: Basics",
-      courseId: course.id,
+      courseId: course1.id,
     },
   });
 
-  const anotherLecture = await prisma.lecture.create({
+  const lecture2 = await prisma.lecture.create({
     data: {
-      name: "Lecture 1: Basics",
-      courseId: anotherCourse.id,
-    },
-  });
-
-  // Create Feedback
-  await prisma.feedback.create({
-    data: {
-      feedbackType: "GREAT",
-      comment: "Very informative lecture!",
-      userId: student.id,
-      lectureId: lecture.id,
+      name: "Lecture 1: Complex Numbers",
+      courseId: course2.id,
     },
   });
 
@@ -109,8 +115,17 @@ async function main() {
     data: {
       feedbackType: "GREAT",
       comment: "Very informative lecture!",
-      userId: student.id,
-      lectureId: anotherLecture.id,
+      userId: student1.id,
+      lectureId: lecture1.id,
+    },
+  });
+
+  await prisma.feedback.create({
+    data: {
+      feedbackType: "NEUTRAL",
+      comment: "It was okay.",
+      userId: student2.id,
+      lectureId: lecture2.id,
     },
   });
 }
