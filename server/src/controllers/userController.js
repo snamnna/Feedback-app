@@ -1,9 +1,16 @@
 const express = require("express");
-
+const Joi = require("joi");
 const router = express.Router();
 const userService = require("../services/userService");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
+const validate = require("../utils/validate");
+
+const userUpdateSchema = Joi.object({
+  id: Joi.number().integer().required(),
+  username: Joi.string().min(4).required(),
+  password: Joi.string().min(4).required(),
+});
 
 router.get("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
@@ -14,6 +21,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 
 router.put("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
+  validate(userUpdateSchema, { ...req.body, id: userId });
   if (userId !== req.user.id)
     throw new CustomError(403, "No permission to update user information");
 

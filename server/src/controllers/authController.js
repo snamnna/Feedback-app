@@ -6,9 +6,17 @@ const CustomError = require("../utils/CustomError");
 const router = express.Router();
 const userService = require("../services/userService");
 const jwtUtils = require("../utils/jwtUtils");
+const Joi = require("joi");
+const validate = require("../utils/validate");
+
+const authSchema = Joi.object({
+  username: Joi.string().min(4).required(),
+  password: Joi.string().min(4).required(),
+});
 
 // Authenticate User
 router.post("/", async (req, res) => {
+  validate(authSchema, req.body);
   const { username, password } = req.body;
 
   // Check if user exists in database
