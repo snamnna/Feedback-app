@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "coverage": "jest --coverage",
     "start": "nodemon ./src/index.js",
     "lint": "eslint .",
@@ -36,5 +36,8 @@
     "prettier": "^3.0.3",
     "prisma": "^5.3.1",
     "supertest": "^6.3.3"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
