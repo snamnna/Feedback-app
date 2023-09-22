@@ -10,9 +10,11 @@ const Header = () => {
 
   const handleLogout = () => dispatch(resetAuth());
 
+  //TODO:lisää avatariin  parametrina userin tiedot
+
   const dropdown = (
     <div className="dropdown">
-      <label tabIndex={0} className="btn btn-ghost btn-circle">
+      <label tabIndex={0} className="btn btn-ghost">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
@@ -30,24 +32,24 @@ const Header = () => {
       </label>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52"
+        className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-secondary rounded-box w-52"
       >
         {isAuthenticated ? (
           <>
-            <li>
+            <li className="border-b border-accent">
               <a href="/">Home</a>
             </li>
             {/* Rest of the authenticated menu items */}
           </>
         ) : (
           <>
-            <li>
+            <li className="border-b border-accent">
               <a href="/login">Login</a>
             </li>
-            <li>
+            <li className="border-b border-accent">
               <a href="/register">Register</a>
             </li>
-            {/* not authenticated menu-items */}
+            {/* rest of the not authenticated menu-items */}
           </>
         )}
         <li>
@@ -58,7 +60,7 @@ const Header = () => {
   );
 
   return (
-    <div className="navbar bg-base-300">
+    <div className="navbar bg-secondary">
       <div className="navbar-start">{dropdown}</div>
       <div className="navbar-center">
         <a className="btn btn-ghost normal-case text-xl" href="/">
