@@ -10,6 +10,16 @@ export default {
     require("@tailwindcss/aspect-ratio"),
   ],
   daisyui: {
-    darkTheme: "light",
+    themes: [
+      {
+        customTheme: {
+          primary: "#51A3A3",
+          secondary: "#ffdfc5",
+          "base-100": "#ffffff",
+          accent: "#f3c7ae",
+          neutral: "#504136",
+        },
+      },
+    ],
   },
 };
