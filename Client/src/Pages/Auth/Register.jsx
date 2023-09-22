@@ -85,7 +85,7 @@ const Register = () => {
           }}
         >
           <div className=" flex justify-center items-center p-10">
-            <div className="px-20 mt-10 py-5 w-xl bg-white opacity-70 rounded-lg shadow-md">
+            <div className="px-20 mt-10 py-5 w-xl bg-white opacity-90 rounded-lg shadow-md">
               <div>
                 <div
                   ref={errRef}
