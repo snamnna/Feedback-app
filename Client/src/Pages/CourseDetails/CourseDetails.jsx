@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import LectureCard from "./components/LectureCard";
 import { useSelector } from "react-redux";
 import courseService from "../../services/courseService";
-import { FiPlus } from "react-icons/fi";
+import { FiEdit, FiPlus, FiX } from "react-icons/fi";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -59,19 +59,22 @@ const CourseDetails = () => {
     }
   }, [data]);
 
-  //yritetään tehä jotai ownerin selvitystä en tiiä miten sen sais kunnol :D
+  //VÄLIAIKASESTI KOVAKOODATTU
+  //todo: jos on tehnyt kurssin: omistaja
   let isOwner = true;
   //lmao mist saan ton useridn oon taas hukas xD
   /*if(course.lecturerId === userId){
     isOwner = true;
   }
 */
+
   //Filter lectures
   const filterLectures = placeholderLectures.filter((lecture) =>
     lecture.name.toLowerCase().includes(search.toLowerCase())
   );
 
   //enrolling to a course
+  //TODO:viimeistele ja korjaa
   const handleEnroll = async () => {
     const enrolldata = {
       EnrollmentStatus: "APPROVED",
@@ -86,6 +89,23 @@ const CourseDetails = () => {
     // ja pitäs varmaa navigoida johonki sit kans
   };
 
+  //delete course
+  const handleDelete = async () => {
+    //TODO:poista kurssi
+  };
+
+  //edit course
+  const handleOpenEditModal = async () => {
+    //TODO: korjaa toimivaksi :DD
+    const editModal = document.getElementById("edit_course_modal");
+    if (editModal) {
+      editModal.showModal();
+    } else {
+      console.log("edit modal not found");
+    }
+  };
+
+  //open modal debuggia varten
   const openModal = () => {
     const lectureModal = document.getElementById("new_lecture_modal");
     if (lectureModal) {
@@ -98,25 +118,60 @@ const CourseDetails = () => {
   //Show lectures if enrollmentStatus is approved
   if (enrollmentStatus === "APPROVED") {
     return (
-      <div className="bg-secondary ">
-        <div className="flex justify-between px-10 py-3 bg-base-100 shadow-md opacity-80">
+      <div className="">
+        <div className="flex justify-between px-10 py-3 bg-base-100 ">
           <div className="flex flex-row ">
             <h1 className="my-2 text-xl font-bold">
-              Lectures for course {course.name}
+              Details for course {course.name}
             </h1>
             {/*If the user is the owner of the course add lectures option*/}
             {isOwner ? (
-              <button
-                className="btn btn-xs mt-1 px-1.5 py-1 box-content text-sm ml-4"
-                onClick={() => openModal()}
-              >
-                <FiPlus size={20} />
-                <span>Add lecture</span>
-              </button>
+              <>
+                <div className="dropdown">
+                  <label tabIndex={0} className="btn btn-ghost ml-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      className="inline-block w-5 h-5 stroke-current"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+                      ></path>
+                    </svg>
+                  </label>
+                  <ul
+                    tabIndex={0}
+                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                  >
+                    <li>
+                      <a onClick={() => openModal()}>
+                        <FiPlus size={20} />
+                        Add lecture
+                      </a>
+                    </li>
+                    <li>
+                      <a onClick={() => handleDelete()}>
+                        <FiX size={20} />
+                        Delete course
+                      </a>
+                    </li>
+                    <li>
+                      <a onClick={() => handleOpenEditModal()}>
+                        <FiEdit size={20} />
+                        Edit Course
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </>
             ) : null}
           </div>
           <input
-            className="border border-gray-300 rounded-md"
+            className="border border-gray-300 shadow-md rounded-md"
             type="text"
             placeholder="Search Lectures"
             value={search}
@@ -143,7 +198,7 @@ const CourseDetails = () => {
 const LectureList = ({ lectures }) => {
   return (
     <div>
-      <ul className="flex flex-col mt-3">
+      <ul className="flex flex-col mt-3 mb-5">
         {lectures.map((lecture) => (
           <li className="mx-10" key={lecture.id}>
             <LectureCard lecture={lecture} />
