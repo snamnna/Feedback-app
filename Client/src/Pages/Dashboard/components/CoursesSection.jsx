@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import authBg from "../../../assets/authBg.jpg";
 
 export const CoursesSection = () => {
   const courses = useSelector((state) => state.courses);
@@ -14,12 +15,17 @@ export const CoursesSection = () => {
   );
 
   return (
-    <div className="bg-secondary min-h-screen flex flex-col">
-      <div className="px-10 py-3 flex justify-between items-center bg-base-100 shadow-md">
+    <div
+      className="bg-cover min-h-screen bg-base-100 flex flex-col"
+      /*style={{
+           backgroundImage: `url(${authBg})`,
+         }}*/
+    >
+      <div className="px-10 py-3 flex justify-between items-center bg-base-100 opacity-90">
         <div className="text-2xl font-semibold">
           Courses
           <button
-            className="btn btn-xs m-0 px-1.5 py-1 box-content text-sm ml-4"
+            className="btn btn-xs btn-primary shadow-md m-0 px-1.5 py-1 box-content text-sm ml-4"
             onClick={() =>
               document.getElementById("new_course_modal").showModal()
             }
@@ -29,7 +35,7 @@ export const CoursesSection = () => {
           </button>
         </div>
         <input
-          className="border border-gray-300 rounded-md"
+          className="border border-gray-300 rounded-md shadow-md"
           type="text"
           placeholder="Search courses"
           value={search}
