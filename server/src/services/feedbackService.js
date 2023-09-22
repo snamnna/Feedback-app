@@ -34,5 +34,5 @@ const prisma = new PrismaClient();
   }
 
   module.exports = {
-    getCourseFeedback, createFeedback
+    getCourseFeedback, createFeedback, getUserFeedback
   }
