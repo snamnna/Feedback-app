@@ -1,14 +1,17 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-//TODO: feedbackit prosenteiksi tähän
-//TODO: feedback module
-
+//TODO: hae tiedot oikein (lecture ja owner/teacher)
 const LectureCard = ({ lecture }) => {
   const navigate = useNavigate();
-  const handleClick = () => {
+
+  const handleViewFeedback = () => {
     // Navigate to the feedback page with the lectureId
     navigate(`/lectures/${lecture.id}`);
+  };
+
+  const handleGiveFeedback = () => {
+    //TODO: feedback modul tms?
   };
 
   //TODO: lisää logiikka userin tyypin hakemiseen ja aseta isTeacher sen mukaan
@@ -16,11 +19,11 @@ const LectureCard = ({ lecture }) => {
 
   return (
     <div
-      className="card card-compact max-h-sm shadow-lg rounded-md overflow-hidden cursor-pointer my-2"
+      className="card card-compact max-h-sm border rounded-md overflow-hidden  my-2"
       data-testid="lecture-card"
     >
       <div
-        className="card-body rounded bg-base-100 shadow-md opacity-80 flex flex-row"
+        className="card-body rounded bg-base-100 shadow-md  flex flex-row"
         data-testid="lecture-card-body"
       >
         <h2 className="card-title">{lecture.name}</h2>
@@ -28,13 +31,21 @@ const LectureCard = ({ lecture }) => {
         {isTeacher ? (
           <>
             <p className="">{lecture.feedback}</p>
-            <button className="btn btn-sm self-end" onClick={handleClick}>
+            <button
+              className="btn btn-primary btn-sm self-end"
+              onClick={handleViewFeedback}
+            >
               View feedback
             </button>
           </>
         ) : (
           <div className="">
-            <button className="btn btn-sm">Give feedback</button>
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={handleGiveFeedback}
+            >
+              Give feedback
+            </button>
           </div>
         )}
       </div>
@@ -43,17 +54,18 @@ const LectureCard = ({ lecture }) => {
 };
 
 LectureCard.defaultProps = {
-  course: {
+  lecture: {
     name: "Lecture 1",
     feedback: "lecture feedback",
+    id: 1,
   },
 };
 
 LectureCard.propTypes = {
-  course: PropTypes.shape({
+  lecture: PropTypes.shape({
     name: PropTypes.string,
     feedback: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.number,
   }),
 };
 
