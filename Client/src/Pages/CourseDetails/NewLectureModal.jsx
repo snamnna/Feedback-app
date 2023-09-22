@@ -12,6 +12,7 @@ const NewLectureModal = () => {
     setLectureName("");
   };
 
+  //TODO: korjaa ja hae tiedot
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -28,8 +29,8 @@ const NewLectureModal = () => {
     <dialog id="new_lecture_modal" className="modal">
       <div className="modal-box">
         <div className="relative flex justify-end">
-          <h3 className="absolute font-bold text-lg left-0 top-3.5">
-            Create Course
+          <h3 className="absolute font-bold text-lg left-0 top-3. mb-2">
+            Create Lecture
           </h3>
           <div onClick={handleClose}>
             <form method={"dialog"}>
