@@ -54,7 +54,7 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
   const id = parseInt(req.params.id, 10);
   const course = await courseService.getCourseById(id);
 
-  // Participants palauttaa enrolled, pitäisi saada vielä palauttamaan oikeasti participants??
+  // Participants palauttaa kai kuitenkin enrolled?
 
   if (!course) throw new CustomError(404, "Participants can not be found");
 

@@ -53,4 +53,5 @@ router.get("/:id/courses", verifyToken, async (req, res) => {
   return res.status(200).json({ ...courses });
 });
 
+
 module.exports = router;
