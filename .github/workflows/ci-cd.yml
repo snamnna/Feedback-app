@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -32,13 +32,13 @@ jobs:
           cache: 'npm'
           
       - name: Install Dependencies    
-      - run: npm ci
+        run: npm ci
 
       - name: Lint and Format Check
-      - run: npm run lint && npx prettier --write
+        run: npm run lint && npx prettier --write
 
       - name: Run tests
-      - run: npm test
+        run: npm test
         continue-on-error: true
 
   server:
