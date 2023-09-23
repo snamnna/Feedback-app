@@ -8,7 +8,15 @@ const config = {
   // automock: false,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
-  coverageReporters: ["json", "text", "lcov", "clover"],
+  coverageReporters: [
+    // "json",
+    "text-summary",
+
+    "text",
+
+    // "lcov",
+    // "clover"
+  ],
   moduleFileExtensions: [
     "js",
     "mjs",
@@ -23,6 +31,7 @@ const config = {
     "jest-extended/all",
     "./src/testSetup.js",
     "jest-expect-message",
+    "jest-mock-extended",
   ],
   testPathIgnorePatterns: ["/node_modules/"],
   testMatch: [
