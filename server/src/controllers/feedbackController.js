@@ -22,7 +22,8 @@ router.get("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Feedback found successfully", feedback });
 });
 
-// create new feedback
+// create new feedback KESKEN
+//Tähän pyydetty apua koska en osaa
 router.post("/", verifyToken, async (req, res) => {
   const { courseId, feedback} = req.body
 })
