@@ -1,8 +1,8 @@
-const verifyToken = require("./verifyToken");
-const { tokenDecode } = require("../utils/jwtUtils");
-const CustomError = require("../utils/CustomError");
+const verifyToken = require("../../middlewares/verifyToken");
+const { tokenDecode } = require("../../utils/jwtUtils");
+const CustomError = require("../../utils/CustomError");
 
-jest.mock("../utils/jwtUtils");
+jest.mock("../../utils/jwtUtils");
 
 describe("Verify Token Middleware", () => {
   afterEach(() => {

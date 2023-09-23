@@ -5,16 +5,16 @@ const app = express();
 
 jest.timeout(60000)
 
-jest.mock("../services/feedbackService");
-jest.mock("../middlewares/verifyToken");
+jest.mock("../../services/feedbackService");
+jest.mock("../../middlewares/verifyToken");
 
-const feedbackService = require("../services/feedbackService");
-const verifyToken = require("../middlewares/verifyToken");
+const feedbackService = require("../../services/feedbackService");
+const verifyToken = require("../../middlewares/verifyToken");
 
 verifyToken.mockImplementation((req, res, next) => next());
 
-const feedbackRoutes = require("./feedbackController");
-const CustomError = require("../utils/CustomError");
+const feedbackRoutes = require("../../controllers/feedbackController");
+const CustomError = require("../../utils/CustomError");
 
 app.use("/feedback", feedbackRoutes);
 

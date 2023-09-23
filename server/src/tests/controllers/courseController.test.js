@@ -3,16 +3,16 @@ const express = require("express");
 require("express-async-errors");
 
 const app = express();
-const router = require("./courseController");
+const router = require("../../controllers/courseController");
 
 app.use(express.json());
 app.use("/courses", router);
 
 // Mocking the dependencies
-jest.mock("../services/courseService");
-jest.mock("../middlewares/verifyToken");
-const courseService = require("../services/courseService");
-const verifyToken = require("../middlewares/verifyToken");
+jest.mock("../../services/courseService");
+jest.mock("../../middlewares/verifyToken");
+const courseService = require("../../services/courseService");
+const verifyToken = require("../../middlewares/verifyToken");
 
 jest.setTimeout(10000);
 

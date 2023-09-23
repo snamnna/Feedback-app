@@ -6,7 +6,7 @@ const {
   editUser,
   getUserById,
   getUserCourses,
-} = require("./userService");
+} = require("../../services/userService");
 
 const PrismaClientMocked = PrismaClient();
 

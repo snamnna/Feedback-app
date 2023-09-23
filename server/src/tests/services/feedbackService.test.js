@@ -5,7 +5,7 @@ const {
   getCourseFeedback,
   createFeedback,
   getUserFeedback,
-} = require("./feedbackService"); // replace with your actual module path
+} = require("../../services/feedbackService"); // replace with your actual module path
 
 jest.mock("@prisma/client");
 
