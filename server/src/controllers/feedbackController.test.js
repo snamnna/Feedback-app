@@ -3,6 +3,8 @@ const express = require("express");
 
 const app = express();
 
+jest.timeout(60000)
+
 jest.mock("../services/feedbackService");
 jest.mock("../middlewares/verifyToken");
 

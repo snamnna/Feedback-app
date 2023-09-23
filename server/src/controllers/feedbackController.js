@@ -6,6 +6,7 @@ const feedbackService = require("../services/feedbackService")
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const Joi = require("joi");
+const validate = require("../utils/validate");
 
 const feedbackCreateSchema = Joi.object({
   feedbackType: Joi.string().valid("BAD", "GREAT", "NEUTRAL").required(),
@@ -22,10 +23,28 @@ router.get("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Feedback found successfully", feedback });
 });
 
-// create new feedback KESKEN
-//Tähän pyydetty apua koska en osaa
+// create new feedback
 router.post("/", verifyToken, async (req, res) => {
-  const { courseId, feedback} = req.body
+  validate(feedbackCreateSchema, req.body)
+  const { feedbackType, comment, userId, lectureId} = req.body
+  //const id = parseInt(req.user.id, 10)
+
+  const data = {
+    feedbackType: feedbackType,
+    comment: comment,
+    userId: userId,
+    lectureId: lectureId
+  }
+
+  const validation = feedbackCreateSchema.validate(data);
+
+  if (validation.error) {
+    throw new CustomError(400, "Invalid feedback data");
+  }
+  
+    const newFeedback = await feedbackService.createFeedback(data)
+    res.status(200).json(newFeedback)
+  
 })
 
 
