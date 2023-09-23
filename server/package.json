@@ -7,7 +7,7 @@
     "test": "NODE_ENV=test jest",
     "coverage": "jest --coverage",
     "start": "nodemon ./src/index.js",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "format": "prettier --write ."
   },
   "author": "",
