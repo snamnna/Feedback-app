@@ -2,11 +2,14 @@ import React from "react";
 import { resetAuth } from "../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar } from "../Pages/Dashboard/components/Avatar";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router";
 
 const Header = () => {
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = !!token;
   const dispatch = useDispatch();
+  const { userId } = useParams();
 
   const handleLogout = () => dispatch(resetAuth());
 
@@ -73,7 +76,9 @@ const Header = () => {
             <button className="btn mx-2 btn-ghost" onClick={handleLogout}>
               Log out
             </button>
-            <Avatar />
+            <Link to={`/user/${userId}`}>
+              <Avatar />
+            </Link>
             {/* rest of the authenticated items in the end navbar */}
           </>
         ) : null}
