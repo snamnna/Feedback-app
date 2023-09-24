@@ -1,6 +1,6 @@
 const prisma = require("../utils/prisma");
 
-// create new enrollment to database and return enrollment data
+// create new lecture to database and return lecture data
 async function createLecture(name, courseId) {
     return prisma.lecture.create({
         data: {
@@ -10,7 +10,7 @@ async function createLecture(name, courseId) {
     });
 }
 
-//update enrollment in db and return updated enrollment
+//update lecture in db and return updated lecture
 async function updateLecture(id, courseId, name) {
     return prisma.lecture.update({
         where: {
@@ -23,7 +23,7 @@ async function updateLecture(id, courseId, name) {
     });
 }
 
-//delete enrollment from db and return deleted data
+//delete lecture from db and return deleted data
 async function deleteLecture(id, courseId) {
     return prisma.lecture.delete({
         where: {
@@ -33,7 +33,7 @@ async function deleteLecture(id, courseId) {
     });
 }
 
-
+// get all feedbacks of spesific lecture in one course
 async function getAllFeedbacksOfLecture(id, courseId) {
     return prisma.lecture.findMany({
         where: {
