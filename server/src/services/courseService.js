@@ -1,7 +1,6 @@
 const prisma = require("../utils/prisma");
 
-// pitäis palauttaa haettu kurssi kontrollerille
-// check if course exists already in database
+// returns lectures and enrollments of searched course by id
 async function getCourseById(id) {
   return prisma.course.findUnique({
     where: {
@@ -14,7 +13,7 @@ async function getCourseById(id) {
   });
 }
 
-// pitäis palauttaa haettu kurssi kontrollerille
+// returns all the data of searched course by name
 async function getCourseByName(name) {
   return prisma.course.findUnique({
     where: {
@@ -30,8 +29,7 @@ async function createCourse(courseData) {
   });
 }
 
-// pitäis palauttaa kontrolleriin se poistettu kurssi
-// delete course from database
+// delete course from database and returns deleted data
 async function deleteCourse(id) {
   return prisma.course.delete({
     where: {
@@ -40,8 +38,7 @@ async function deleteCourse(id) {
   });
 }
 
-// pitäis palauttaa kontrolleriin
-// edit course in db
+// edit course in db and returns all of it's data
 async function editCourse(id, name, description, lectures) {
   return prisma.course.update({
     where: {
@@ -55,14 +52,12 @@ async function editCourse(id, name, description, lectures) {
   });
 }
 
-// pitäis palauttaa kontrolleriin
-// get all courses from db
+// returns all courses from db
 async function getAllCourses() {
   return prisma.course.findMany({});
 }
 
-// pitäis palauttaa kontrolleriin arvot
-// get all participants of specific course
+// get all participants of specific course regardless of the status
 async function getAllParticipants(id) {
   return prisma.course.findUnique({
     where: {
@@ -74,8 +69,20 @@ async function getAllParticipants(id) {
   });
 }
 
-// pitäis palauttaa kontrolleriin
-// get all lectures of specific course
+// get all participants of specific course who has the status approved
+async function getApprovedParticipants(courseId) {
+  return prisma.courseEnrollment.findMany({
+    where: {
+      courseId,
+      status: 'APPROVED',
+    },
+    select: {
+      userId: true,
+    },
+  });
+}
+
+// returns all lectures of specific course
 async function getAllLectures(id) {
   return prisma.course.findUnique({
     where: {
@@ -95,5 +102,6 @@ module.exports = {
   editCourse,
   getAllCourses,
   getAllParticipants,
+  getApprovedParticipants,
   getAllLectures,
 };
