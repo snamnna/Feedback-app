@@ -9,30 +9,33 @@ import authBg from "../../../assets/authBg.jpg";
 export const CoursesSection = () => {
   const courses = useSelector((state) => state.courses);
   const [search, setSearch] = useState("");
+  const { userType } = useSelector((state) => state.auth.user.userType);
+  let isTeacher = true; //pitäskö mielummi käyttää state?
 
   const filterCourses = courses.filter((course) =>
     course.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  if (userType === "TEACHER") {
+    isTeacher = true;
+  }
+
   return (
-    <div
-      className="bg-cover min-h-screen bg-base-100 flex flex-col"
-      /*style={{
-           backgroundImage: `url(${authBg})`,
-         }}*/
-    >
+    <div>
       <div className="px-10 py-3 flex justify-between items-center bg-base-100 opacity-90">
         <div className="text-2xl font-semibold">
           Courses
-          <button
-            className="btn btn-xs btn-primary shadow-md m-0 px-1.5 py-1 box-content text-sm ml-4"
-            onClick={() =>
-              document.getElementById("new_course_modal").showModal()
-            }
-          >
-            <FiPlus size={20} />
-            <span>New Course</span>
-          </button>
+          {isTeacher && (
+            <button
+              className="btn btn-xs btn-primary shadow-md m-0 px-1.5 py-1 box-content text-sm ml-4"
+              onClick={() =>
+                document.getElementById("new_course_modal").showModal()
+              }
+            >
+              <FiPlus size={20} />
+              <span>New Course</span>
+            </button>
+          )}
         </div>
         <input
           className="border border-gray-300 rounded-md shadow-md"
