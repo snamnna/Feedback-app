@@ -32,7 +32,7 @@ const CourseDetails = () => {
 
       //set isOwner to true if user is the owner of the course
       if (course.lecturerId === userId) {
-        setIsOwner(true);
+        // setIsOwner(true);
       }
     }
   }, [data]);
@@ -53,6 +53,11 @@ const CourseDetails = () => {
   const filterLectures = lectures.filter((lecture) =>
     lecture.name.toLowerCase().includes(search.toLowerCase())
   );
+  //leave course
+
+  const handleLeave = async () => {
+    //TODO: poistu kurssilta, miten hoituu?
+  };
 
   //delete course
   const handleDelete = async () => {
@@ -135,7 +140,14 @@ const CourseDetails = () => {
                   </ul>
                 </div>
               </>
-            ) : null}
+            ) : (
+              <button
+                className="ml-2 mt-1 btn btn-primary btn-sm"
+                onClick={() => handleLeave()}
+              >
+                Leave the course
+              </button>
+            )}
           </div>
           <input
             className="border border-gray-300 shadow-md rounded-md"

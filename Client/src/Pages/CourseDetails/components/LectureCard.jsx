@@ -9,9 +9,7 @@ const LectureCard = ({ lecture }, isOwner) => {
     navigate(`/lectures/${lecture.id}`);
   };
 
-  const handleGiveFeedback = () => {
-    //TODO: feedback module tms?
-  };
+  const handleGiveFeedback = () => {};
 
   return (
     <div
