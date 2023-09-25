@@ -12,91 +12,57 @@ const CourseDetails = () => {
   const { courseId } = useParams();
   const [course, setCourse] = useState({});
   const [search, setSearch] = useState("");
-  const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED"); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
   const token = useSelector((state) => state.auth.token);
-  const { data, error, isLoading } = useGetCourseByIdQuery(courseId);
+  const userId = useSelector((state) => state.auth.user.id);
   const [lectures, setLectures] = useState([]);
-  const [courseEnrollment, setCourseEnrollment] = useState([]);
+  const { data, error, isLoading } = useGetCourseByIdQuery(courseId);
+  const [isOwner, setIsOwner] = useState(false);
 
-  const placeholderLectures = [
-    {
-      id: 1,
-      name: "lecture 1",
-      feedback: "bad",
-    },
-    {
-      id: 2,
-      name: "lecture 2",
-      feedback: "bad",
-    },
-    {
-      id: 3,
-      name: "lecture 3",
-      feedback: "bad",
-    },
-    {
-      id: 4,
-      name: "lecture 4",
-      feedback: "bad",
-    },
-    {
-      id: 5,
-      name: "lecture 5",
-      feedback: "bad",
-    },
-  ];
+  const [courseEnrollment, setCourseEnrollment] = useState([]);
+  const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED"); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
 
   //get data needed
   useEffect(() => {
     if (data) {
       console.log(data);
-      const { course, enrollment, lectures } = data;
+      const { course } = data;
       setCourse(course);
-      setLectures(lectures);
-      setCourseEnrollment(enrollment);
+      setLectures(course.lectures);
+      setCourseEnrollment(course.enrollments);
 
-      console.log("debug:", courseEnrollment);
+      //set isOwner to true if user is the owner of the course
+      if (course.lecturerId === userId) {
+        setIsOwner(true);
+      }
     }
   }, [data]);
 
-  //VÄLIAIKASESTI KOVAKOODATTU
-  //todo: jos on tehnyt kurssin: omistaja
-  let isOwner = true;
-  //lmao mist saan ton useridn oon taas hukas xD
-  /*if(course.lecturerId === userId){
-    isOwner = true;
-  }
-*/
-
-  //Filter lectures
-  const filterLectures = placeholderLectures.filter((lecture) =>
-    lecture.name.toLowerCase().includes(search.toLowerCase())
-  );
+  //TODO: tarkista onko käyttäjä jo enrolled enrollmentsista.
 
   //enrolling to a course
   //TODO:viimeistele ja korjaa
   const handleEnroll = async () => {
-    const enrolldata = {
-      EnrollmentStatus: "APPROVED",
-    };
-    const enroll = await courseService.courseEnrollment(
-      courseId,
-      enrolldata,
-      token
-    );
-    console.log(enroll);
-    //TODO: joku viesti et on tehty pyyntö ja sit joku systeemi et ei voi pyytää montaa kertaa et pääsis kurssille
-    // ja pitäs varmaa navigoida johonki sit kans
+    const enroll = await courseService.courseEnrollment(courseId, token);
+    if (enroll) {
+      //TODO: joku viesti et on tehty pyyntö ja sit joku systeemi et ei voi pyytää montaa kertaa et pääsis kurssille
+      // ja pitäs varmaa navigoida johonki sit kans
+    }
   };
+
+  //Filter lectures
+  const filterLectures = lectures.filter((lecture) =>
+    lecture.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   //delete course
   const handleDelete = async () => {
-    //TODO:poista kurssi
+    const deleteCourse = await courseService.deleteCourse(courseId);
+    console.log(deleteCourse);
   };
 
   //edit course
   const handleOpenEditModal = async () => {
-    //TODO: korjaa toimivaksi :DD
+    //TODO: korjaa toimivaksi, pitäs pystyy antaa kurssi parametrina/propsina
     const editModal = document.getElementById("edit_course_modal");
     if (editModal) {
       editModal.showModal();
@@ -105,8 +71,9 @@ const CourseDetails = () => {
     }
   };
 
-  //open modal debuggia varten
-  const openModal = () => {
+  //new lecture
+  const openNewLectureModal = () => {
+    //TODO:tällekkin pitäis antaa curssin id
     const lectureModal = document.getElementById("new_lecture_modal");
     if (lectureModal) {
       lectureModal.showModal();
@@ -148,7 +115,7 @@ const CourseDetails = () => {
                     className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
                   >
                     <li>
-                      <a onClick={() => openModal()}>
+                      <a onClick={() => openNewLectureModal()}>
                         <FiPlus size={20} />
                         Add lecture
                       </a>
@@ -178,7 +145,7 @@ const CourseDetails = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <LectureList lectures={filterLectures} />
+        <LectureList lectures={filterLectures} isOwner={isOwner} />
       </div>
     );
   }
@@ -195,13 +162,13 @@ const CourseDetails = () => {
   );
 };
 
-const LectureList = ({ lectures }) => {
+const LectureList = ({ lectures }, isOwner) => {
   return (
     <div>
       <ul className="flex flex-col mt-3 mb-5">
         {lectures.map((lecture) => (
           <li className="mx-10" key={lecture.id}>
-            <LectureCard lecture={lecture} />
+            <LectureCard lecture={lecture} isOwner={isOwner} />
           </li>
         ))}
       </ul>
