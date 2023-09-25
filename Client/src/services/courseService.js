@@ -26,6 +26,15 @@ const updateCourse = async (courseId, course) => {
   }
 };
 
+const deleteCourse = async (courseId) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/${courseId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Course deletion failed");
+  }
+};
+
 const getCourseStudents = async (courseId) => {
   try {
     const res = await axios.get(`${BASE_URL}/${courseId}/participants`);
@@ -36,7 +45,6 @@ const getCourseStudents = async (courseId) => {
   }
 };
 
-//TODO: tarviiko headerin?
 const courseEnrollment = async (courseId, token) => {
   try {
     const res = await axios.put(`${BASE_URL}/${courseId}/enrollment`, token);
@@ -52,4 +60,5 @@ export default {
   updateCourse,
   getCourseStudents,
   courseEnrollment,
+  deleteCourse,
 };
