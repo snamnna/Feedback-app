@@ -50,21 +50,24 @@ router.get("/:id", verifyToken, async (req, res) => {
 
   if (!course) throw new CustomError(404, "Course not found");
 
+  if (req.user.userType === "STUDENT") {
+    // if student, delete enrollments before responding
+    delete course.enrollments;
+  }
+
   //get course by id and add it to response
   return res.status(200).json({ message: "Course found successfully", course });
 });
 
-// get course participants (tämä palauttaa kaikki enrollmentit)
+// get course participants (tämä palauttaa vain hyväksytyt)
 router.get("/:id/participants", verifyToken, async (req, res) => {
   const id = parseInt(req.params.id, 10);
   const course = await courseService.getCourseById(id);
 
-  // Participants palauttaa kai kuitenkin enrolled?
-
   if (!course) throw new CustomError(404, "Participants can not be found");
 
   // get participants by id and add to response
-  const participants = await courseService.getAllParticipants(id);
+  const participants = await courseService.getApprovedParticipants(id);
   return res
     .status(200)
     .json({ message: "Participants found successfully", participants });
@@ -100,19 +103,17 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
     .json({ message: "Lectures found successfully", lectures });
 });
 
-// course enrollment (tietyn kurssin ilmoittautuneet)
+// course enrollment (tietyn kurssin ilmoittautuneet riippumatta statuksesta)
 router.get("/:id/enrollment", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10);
-  const enrollments = await courseService.getAllParticipants(courseId);
+  const participants = await courseService.getAllParticipants(courseId);
 
-  //Huom, participants palauttaa enrolled, tämä siis tällä ok?
-
-  if (!enrollments) throw new CustomError(404, "Enrollments not found");
+  if (!participants) throw new CustomError(404, "Enrollments not found");
 
   //Get enrollments and add to response
   return res
     .status(200)
-    .json({ message: "Enrollments found successfully", enrollments });
+    .json({ message: "Enrollments found successfully", participants });
 });
 
 module.exports = router;
