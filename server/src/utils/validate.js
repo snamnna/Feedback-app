@@ -1,4 +1,4 @@
-const CustomError = require("../utils/CustomError");
+const CustomError = require("./CustomError");
 
 const validate = (schema, data) => {
   const { error } = schema.validate(data);

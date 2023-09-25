@@ -8,7 +8,7 @@ const {
   getAllCourses,
   getAllParticipants,
   getAllLectures,
-} = require("./courseService"); // replace with your actual module path
+} = require("../../services/courseService"); // replace with your actual module path
 
 const PrismaClientMocked = PrismaClient();
 

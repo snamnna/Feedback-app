@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
   const { username, password } = req.body;
   const userExists = await userService.getUserByUsername(username);
 
-  if (userExists) throw new CustomError(401, "Email already in use");
+  if (userExists) throw new CustomError(401, "username already in use");
 
   const saltRounds = 10;
 

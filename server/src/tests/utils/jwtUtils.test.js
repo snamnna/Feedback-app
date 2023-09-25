@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { tokenSign, tokenDecode, secretKey } = require("./jwtUtils");
+const { tokenSign, tokenDecode, secretKey } = require("../../utils/jwtUtils");
 
 jest.mock("jsonwebtoken");
 

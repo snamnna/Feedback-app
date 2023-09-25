@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRoute";
 import Layout from "./Components/Layout";
 import CourseDetails from "./Pages/CourseDetails/CourseDetails";
 import LectureDetails from "./Pages/LectureDetails/LectureDetails";
+import UserDetails from "./Pages/UserDetails/UserDetails";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,11 @@ const router = createBrowserRouter(
         {/*Lectures*/}
         <Route path={"/lectures/:lectureId"}>
           <Route index element={<LectureDetails />} />
+        </Route>
+
+        {/*User*/}
+        <Route path={"/user/:userId"}>
+          <Route index element={<UserDetails />} />
         </Route>
 
         {/* 404 */}
