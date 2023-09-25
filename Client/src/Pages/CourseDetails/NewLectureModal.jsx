@@ -2,27 +2,30 @@ import { FiX } from "react-icons/fi";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LectureForm from "./components/LectureForm";
+import lectureService from "../../services/lectureService";
+import { addLecture } from "../../features/lectures/lectureSlice";
 
-const NewLectureModal = () => {
+const NewLectureModal = (course) => {
   const [lectureName, setLectureName] = useState("");
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+  const courseId = course.id;
 
   const handleClose = () => {
     setLectureName("");
   };
 
-  //TODO: korjaa ja hae tiedot
+  //TODO: korjaa ja hae tiedot oikein, nyt vaan mukamas parametrina
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       lectureName,
-      //courseId
+      courseId,
     };
-    //tarvitaan varmaa toi kurssin id myös
-    //const newLecture = await lectureService.createLecture(data, token);
-    //console.log(newLecture);
-    //dispatch(addCourse(newLecture));
+
+    const newLecture = await lectureService.createLecture(data, token);
+    console.log(newLecture);
+    dispatch(addLecture(newLecture));
   };
 
   return (
