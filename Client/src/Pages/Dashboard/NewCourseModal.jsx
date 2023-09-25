@@ -18,7 +18,6 @@ const NewCourseModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("handlesubmit");
     const data = {
       courseName,
       courseDescription,
