@@ -47,23 +47,6 @@ router.post("/", verifyToken, async (req, res) => {
   
 })
 
-
-
-// create a new course POISTA
-router.post("/", verifyToken, async (req, res) => {
-  validate(courseCreateSchema, req.body);
-  const { courseName, courseDescription } = req.body;
-  const id = parseInt(req.user.id, 10);
-  const data = {
-    name: courseName,
-    description: courseDescription,
-    lecturerId: id,
-  };
-
-  const newCourse = await courseService.createCourse(data);
-  res.status(200).json(newCourse);
-});
-
 // feedback from spesific user
 router.get("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10)
