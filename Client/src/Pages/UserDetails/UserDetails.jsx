@@ -1,5 +1,4 @@
 import React from "react";
-import { FiEdit, FiPlus, FiX } from "react-icons/fi";
 import { useParams } from "react-router";
 
 const UserDetails = () => {
