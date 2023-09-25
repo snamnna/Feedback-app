@@ -115,4 +115,18 @@ router.get("/:id/enrollment", verifyToken, async (req, res) => {
     .json({ message: "Enrollments found successfully", enrollments });
 });
 
+//delete course
+router.delete("/:id", verifyToken, async (req,res) => {
+  const courseId = parseInt(req.params.id, 10);
+  const course = await courseService.getCourseById(courseId);
+
+  if(!course) throw new CustomError(404, "Course not found");
+  if(course.lecturerId !== req.user.id) throw new CustomError(403, "Unauthorized");
+
+  await courseService.deleteCourse(courseId);
+  return res.status(200).json({message: "course deleted successfully"})
+});
+
+
+
 module.exports = router;
