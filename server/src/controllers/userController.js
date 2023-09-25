@@ -37,8 +37,8 @@ router.delete("/:id", verifyToken, async (req, res) => {
   if (userId !== req.user.id) throw new CustomError(403, "Unauthorized");
   const user = await userService.getUserById(userId);
   if (!user) throw new CustomError(404, "User not found");
-  const updated = await userService.deleteUser(username, password);
-  return res.status(200).json({ message: "User deleted successfully", updated });
+  const deleted = await userService.deleteUser(userId);
+  return res.status(200).json({ message: "User deleted successfully", deleted });
 });
 
 router.get("/:id/courses", verifyToken, async (req, res) => {
