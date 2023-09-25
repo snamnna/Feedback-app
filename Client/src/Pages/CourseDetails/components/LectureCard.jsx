@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-//TODO: hae tiedot oikein (lecture ja owner/teacher)
-const LectureCard = ({ lecture }) => {
+const LectureCard = ({ lecture }, isOwner) => {
   const navigate = useNavigate();
 
   const handleViewFeedback = () => {
@@ -11,11 +10,8 @@ const LectureCard = ({ lecture }) => {
   };
 
   const handleGiveFeedback = () => {
-    //TODO: feedback modul tms?
+    //TODO: feedback module tms?
   };
-
-  //TODO: lisää logiikka userin tyypin hakemiseen ja aseta isTeacher sen mukaan
-  const isTeacher = false;
 
   return (
     <div
@@ -28,7 +24,7 @@ const LectureCard = ({ lecture }) => {
       >
         <h2 className="card-title">{lecture.name}</h2>
         <div className="flex-grow"></div>
-        {isTeacher ? (
+        {isOwner ? (
           <>
             <p className="">{lecture.feedback}</p>
             <button
