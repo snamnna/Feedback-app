@@ -26,10 +26,10 @@ router.get("/", verifyToken, async (req, res) => {
 // create a new course
 router.post("/", verifyToken, async (req, res) => {
 
-  if(req.user.tole !== "teacher"){
+  if(req.user.userType !== "TEACHER"){
     return res.status(403).json({ message: "Permission denied"})
   }
-  
+
   validate(courseCreateSchema, req.body);
   const { courseName, courseDescription } = req.body;
   const id = parseInt(req.user.id, 10);
