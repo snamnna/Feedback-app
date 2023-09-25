@@ -6,7 +6,7 @@ async function getCourseFeedback(id) {
     where: {
       id,
     },
-    include: {
+    select: {
       feedback: true,
     },
   });
@@ -25,7 +25,7 @@ async function getUserFeedback(userId) {
     where: {
       userId,
     },
-    include: {
+    select: {
       feedback: true,
     },
   });

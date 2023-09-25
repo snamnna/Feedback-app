@@ -91,8 +91,8 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
 
 // get course lectures
 router.get("/:id/lectures", verifyToken, async (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const course = await courseService.getCourseById(id);
+  const courseId = parseInt(req.params.id, 10);
+  const course = await courseService.getCourseById(courseId);
 
   if (!course) throw new CustomError(404, "Lectures not found");
 
