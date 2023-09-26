@@ -8,16 +8,17 @@ import authBg from "../../../assets/authBg.jpg";
 
 export const CoursesSection = () => {
   const courses = useSelector((state) => state.courses);
-  const [search, setSearch] = useState("");
   const { userType } = useSelector((state) => state.auth.user.userType);
-  let isTeacher = true; //pitäskö mielummi käyttää state?
+  const [search, setSearch] = useState("");
+  const [isTeacher, setIsTeacher] = useState(false);
 
   const filterCourses = courses.filter((course) =>
     course.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  //set teacher to true if usertype is teacher
   if (userType === "TEACHER") {
-    isTeacher = true;
+    setIsTeacher(true);
   }
 
   return (

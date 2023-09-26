@@ -29,10 +29,10 @@ const CourseDetails = () => {
       setCourse(course);
       setLectures(course.lectures);
       setCourseEnrollment(course.enrollments);
-
+      //dispatch storeen selectedcourse
       //set isOwner to true if user is the owner of the course
       if (course.lecturerId === userId) {
-        // setIsOwner(true);
+        setIsOwner(true);
       }
     }
   }, [data]);
