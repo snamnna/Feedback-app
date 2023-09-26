@@ -9,8 +9,6 @@ const Header = () => {
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = !!token;
   const dispatch = useDispatch();
-  const { userId } = useParams();
-
   const handleLogout = () => dispatch(resetAuth());
 
   //TODO:lisää avatariin  parametrina userin tiedot
@@ -76,7 +74,7 @@ const Header = () => {
             <button className="btn mx-2 btn-ghost" onClick={handleLogout}>
               Log out
             </button>
-            <Link to={`/user/${userId}`}>
+            <Link to={`/user`}>
               <Avatar />
             </Link>
             {/* rest of the authenticated items in the end navbar */}
