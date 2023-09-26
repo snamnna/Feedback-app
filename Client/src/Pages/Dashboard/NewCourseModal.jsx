@@ -26,6 +26,7 @@ const NewCourseModal = () => {
     const newCourse = await courseService.createCourse(data, token);
     console.log(newCourse);
     dispatch(addCourse(newCourse));
+    document.getElementById("new_course_modal").close();
   };
 
   //TODO: modal ei sulkeudu jos buttoniin lisää onClickiin ton handlesubmitin mut ei kutsu handlesubmittii onsubmitil
