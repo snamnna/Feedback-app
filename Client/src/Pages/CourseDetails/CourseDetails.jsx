@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useGetCourseByIdQuery } from "../../features/courseApi";
 import { useParams } from "react-router";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import LectureCard from "./components/LectureCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import courseService from "../../services/courseService";
-import { FiEdit, FiPlus, FiX } from "react-icons/fi";
+import { selectCourse } from "../../features/courses/courseSlice";
+import DropdownMenu from "./components/DropdownMenu";
+import OverViewTab from "./components/OverViewTab";
+import ParticipantsTab from "./components/ParticipantsTab";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -17,19 +19,22 @@ const CourseDetails = () => {
   const [lectures, setLectures] = useState([]);
   const { data, error, isLoading } = useGetCourseByIdQuery(courseId);
   const [isOwner, setIsOwner] = useState(false);
-
-  const [courseEnrollment, setCourseEnrollment] = useState([]);
+  const dispatch = useDispatch();
+  const [active, setActive] = useState("le");
   const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED"); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
-
+  const [enrollBtn, setEnrollBtn] = useState(true);
   //get data needed
   useEffect(() => {
     if (data) {
       console.log(data);
-      const { course } = data;
+      const { course, enrollment } = data;
       setCourse(course);
       setLectures(course.lectures);
-      setCourseEnrollment(course.enrollments);
-      //dispatch storeen selectedcourse
+      //setEnrollmentStatus(enrollment);
+      console.log("enrollment: ", enrollment);
+      console.log("ennen dispatch: ", course);
+      dispatch(selectCourse(course));
+
       //set isOwner to true if user is the owner of the course
       if (course.lecturerId === userId) {
         setIsOwner(true);
@@ -37,15 +42,12 @@ const CourseDetails = () => {
     }
   }, [data]);
 
-  //TODO: tarkista onko käyttäjä jo enrolled enrollmentsista.
-
   //enrolling to a course
-  //TODO:viimeistele ja korjaa
   const handleEnroll = async () => {
     const enroll = await courseService.courseEnrollment(courseId, token);
     if (enroll) {
-      //TODO: joku viesti et on tehty pyyntö ja sit joku systeemi et ei voi pyytää montaa kertaa et pääsis kurssille
-      // ja pitäs varmaa navigoida johonki sit kans
+      console.log("enrollment success");
+      setEnrollBtn(false);
     }
   };
 
@@ -53,38 +55,14 @@ const CourseDetails = () => {
   const filterLectures = lectures.filter((lecture) =>
     lecture.name.toLowerCase().includes(search.toLowerCase())
   );
-  //leave course
 
-  const handleLeave = async () => {
-    //TODO: poistu kurssilta, miten hoituu?
-  };
+  //leave course
+  const handleLeave = async () => {};
 
   //delete course
   const handleDelete = async () => {
     const deleteCourse = await courseService.deleteCourse(courseId);
     console.log(deleteCourse);
-  };
-
-  //edit course
-  const handleOpenEditModal = async () => {
-    //TODO: korjaa toimivaksi, pitäs pystyy antaa kurssi parametrina/propsina
-    const editModal = document.getElementById("edit_course_modal");
-    if (editModal) {
-      editModal.showModal();
-    } else {
-      console.log("edit modal not found");
-    }
-  };
-
-  //new lecture
-  const openNewLectureModal = () => {
-    //TODO:tällekkin pitäis antaa curssin id
-    const lectureModal = document.getElementById("new_lecture_modal");
-    if (lectureModal) {
-      lectureModal.showModal();
-    } else {
-      console.error("Modal element not found");
-    }
   };
 
   //Show lectures if enrollmentStatus is approved
@@ -96,80 +74,103 @@ const CourseDetails = () => {
             <h1 className="my-2 text-xl font-bold">
               Details for course {course.name}
             </h1>
-            {/*If the user is the owner of the course add lectures option*/}
             {isOwner ? (
               <>
-                <div className="dropdown">
-                  <label tabIndex={0} className="btn btn-ghost ml-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      className="inline-block w-5 h-5 stroke-current"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-                      ></path>
-                    </svg>
-                  </label>
-                  <ul
-                    tabIndex={0}
-                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                <DropdownMenu
+                  onAddLecture={() =>
+                    document.getElementById("new_lecture_modal").showModal()
+                  }
+                  onEditCourse={() =>
+                    document.getElementById("edit_course_modal").showModal()
+                  }
+                  onDeleteCourse={() => handleDelete()}
+                />
+                <div className=" mb-3 tabs">
+                  <a
+                    onClick={() => setActive("le")}
+                    className={`tab ${active === "le" ? "tab-active " : ""}`}
                   >
-                    <li>
-                      <a onClick={() => openNewLectureModal()}>
-                        <FiPlus size={20} />
-                        Add lecture
-                      </a>
-                    </li>
-                    <li>
-                      <a onClick={() => handleDelete()}>
-                        <FiX size={20} />
-                        Delete course
-                      </a>
-                    </li>
-                    <li>
-                      <a onClick={() => handleOpenEditModal()}>
-                        <FiEdit size={20} />
-                        Edit Course
-                      </a>
-                    </li>
-                  </ul>
+                    Lectures
+                  </a>
+                  <a
+                    onClick={() => setActive("ow")}
+                    className={`tab ${active === "ow" ? "tab-active" : ""}`}
+                  >
+                    Feedback Overview
+                  </a>
+                  <a
+                    onClick={() => setActive("pa")}
+                    className={`tab ${active === "pa" ? "tab-active" : ""}`}
+                  >
+                    Participants
+                  </a>
                 </div>
               </>
             ) : (
-              <button
-                className="ml-2 mt-1 btn btn-primary btn-sm"
-                onClick={() => handleLeave()}
-              >
-                Leave the course
-              </button>
+              <>
+                <button
+                  className="ml-2 mt-1 btn btn-primary btn-sm"
+                  onClick={() => handleLeave()}
+                >
+                  Leave the course
+                </button>
+                <input
+                  className="border border-gray-300 shadow-md rounded-md"
+                  type="text"
+                  placeholder="Search Lectures"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <LectureList lectures={filterLectures} isOwner={isOwner} />
+              </>
             )}
           </div>
-          <input
-            className="border border-gray-300 shadow-md rounded-md"
-            type="text"
-            placeholder="Search Lectures"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          {/*LectureTab is active*/}
+          {active === "le" && (
+            <input
+              className="border border-gray-300 shadow-md rounded-md"
+              type="text"
+              placeholder="Search Lectures"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          )}
         </div>
-        <LectureList lectures={filterLectures} isOwner={isOwner} />
+        {active === "le" && (
+          <div className="flex justify-center">
+            <LectureList lectures={filterLectures} isOwner={isOwner} />
+          </div>
+        )}
+        {/*Overview active*/}
+        {active === "ow" && (
+          <div>
+            <p>tänne overview tai componentti jossa se on</p>
+          </div>
+        )}
+        {/*participants tab active*/}
+        {active === "pa" && (
+          <div>
+            <p>Tänne participants</p>
+          </div>
+        )}
       </div>
     );
   }
   return (
-    <div className="mx-10 flex flex-col items-center justify-center h-full ">
-      <p className="text-lg">You are not yet enrolled in course</p>
-      <h1 className=" text-2xl font-bold">{course.name}</h1>
-      <h2 className="text-md font-bold">Description:</h2>
-      <p className="italic">{course.description}</p>
-      <button onClick={() => handleEnroll()} className="btn btn-primary my-2">
-        Request to join the course
-      </button>
+    <div className="flex justify-center max-w-screen">
+      <div className="my-10 max-w-xl border rounded-md py-10 px-16 text-center">
+        <p className="text-lg">You are not yet enrolled in course</p>
+        <h1 className=" text-2xl font-bold">{course.name}</h1>
+        <h2 className="text-md font-bold">Description:</h2>
+        <p className="italic">{course.description}</p>
+        <button
+          onClick={() => handleEnroll()}
+          className="btn btn-primary my-2"
+          disabled={enrollBtn}
+        >
+          Request to join the course
+        </button>
+      </div>
     </div>
   );
 };
@@ -177,7 +178,7 @@ const CourseDetails = () => {
 const LectureList = ({ lectures }, isOwner) => {
   return (
     <div>
-      <ul className="flex flex-col mt-3 mb-5">
+      <ul className="mt-3 mb-5">
         {lectures.map((lecture) => (
           <li className="mx-10" key={lecture.id}>
             <LectureCard lecture={lecture} isOwner={isOwner} />
