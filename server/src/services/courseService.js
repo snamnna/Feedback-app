@@ -74,7 +74,7 @@ async function getApprovedParticipants(courseId) {
   return prisma.courseEnrollment.findMany({
     where: {
       courseId,
-      status: 'APPROVED',
+      status: "APPROVED",
     },
     select: {
       userId: true,

@@ -1,11 +1,11 @@
 const express = require("express");
 
 const router = express.Router();
+const Joi = require("joi");
 const courseService = require("../services/courseService");
 const feedbackService = require("../services/feedbackService");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
-const Joi = require("joi");
 const validate = require("../utils/validate");
 
 const courseCreateSchema = Joi.object({
@@ -19,17 +19,16 @@ router.get("/", verifyToken, async (req, res) => {
 
   if (!courses) throw new CustomError(404, "Can't fetch all courses");
 
-  //return all courses
+  // return all courses
   res.status(200).json({ message: "Courses found successfully", courses });
 });
 
 // create a new course
 router.post("/", verifyToken, async (req, res) => {
-
-  if(req.user.userType !== "TEACHER"){
-    return res.status(403).json({ message: "Permission denied"})
+  if (req.user.userType !== "TEACHER") {
+    return res.status(403).json({ message: "Permission denied" });
   }
-  
+
   validate(courseCreateSchema, req.body);
   const { courseName, courseDescription } = req.body;
   const id = parseInt(req.user.id, 10);
@@ -55,7 +54,7 @@ router.get("/:id", verifyToken, async (req, res) => {
     delete course.enrollments;
   }
 
-  //get course by id and add it to response
+  // get course by id and add it to response
   return res.status(200).json({ message: "Course found successfully", course });
 });
 
@@ -96,7 +95,7 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
 
   if (!course) throw new CustomError(404, "Lectures not found");
 
-  //Get lectures and add to response
+  // Get lectures and add to response
   const lectures = await courseService.getAllLectures(id);
   return res
     .status(200)
@@ -110,24 +109,23 @@ router.get("/:id/enrollment", verifyToken, async (req, res) => {
 
   if (!participants) throw new CustomError(404, "Enrollments not found");
 
-  //Get enrollments and add to response
+  // Get enrollments and add to response
   return res
     .status(200)
     .json({ message: "Enrollments found successfully", participants });
 });
 
-//delete course
-router.delete("/:id", verifyToken, async (req,res) => {
+// delete course
+router.delete("/:id", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10);
   const course = await courseService.getCourseById(courseId);
 
-  if(!course) throw new CustomError(404, "Course not found");
-  if(course.lecturerId !== req.user.id) throw new CustomError(403, "Unauthorized");
+  if (!course) throw new CustomError(404, "Course not found");
+  if (course.lecturerId !== req.user.id)
+    throw new CustomError(403, "Unauthorized");
 
   await courseService.deleteCourse(courseId);
-  return res.status(200).json({message: "course deleted successfully"})
+  return res.status(200).json({ message: "course deleted successfully" });
 });
-
-
 
 module.exports = router;
