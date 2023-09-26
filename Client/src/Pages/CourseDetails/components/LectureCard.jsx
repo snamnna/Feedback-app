@@ -9,41 +9,45 @@ const LectureCard = ({ lecture }, isOwner) => {
     navigate(`/lectures/${lecture.id}`);
   };
 
-  const handleGiveFeedback = () => {};
+  const handleGiveFeedback = () => {
+    //TODO:feedback modal
+  };
 
   return (
-    <div
-      className="card card-compact max-h-sm border rounded-md overflow-hidden  my-2"
-      data-testid="lecture-card"
-    >
+    <>
       <div
-        className="card-body rounded bg-base-100 shadow-md  flex flex-row"
-        data-testid="lecture-card-body"
+        className="card card-compact max-h-sm border rounded-md overflow-hidden  my-2"
+        data-testid="lecture-card"
       >
-        <h2 className="card-title">{lecture.name}</h2>
-        <div className="flex-grow"></div>
-        {isOwner ? (
-          <>
-            <p className="">{lecture.feedback}</p>
-            <button
-              className="btn btn-primary btn-sm self-end"
-              onClick={handleViewFeedback}
-            >
-              View feedback
-            </button>
-          </>
-        ) : (
-          <div className="">
-            <button
-              className="btn btn-primary btn-sm"
-              onClick={handleGiveFeedback}
-            >
-              Give feedback
-            </button>
-          </div>
-        )}
+        <div
+          className="card-body rounded bg-base-100 shadow-md  flex flex-row"
+          data-testid="lecture-card-body"
+        >
+          <h2 className="card-title">{lecture.name}</h2>
+          <div className="flex-grow"></div>
+          {isOwner ? (
+            <>
+              <p className="">{lecture.feedback}</p>
+              <button
+                className="btn btn-primary btn-sm self-end"
+                onClick={handleViewFeedback}
+              >
+                View feedback
+              </button>
+            </>
+          ) : (
+            <div className="">
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={handleGiveFeedback}
+              >
+                Give feedback
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
