@@ -31,6 +31,7 @@ module.exports = {
     "no-console": "off",
     "no-unused-vars": "warn",
     "prettier/prettier": "warn",
+    "consistent-return": "off",
     "jest/valid-expect": [
       "error",
       {

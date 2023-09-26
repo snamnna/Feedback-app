@@ -1,8 +1,8 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 
 const UserDetails = () => {
-  const { userId } = useParams();
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <div className="flex flex-col">

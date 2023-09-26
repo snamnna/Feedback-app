@@ -8,6 +8,7 @@ const regController = require("./controllers/regController");
 const courseController = require("./controllers/courseController");
 const userController = require("./controllers/userController");
 const feedbackController = require("./controllers/feedbackController");
+const lectureController = require("./controllers/lectureController");
 const errorHandler = require("./middlewares/errorHandler");
 
 app.use(cors());
@@ -28,6 +29,8 @@ app.use("/api/register", regController);
 app.use("/api/courses", courseController);
 
 app.use("/api/users", userController);
+
+app.use("/api/lectures", lectureController);
 
 app.use("/api/feedback", feedbackController);
 
