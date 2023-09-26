@@ -16,11 +16,11 @@ const LectureCard = ({ lecture }, isOwner) => {
   return (
     <>
       <div
-        className="card card-compact max-h-sm border rounded-md overflow-hidden  my-2"
+        className="card card-compact max-h-sm border rounded-md overflow-hidden shadow-md my-2"
         data-testid="lecture-card"
       >
         <div
-          className="card-body rounded bg-base-100 shadow-md  flex flex-row"
+          className="card-body rounded bg-base-100 flex flex-row"
           data-testid="lecture-card-body"
         >
           <h2 className="card-title">{lecture.name}</h2>
