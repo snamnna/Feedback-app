@@ -5,17 +5,17 @@ import LectureForm from "./components/LectureForm";
 import lectureService from "../../services/lectureService";
 import { addLecture } from "../../features/lectures/lectureSlice";
 
-const NewLectureModal = (course) => {
+const NewLectureModal = () => {
+  const course = useSelector((state) => state.courses.selectedCourse);
   const [lectureName, setLectureName] = useState("");
   const token = useSelector((state) => state.auth.token);
-  const dispatch = useDispatch();
   const courseId = course.id;
+  const dispatch = useDispatch();
 
   const handleClose = () => {
     setLectureName("");
   };
 
-  //TODO: korjaa ja hae tiedot oikein, nyt vaan mukamas parametrina
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -26,6 +26,7 @@ const NewLectureModal = (course) => {
     const newLecture = await lectureService.createLecture(data, token);
     console.log(newLecture);
     dispatch(addLecture(newLecture));
+    document.getElementById("new_lecture_modal").close();
   };
 
   return (
