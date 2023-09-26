@@ -1,27 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = {
+  courses: [],
+  selectedCourse: {},
+};
 
 const courseSlice = createSlice({
   name: "courses",
   initialState,
   reducers: {
     removeCourse(state, action) {
-      //return new array without the removed course by using filter
-      state = state.filter((course) => course.id !== action.payload);
+      // Use filter to create a new array without the removed course
+      state.courses = state.courses.filter(
+        (course) => course.id !== action.payload
+      );
     },
     addCourse(state, action) {
-      //add new course to the array
-      state.push(action.payload);
+      // Push the new course to the array
+      state.courses.push(action.payload);
     },
     setCourses(state, action) {
-      return action.payload;
+      // Directly assign the payload to courses
+      state.courses = action.payload;
     },
-    resetCourses() {
-      return initialState;
+    resetCourses(state) {
+      // Reset the state to the initial state
+      state.courses = initialState.courses;
+      state.selectedCourse = initialState.selectedCourse;
+    },
+    selectCourse(state, action) {
+      state.selectedCourse = action.payload;
     },
   },
 });
-export const { removeCourse, addCourse, setCourses, resetCourses } =
-  courseSlice.actions;
+
+export const {
+  removeCourse,
+  addCourse,
+  setCourses,
+  resetCourses,
+  selectCourse,
+} = courseSlice.actions;
 export default courseSlice.reducer;
