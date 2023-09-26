@@ -2,27 +2,31 @@ import { FiX } from "react-icons/fi";
 import CourseForm from "./CourseForm";
 import { useState } from "react";
 import courseService from "../../../services/courseService";
+import { useSelector } from "react-redux";
 
-const EditCourseModal = (course) => {
-  //TODO: hae aiempi nimi ja kuvaus ja aseta ne initial stateksi (varmaan parametreina, pitää varmaan sit antaa ne renderöinnin
-  // yhteydessä? eli show modal eri taval course details? nyt vaan tyhjä jotta formista ei tulis error
+const EditCourseModal = () => {
+  const course = useSelector((state) => state.courses.selectedCourse);
   const [courseName, setCourseName] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
-  //todo: hae kurssin id
+  const token = useSelector((state) => state.auth.token);
+  const courseId = course.id;
 
-  const handleClose = () => {
-    setCourseName("");
-    setCourseDescription("");
-  };
+  const handleClose = () => {};
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("handlesubmit");
     const data = {
       courseName,
       courseDescription,
     };
-    const editedCourse = await courseService.updateCourse(course.id, data);
+    console.log(data);
+    const editedCourse = await courseService.updateCourse(
+      courseId,
+      data,
+      token
+    );
     console.log(editedCourse);
+    document.getElementById("new_course_modal").close();
   };
 
   return (

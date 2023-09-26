@@ -16,9 +16,9 @@ const createCourse = async (course, token) => {
   }
 };
 
-const updateCourse = async (courseId, course) => {
+const updateCourse = async (courseId, course, token) => {
   try {
-    const response = await axios.put(`${BASE_URL}/${courseId}`, course);
+    const response = await axios.put(`${BASE_URL}/${courseId}`, course, token);
     return response.data;
   } catch (error) {
     console.error("Course update failed:", error);
