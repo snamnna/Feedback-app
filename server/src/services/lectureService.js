@@ -46,9 +46,19 @@ async function getAllFeedbacksOfLecture(id, courseId) {
   });
 }
 
+// get lecture by id and return lecture data
+async function getLectureById(id) {
+  return prisma.lecture.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
 module.exports = {
   createLecture,
   updateLecture,
   deleteLecture,
   getAllFeedbacksOfLecture,
+  getLectureById,
 };
