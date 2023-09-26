@@ -128,4 +128,21 @@ router.delete("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "course deleted successfully" });
 });
 
+// Edit course
+router.put("/:id", verifyToken, async (req, res) => {
+  const courseId = parseInt(req.params.id, 10);
+  const { courseName, courseDescription } = req.body;
+
+  if (req.user.userType !== "TEACHER") {
+    return res.status(403).json({ message: "Permission denied" });
+  }
+
+  const updatedCourse = await courseService.editCourse(courseId, {
+    name: courseName,
+    description: courseDescription,
+  });
+
+  return res.status(200).json(updatedCourse);
+});
+
 module.exports = router;
