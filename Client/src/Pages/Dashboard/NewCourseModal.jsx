@@ -29,8 +29,6 @@ const NewCourseModal = () => {
     document.getElementById("new_course_modal").close();
   };
 
-  //TODO: modal ei sulkeudu jos buttoniin lisää onClickiin ton handlesubmitin mut ei kutsu handlesubmittii onsubmitil
-
   return (
     <dialog id="new_course_modal" className="modal">
       <div className="modal-box">
