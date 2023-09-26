@@ -4,10 +4,9 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import authBg from "../../../assets/authBg.jpg";
 
 export const CoursesSection = () => {
-  const courses = useSelector((state) => state.courses);
+  const courses = useSelector((state) => state.courses.courses);
   const { userType } = useSelector((state) => state.auth.user.userType);
   const [search, setSearch] = useState("");
   const [isTeacher, setIsTeacher] = useState(false);
@@ -16,7 +15,7 @@ export const CoursesSection = () => {
     course.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  //set teacher to true if usertype is teacher
+  // set teacher to true if usertype is teacher
   if (userType === "TEACHER") {
     setIsTeacher(true);
   }
