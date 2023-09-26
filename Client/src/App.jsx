@@ -29,16 +29,16 @@ const router = createBrowserRouter(
           <Route path="/courses/:courseId">
             <Route index element={<CourseDetails />} />
           </Route>
-        </Route>
 
-        {/*Lectures*/}
-        <Route path={"/lectures/:lectureId"}>
-          <Route index element={<LectureDetails />} />
-        </Route>
+          {/*Lectures*/}
+          <Route path={"/lectures/:lectureId"}>
+            <Route index element={<LectureDetails />} />
+          </Route>
 
-        {/*User*/}
-        <Route path={"/user/:userId"}>
-          <Route index element={<UserDetails />} />
+          {/*User*/}
+          <Route path={"/user"}>
+            <Route index element={<UserDetails />} />
+          </Route>
         </Route>
 
         {/* 404 */}
