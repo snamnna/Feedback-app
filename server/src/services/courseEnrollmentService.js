@@ -10,6 +10,16 @@ async function createEnrollment(userId, courseId) {
   });
 }
 
+// get enrollment
+async function getEnrollById(userId, courseId) {
+  return prisma.courseEnrollment.findUnique({
+    where: {
+      userId,
+      courseId,
+    },
+  });
+
+
 //update enrollment in db and return updated enrollment
 async function updateEnrollment(userId, courseId) {
   return prisma.courseEnrollment.update({
