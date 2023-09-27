@@ -59,7 +59,7 @@ async function getAllCourses() {
 
 // get all participants of specific course regardless of the status
 async function getAllParticipants(id) {
-  return prisma.course.findUnique({
+  return prisma.course.findMany({
     where: {
       id,
     },
