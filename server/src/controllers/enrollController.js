@@ -4,10 +4,10 @@ const router = express.Router();
 const Joi = require("joi");
 const courseService = require("../services/courseService");
 const feedbackService = require("../services/feedbackService");
+const enrollService = require("../services/courseEnrollmentService");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const validate = require("../utils/validate");
-const enrollService = require("../services/courseEnrollmentService");
 
 const enrollCreateSchema = Joi.object({
   enrollmentStatus: Joi.string()
@@ -39,12 +39,13 @@ router.post("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Enrollment successfull", newEnroll });
 });
 
-// Update enrollment KESKEN!!
+// Update enrollment
 router.put("/:id", verifyToken, async (req, res) => {
-  const enrollId = parseInt(req.params.id, 10);
+  const userId = parseInt(req.params.userId, 10);
+  const courseId = parseInt(req.params.courseId, 10);
 
-  // HUOM!!! Tähän tarvitaan getEnrollById metodi
-  const enroll = await enrollService.getEnrollById(enrollId);
+  const enroll = await enrollService.getEnrollById(userId, courseId);
+  if (!enroll) throw new CustomError(404, "Enrollment not found");
 });
 
 // Delete enrollment KESKEN!!

@@ -12,6 +12,7 @@ const userUpdateSchema = Joi.object({
   password: Joi.string().min(4).required(),
 });
 
+// Get user
 router.get("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
   const user = userService.getUserById(userId);
@@ -19,6 +20,7 @@ router.get("/:id", verifyToken, async (req, res) => {
   res.json(user);
 });
 
+// Update user
 router.put("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
   validate(userUpdateSchema, { ...req.body, id: userId });
@@ -32,6 +34,7 @@ router.put("/:id", verifyToken, async (req, res) => {
   return res.json(updated);
 });
 
+// Delete user
 router.delete("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
   if (userId !== req.user.id) throw new CustomError(403, "Unauthorized");
@@ -41,6 +44,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "User deleted successfully" });
 });
 
+// Get user courses
 router.get("/:id/courses", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
   const user = await userService.getUserById(userId);
