@@ -39,7 +39,7 @@ router.post("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Enrollment successfull", newEnroll });
 });
 
-// Update enrollment
+// Update enrollment KESKEN (opiskelijan oma update vai opettajan kurssille hyväksymis update??)
 router.put("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.userId, 10);
   const courseId = parseInt(req.params.courseId, 10);
@@ -53,10 +53,10 @@ router.put("/:id", verifyToken, async (req, res) => {
       "No permission to update enrollment information",
     );
 
-  const updatedEnroll = await enrollService.updateEnrollment();
+  const updatedEnroll = await enrollService.updateEnrollment(enroll, {});
 });
 
-// Delete enrollment KESKEN!!
+// Delete enrollment
 router.delete("/:id", verifyToken, async (req, res) => {
   const enrollId = parseInt(req.params.userId, 10);
 
