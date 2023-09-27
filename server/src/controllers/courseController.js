@@ -145,7 +145,9 @@ router.put("/:id", verifyToken, async (req, res) => {
     description: courseDescription,
   });
 
-  return res.status(200).json(updatedCourse);
+  return res
+    .status(200)
+    .json({ message: "Course updated successfully", updatedCourse });
 });
 
 module.exports = router;

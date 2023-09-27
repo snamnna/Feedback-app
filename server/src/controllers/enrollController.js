@@ -43,9 +43,17 @@ router.post("/:id", verifyToken, async (req, res) => {
 router.put("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.userId, 10);
   const courseId = parseInt(req.params.courseId, 10);
-
   const enroll = await enrollService.getEnrollById(userId, courseId);
+
   if (!enroll) throw new CustomError(404, "Enrollment not found");
+
+  if (userId !== req.user.id)
+    throw new CustomError(
+      403,
+      "No permission to update enrollment information",
+    );
+
+  const updatedEnroll = await enrollService.updateEnrollment();
 });
 
 // Delete enrollment KESKEN!!
