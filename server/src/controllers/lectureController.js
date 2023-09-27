@@ -45,6 +45,23 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
 });
 
 // Update lecture
+router.put("/:id", verifyToken, async (req, res) => {
+  const lectureId = parseInt(req.params.id, 10);
+  const lecture = await lectureService.getLectureById(lectureId);
+  const { lectureName } = req.body;
+
+  if (!lecture) throw new CustomError(404, "Lecture can not be found");
+
+  if (req.user.userType !== "TEACHER") {
+    return res.status(403).json({ message: "Permission denied" });
+  }
+
+  const updatedLecture = await lectureService.updateLecture(lectureId, {
+    lectureName,
+  });
+
+  return res.status(200).json(updatedLecture);
+});
 
 // Delete lecture
 

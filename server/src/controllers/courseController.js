@@ -131,7 +131,10 @@ router.delete("/:id", verifyToken, async (req, res) => {
 // Edit course
 router.put("/:id", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10);
+  const course = await courseService.getCourseById(courseId);
   const { courseName, courseDescription } = req.body;
+
+  if (!course) throw new CustomError(404, "Course not found");
 
   if (req.user.userType !== "TEACHER") {
     return res.status(403).json({ message: "Permission denied" });
