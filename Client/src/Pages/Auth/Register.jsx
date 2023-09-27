@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { createUser } from "../../services/userServices";
 import authBg from "../../assets/authBg.jpg";
+import RegisterSuccess from "./components/RegisterSuccess";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
@@ -71,12 +72,7 @@ const Register = () => {
   return (
     <>
       {success ? (
-        <section>
-          <h1>Success!</h1>
-          <p>
-            <a href="/login">Sign In</a>
-          </p>
-        </section>
+        <RegisterSuccess />
       ) : (
         <div
           className="h-screen bg-cover bg-no-repeat"
