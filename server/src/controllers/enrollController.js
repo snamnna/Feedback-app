@@ -49,6 +49,11 @@ router.put("/:id", verifyToken, async (req, res) => {
 });
 
 // Delete enrollment
+router.delete("/:id", verifyToken, async (req, res) => {
+    const enrollId = parseInt(req.params.id, 10)
 
+    // Tarkista että enrollmentin poistaa se oppilas, joka sen on tehnyt
+    // tai kurssin opettaja
+})
 
 module.exports = router;
