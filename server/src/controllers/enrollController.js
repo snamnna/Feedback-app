@@ -39,21 +39,32 @@ router.post("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Enrollment successfull", newEnroll });
 });
 
-// Update enrollment KESKEN
+// Update enrollment KESKEN!!
 router.put("/:id", verifyToken, async (req, res) => {
-  // Tarvitaanko enrollId etc?
-  const userId = parseInt(req.params.id, 10);
+  const enrollId = parseInt(req.params.id, 10);
 
-  // Tähän tarvitaan metodi jolla hakea yksittäinen enrollment
-  const enroll = await enrollService.
+  // HUOM!!! Tähän tarvitaan getEnrollById metodi
+  const enroll = await enrollService.getEnrollById(enrollId);
 });
 
-// Delete enrollment
+// Delete enrollment KESKEN!!
 router.delete("/:id", verifyToken, async (req, res) => {
-    const enrollId = parseInt(req.params.id, 10)
+  const enrollId = parseInt(req.params.userId, 10);
 
-    // Tarkista että enrollmentin poistaa se oppilas, joka sen on tehnyt
-    // tai kurssin opettaja
-})
+  // HUOM!!! Tähän tarvitaan getEnrollById metodi
+  const enroll = await enrollService.getEnrollById(enrollId);
+
+  if (!enroll) throw new CustomError(404, "Enrollment not found");
+
+  // Only teacher can delete enrollment
+  if (req.user.userType !== "TEACHER") {
+    return res.status(403).json({ message: "Permission denied" });
+  }
+
+  await enrollService.deleteEnrollment(enrollId);
+  return res.status(200).json({ message: "Enrollment deleted suffecfully" });
+});
+
+// Kurssin enrollments ja user enrollments can be found from other controllers
 
 module.exports = router;
