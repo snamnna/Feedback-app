@@ -12,6 +12,7 @@ import Layout from "./Components/Layout";
 import CourseDetails from "./Pages/CourseDetails/CourseDetails";
 import LectureDetails from "./Pages/LectureDetails/LectureDetails";
 import UserDetails from "./Pages/UserDetails/UserDetails";
+import UserFeedbacks from "./Pages/UserDetails/UserFeedbacks";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,10 @@ const router = createBrowserRouter(
           {/*User*/}
           <Route path={"/user"}>
             <Route index element={<UserDetails />} />
+          </Route>
+          {/*Feedback*/}
+          <Route path={"/feedback/:userId"}>
+            <Route index element={<UserFeedbacks />} />
           </Route>
         </Route>
 
