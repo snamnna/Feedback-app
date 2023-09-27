@@ -39,8 +39,16 @@ router.post("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Enrollment successfull", newEnroll });
 });
 
-// Update enrollment
+// Update enrollment KESKEN
+router.put("/:id", verifyToken, async (req, res) => {
+  // Tarvitaanko enrollId etc?
+  const userId = parseInt(req.params.id, 10);
+
+  // Tähän tarvitaan metodi jolla hakea yksittäinen enrollment
+  const enroll = await enrollService.
+});
 
 // Delete enrollment
+
 
 module.exports = router;
