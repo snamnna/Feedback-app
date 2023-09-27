@@ -44,7 +44,9 @@ router.post("/", verifyToken, async (req, res) => {
   }
 
   const newFeedback = await feedbackService.createFeedback(data);
-  res.status(200).json(newFeedback);
+  return res
+    .status(200)
+    .json({ message: "Feedback created successfully", newFeedback });
 });
 
 // feedback from spesific user
