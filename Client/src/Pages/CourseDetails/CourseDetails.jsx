@@ -23,6 +23,7 @@ const CourseDetails = () => {
   const [active, setActive] = useState("le");
   const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED"); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
   const [enrollBtn, setEnrollBtn] = useState(true);
+
   //get data needed
   useEffect(() => {
     if (data) {
@@ -32,7 +33,6 @@ const CourseDetails = () => {
       setLectures(course.lectures);
       //setEnrollmentStatus(enrollment);
       console.log("enrollment: ", enrollment);
-      console.log("ennen dispatch: ", course);
       dispatch(selectCourse(course));
 
       //set isOwner to true if user is the owner of the course
@@ -57,6 +57,7 @@ const CourseDetails = () => {
   );
 
   //leave course
+  //TODO: toteuta
   const handleLeave = async () => {};
 
   //delete course
@@ -142,11 +143,7 @@ const CourseDetails = () => {
           </div>
         )}
         {/*Overview active*/}
-        {active === "ow" && (
-          <div>
-            <p>tänne overview tai componentti jossa se on</p>
-          </div>
-        )}
+        {active === "ow" && <OverViewTab />}
         {/*participants tab active*/}
         {active === "pa" && (
           <div>
