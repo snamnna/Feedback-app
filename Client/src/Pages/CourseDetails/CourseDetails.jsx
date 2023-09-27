@@ -145,11 +145,7 @@ const CourseDetails = () => {
         {/*Overview active*/}
         {active === "ow" && <OverViewTab />}
         {/*participants tab active*/}
-        {active === "pa" && (
-          <div>
-            <p>Tänne participants</p>
-          </div>
-        )}
+        {active === "pa" && <ParticipantsTab />}
       </div>
     );
   }
@@ -175,6 +171,7 @@ const CourseDetails = () => {
 const LectureList = ({ lectures }, isOwner) => {
   return (
     <div>
+      <h1 className="text-center font-bold">Lectures:</h1>
       <ul className="mt-3 mb-5">
         {lectures.map((lecture) => (
           <li className="mx-10" key={lecture.id}>
