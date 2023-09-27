@@ -2,8 +2,6 @@ const express = require("express");
 
 const router = express.Router();
 const Joi = require("joi");
-const userService = require("../services/userService");
-const feedbackService = require("../services/feedbackService");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const lectureService = require("../services/lectureService");
@@ -45,5 +43,9 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
     .status(200)
     .json({ message: "Feedback found succesfully", feedback });
 });
+
+// Update lecture
+
+// Delete lecture
 
 module.exports = router;
