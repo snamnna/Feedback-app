@@ -1,11 +1,10 @@
 const express = require("express");
 
 const router = express.Router();
-const userService = require("../services/userService");
+const Joi = require("joi");
 const feedbackService = require("../services/feedbackService");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
-const Joi = require("joi");
 const validate = require("../utils/validate");
 
 const feedbackCreateSchema = Joi.object({
@@ -29,13 +28,13 @@ router.get("/:id", verifyToken, async (req, res) => {
 router.post("/", verifyToken, async (req, res) => {
   validate(feedbackCreateSchema, req.body);
   const { feedbackType, comment, userId, lectureId } = req.body;
-  //const id = parseInt(req.user.id, 10)
+  // const id = parseInt(req.user.id, 10)
 
   const data = {
-    feedbackType: feedbackType,
-    comment: comment,
-    userId: userId,
-    lectureId: lectureId,
+    feedbackType,
+    comment,
+    userId,
+    lectureId,
   };
 
   const validation = feedbackCreateSchema.validate(data);

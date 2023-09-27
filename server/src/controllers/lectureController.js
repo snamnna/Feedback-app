@@ -2,6 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 const Joi = require("joi");
+const { verify } = require("jsonwebtoken");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const lectureService = require("../services/lectureService");
@@ -41,7 +42,7 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
 
   return res
     .status(200)
-    .json({ message: "Feedback found succesfully", feedback });
+    .json({ message: "Feedback found successfully", feedback });
 });
 
 // Update lecture
@@ -60,9 +61,24 @@ router.put("/:id", verifyToken, async (req, res) => {
     lectureName,
   });
 
-  return res.status(200).json(updatedLecture);
+  return res
+    .status(200)
+    .json({ message: "Lecture updated successfully", updatedLecture });
 });
 
 // Delete lecture
+router.delete("/:id", verifyToken, async (req, res) => {
+  const lectureId = parseInt(req.params.id, 10);
+  const lecture = await lectureService.getLectureById(lectureId);
+
+  if (!lecture) throw new CustomError(404, "Lecture not found");
+
+  if (req.user.userType !== "TEACHER") {
+    return res.status(403).json({ message: "Permission denied" });
+  }
+
+  await lectureService.deleteLecture(lectureId);
+  return res.status(200).json({ message: "Lecture deleted successfully" });
+});
 
 module.exports = router;
