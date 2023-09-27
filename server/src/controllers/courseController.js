@@ -132,7 +132,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
 router.put("/:id", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10);
   const course = await courseService.getCourseById(courseId);
-  const { courseName, courseDescription } = req.body;
+  const { courseName, courseDescription, lectures } = req.body;
 
   if (!course) throw new CustomError(404, "Course not found");
 
@@ -141,11 +141,14 @@ router.put("/:id", verifyToken, async (req, res) => {
   }
 
   const updatedCourse = await courseService.editCourse(courseId, {
-    name: courseName,
-    description: courseDescription,
+    courseName,
+    courseDescription,
+    lectures,
   });
 
-  return res.status(200).json(updatedCourse);
+  return res
+    .status(200)
+    .json({ message: "Course updated successfully", updatedCourse });
 });
 
 module.exports = router;

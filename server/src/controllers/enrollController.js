@@ -39,16 +39,24 @@ router.post("/:id", verifyToken, async (req, res) => {
   return res.status(200).json({ message: "Enrollment successfull", newEnroll });
 });
 
-// Update enrollment
+// Update enrollment KESKEN (opiskelijan oma update vai opettajan kurssille hyväksymis update??)
 router.put("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.userId, 10);
   const courseId = parseInt(req.params.courseId, 10);
-
   const enroll = await enrollService.getEnrollById(userId, courseId);
+
   if (!enroll) throw new CustomError(404, "Enrollment not found");
+
+  if (userId !== req.user.id)
+    throw new CustomError(
+      403,
+      "No permission to update enrollment information",
+    );
+
+  const updatedEnroll = await enrollService.updateEnrollment(enroll, {});
 });
 
-// Delete enrollment KESKEN!!
+// Delete enrollment
 router.delete("/:id", verifyToken, async (req, res) => {
   const enrollId = parseInt(req.params.userId, 10);
 
