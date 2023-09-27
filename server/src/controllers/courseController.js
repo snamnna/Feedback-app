@@ -68,6 +68,9 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
 
   // get participants by id and add to response
   const participants = await courseService.getApprovedParticipants(id);
+
+  if (!participants) throw new CustomError(404, "Participants not found");
+
   return res
     .status(200)
     .json({ message: "Participants found successfully", participants });
@@ -111,9 +114,10 @@ router.get("/:id/enrollment", verifyToken, async (req, res) => {
   if (!participants) throw new CustomError(404, "Enrollments not found");
 
   // Get enrollments and add to response
-  return res
-    .status(200)
-    .json({ message: "Enrollments found successfully", participants });
+  return res.status(200).json({
+    message: "Enrollments found successfully",
+    participants,
+  });
 });
 
 // delete course
