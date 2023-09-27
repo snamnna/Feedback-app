@@ -2,11 +2,11 @@ const express = require("express");
 
 const router = express.Router();
 const Joi = require("joi");
+const { verify } = require("jsonwebtoken");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const lectureService = require("../services/lectureService");
 const validate = require("../utils/validate");
-const { verify } = require("jsonwebtoken");
 
 const lectureCreateSchema = Joi.object({
   lectureName: Joi.string().min(4).max(160).required(),
