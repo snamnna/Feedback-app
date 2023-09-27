@@ -11,6 +11,7 @@ const validate = require("../utils/validate");
 const courseCreateSchema = Joi.object({
   courseName: Joi.string().min(4).max(160).required(),
   courseDescription: Joi.string().max(255).optional().allow(""),
+  courseLecture: Joi.string().max(255).optional().allow(""),
 });
 
 // get all courses
@@ -132,7 +133,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
 router.put("/:id", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10);
   const course = await courseService.getCourseById(courseId);
-  const { courseName, courseDescription, lectures } = req.body;
+  const { courseName, courseDescription, courseLecture } = req.body;
 
   if (!course) throw new CustomError(404, "Course not found");
 
@@ -143,7 +144,7 @@ router.put("/:id", verifyToken, async (req, res) => {
   const updatedCourse = await courseService.editCourse(courseId, {
     courseName,
     courseDescription,
-    lectures,
+    courseLecture,
   });
 
   return res
