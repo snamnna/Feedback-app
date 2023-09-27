@@ -1,5 +1,6 @@
 const express = require("express");
 const Joi = require("joi");
+
 const router = express.Router();
 const userService = require("../services/userService");
 const verifyToken = require("../middlewares/verifyToken");

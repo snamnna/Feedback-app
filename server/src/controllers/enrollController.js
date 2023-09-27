@@ -65,6 +65,30 @@ router.put("/:id", verifyToken, async (req, res) => {
 });
 
 // User can update their own enrollment
+router.put("/:id", verifyToken, async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  const courseId = parseInt(req.params.courseId, 10);
+  const enroll = await enrollService.getEnrollById(userId, courseId);
+  const { enrollmentStatus } = req.body;
+
+  if (!enroll) throw new CustomError(404, "Enrollment not found");
+
+  if (userId !== req.user.id)
+    throw new CustomError(
+      403,
+      "No permission to update enrollment information",
+    );
+
+  const updatedEnroll = await enrollService.updateEnrollment(
+    courseId,
+    { enrollmentStatus },
+    userId,
+  );
+
+  return res
+    .status(200)
+    .json({ message: "Enrollment updated successfully", updatedEnroll });
+});
 
 // Delete enrollment
 router.delete("/:id", verifyToken, async (req, res) => {
