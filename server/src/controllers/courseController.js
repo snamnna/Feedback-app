@@ -96,7 +96,7 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
   if (!course) throw new CustomError(404, "Lectures not found");
 
   // Get lectures and add to response
-  const lectures = await courseService.getAllLectures(id);
+  const lectures = await courseService.getAllLectures(courseId);
   return res
     .status(200)
     .json({ message: "Lectures found successfully", lectures });

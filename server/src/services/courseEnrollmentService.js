@@ -10,7 +10,17 @@ async function createEnrollment(userId, courseId) {
   });
 }
 
-//update enrollment in db and return updated enrollment
+// get enrollment
+async function getEnrollById(userId, courseId) {
+  return prisma.courseEnrollment.findUnique({
+    where: {
+      userId,
+      courseId,
+    },
+  });
+}
+
+// update enrollment in db and return updated enrollment
 async function updateEnrollment(userId, courseId) {
   return prisma.courseEnrollment.update({
     where: {
@@ -24,7 +34,7 @@ async function updateEnrollment(userId, courseId) {
   });
 }
 
-//delete enrollment from db and return deleted data
+// delete enrollment from db and return deleted data
 async function deleteEnrollment(userId, courseId) {
   return prisma.courseEnrollment.delete({
     where: {
@@ -57,4 +67,5 @@ module.exports = {
   deleteEnrollment,
   getCourseEnrollmentsByCourseId,
   getUserEnrollmentsByUserId,
+  getEnrollById,
 };
