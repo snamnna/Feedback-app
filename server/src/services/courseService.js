@@ -88,7 +88,7 @@ async function getAllLectures(id) {
     where: {
       id,
     },
-    include: {
+    select: {
       lectures: true,
     },
   });
