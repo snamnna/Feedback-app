@@ -109,6 +109,6 @@ describe("Feedback Service", () => {
         userId: mockUserId,
       },
     });
-    expect(result.feedback).toEqual(mockUserFeedback);
+    expect(result).toEqual(mockUserFeedback);
   });
 });

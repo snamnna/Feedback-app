@@ -15,9 +15,11 @@ async function getCourseById(id) {
 
 // returns all the data of searched course by name
 async function getCourseByName(name) {
-  return prisma.course.findUnique({
+  return prisma.course.findMany({
     where: {
-      name,
+      name: {
+        contains: name,
+      },
     },
   });
 }
@@ -39,15 +41,13 @@ async function deleteCourse(id) {
 }
 
 // edit course in db and returns all of it's data
-async function editCourse(id, name, description, lectures) {
+async function editCourse(courseData) {
   return prisma.course.update({
     where: {
-      id,
+      id: courseData.id,
     },
     data: {
-      name,
-      description,
-      lectures,
+      ...courseData,
     },
   });
 }
@@ -59,12 +59,19 @@ async function getAllCourses() {
 
 // get all participants of specific course regardless of the status
 async function getAllParticipants(id) {
-  return prisma.course.findMany({
+  return prisma.course.findUnique({
     where: {
       id,
     },
-    include: {
-      enrollments: true,
+    select: {
+      enrollments: {
+        where: {
+          status: "APPROVED",
+        },
+        select: {
+          user: true,
+        },
+      },
     },
   });
 }
