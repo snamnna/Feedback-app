@@ -25,14 +25,26 @@ const ParticipantsTab = () => {
     getParticipants();
   }, [courseId]);
 
+  const handleRemoveStudent = async (userId) => {
+    //TODO: tee loppuun
+  };
+
   return (
     <div className="text-center max-w-xl mx-auto flex flex-col items-center">
       <h1 className="font-bold text-xl">Participants</h1>
       <ul>
         {/*VAIHDA PARTICIPANTSIIN KUN SE TOIMII*/}
         {phparticipants.map((user) => (
-          <li key={user.id} className="m-5 border-b p-3">
-            Username: {user.username} id: {user.id}
+          <li key={user.id} className="m-5 border-b flex flex-row p-3">
+            <p>
+              Username: {user.username} id: {user.id}
+            </p>
+            <button
+              className="btn btn-primary btn-xs mx-5"
+              onClick={() => handleRemoveStudent(user.id)}
+            >
+              remove student
+            </button>
           </li>
         ))}
       </ul>

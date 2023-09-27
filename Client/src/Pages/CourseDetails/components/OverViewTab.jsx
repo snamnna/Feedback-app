@@ -83,7 +83,7 @@ const OverViewTab = () => {
 
   return (
     <div className="grid grid-cols-2 m-5">
-      <div className="border rounded-sm max-w-2xl text-center p-10">
+      <div className="border rounded-sm max-w-2xl text-center p-10 mx-2">
         <div className="flex flex-col justify-between h-full">
           <h1 className="text-xl font-bold">Statistics:</h1>
           <div className="border rounded-md p-5">
@@ -110,7 +110,7 @@ const OverViewTab = () => {
           </div>
         </div>
       </div>
-      <div className="overflow-y-auto flex-col border rounded-sm p-10">
+      <div className="overflow-y-auto flex-col border rounded-sm p-10 mx-2">
         <h1 className="mb-10 text-xl font-bold text-center">
           List of feedbacks
         </h1>
