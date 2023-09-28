@@ -118,7 +118,6 @@ const CourseDetails = () => {
               </>
             )}
           </div>
-          {/* Move the search input to the right of the header for non-owners */}
           {!isOwner && (
             <div>
               <input
@@ -132,7 +131,6 @@ const CourseDetails = () => {
           )}
           {isOwner && active === "le" && (
             <div>
-              {/* Move the search input to the right of the header for owners */}
               <input
                 className="border border-gray-300 shadow-md rounded-md"
                 type="text"
@@ -143,10 +141,16 @@ const CourseDetails = () => {
             </div>
           )}
         </div>
-        {/* Display the lecture list centered */}
-        <div className="flex justify-center">
-          <LectureList lectures={filterLectures} isOwner={isOwner} />
-        </div>
+        {isOwner && active === "le" && (
+          <div className="flex justify-center">
+            <LectureList lectures={filterLectures} isOwner={isOwner} />
+          </div>
+        )}
+        {!isOwner && (
+          <div className="flex justify-center">
+            <LectureList lectures={filterLectures} isOwner={isOwner} />
+          </div>
+        )}
         {/* Overview active */}
         {isOwner && active === "ow" && <OverViewTab />}
         {/* Participants tab active */}
