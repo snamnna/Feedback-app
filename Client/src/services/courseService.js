@@ -18,7 +18,11 @@ const createCourse = async (course, token) => {
 
 const updateCourse = async (courseId, course, token) => {
   try {
-    const response = await axios.put(`${BASE_URL}/${courseId}`, course, token);
+    const response = await axios.put(`${BASE_URL}/${courseId}`, course, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Course update failed:", error);
@@ -47,10 +51,20 @@ const getCourseStudents = async (courseId) => {
 
 const courseEnrollment = async (courseId, token) => {
   try {
-    const res = await axios.put(`${BASE_URL}/${courseId}/enrollment`, token);
+    const res = await axios.put(`${BASE_URL}/${courseId}/enroll`, token);
     return res.data;
   } catch (error) {
     console.error("course enrollment failed", error);
+    throw error;
+  }
+};
+
+const deleteEnroll = async (courseId) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/${courseId}/deleteEnroll`);
+    return res.data;
+  } catch (error) {
+    console.error("Leaving course failed", error);
     throw error;
   }
 };
@@ -61,4 +75,5 @@ export default {
   getCourseStudents,
   courseEnrollment,
   deleteCourse,
+  deleteEnroll,
 };

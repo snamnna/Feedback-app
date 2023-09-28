@@ -115,19 +115,25 @@ const CourseDetails = () => {
                 >
                   Leave the course
                 </button>
-                <input
-                  className="border border-gray-300 shadow-md rounded-md"
-                  type="text"
-                  placeholder="Search Lectures"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-                <LectureList lectures={filterLectures} isOwner={isOwner} />
               </>
             )}
           </div>
-          {/*LectureTab is active*/}
-          {active === "le" && (
+          {/* Move the search input to the right of the header for non-owners */}
+          {!isOwner && (
+            <div>
+              <input
+                className="border border-gray-300 shadow-md rounded-md ml-2"
+                type="text"
+                placeholder="Search Lectures"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+          )}
+        </div>
+        {isOwner && active === "le" && (
+          <div className="flex justify-center">
+            {/* Move the search input to the right of the header for owners */}
             <input
               className="border border-gray-300 shadow-md rounded-md"
               type="text"
@@ -135,17 +141,16 @@ const CourseDetails = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-          )}
-        </div>
-        {active === "le" && (
-          <div className="flex justify-center">
-            <LectureList lectures={filterLectures} isOwner={isOwner} />
           </div>
         )}
-        {/*Overview active*/}
-        {active === "ow" && <OverViewTab />}
-        {/*participants tab active*/}
-        {active === "pa" && <ParticipantsTab />}
+        {/* Display the lecture list centered */}
+        <div className="flex justify-center">
+          <LectureList lectures={filterLectures} isOwner={isOwner} />
+        </div>
+        {/* Overview active */}
+        {isOwner && active === "ow" && <OverViewTab />}
+        {/* Participants tab active */}
+        {isOwner && active === "pa" && <ParticipantsTab />}
       </div>
     );
   }

@@ -12,9 +12,13 @@ const newFeedback = async (feedback) => {
   }
 };
 
-const courseFeedback = async (courseId) => {
+const courseFeedback = async (courseId, token) => {
   try {
-    const response = await axios.get(`${BASE_URL}/${courseId}`);
+    const response = await axios.get(`${BASE_URL}/${courseId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("getting feedback for course failed:", error);

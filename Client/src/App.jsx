@@ -12,7 +12,7 @@ import Layout from "./Components/Layout";
 import CourseDetails from "./Pages/CourseDetails/CourseDetails";
 import LectureDetails from "./Pages/LectureDetails/LectureDetails";
 import UserDetails from "./Pages/UserDetails/UserDetails";
-import UserFeedbacks from "./Pages/UserDetails/UserFeedbacks";
+import UserFeedbacks from "./Pages/Feedback/UserFeedbacks";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
