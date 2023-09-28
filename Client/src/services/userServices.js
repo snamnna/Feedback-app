@@ -42,3 +42,17 @@ export const getUserCourses = async () => {
     throw error;
   }
 };
+
+export const editUser = async (userId, userData, token) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/users/${userId}`, userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("User edit failed:", error);
+    throw error;
+  }
+};
