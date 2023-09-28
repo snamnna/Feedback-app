@@ -9,6 +9,7 @@ import { selectCourse } from "../../features/courses/courseSlice";
 import DropdownMenu from "./components/DropdownMenu";
 import OverViewTab from "./components/OverViewTab";
 import ParticipantsTab from "./components/ParticipantsTab";
+import EnrollmentTab from "./components/EnrollmentTab";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -104,6 +105,12 @@ const CourseDetails = () => {
                     className={`tab ${active === "pa" ? "tab-active" : ""}`}
                   >
                     Participants
+                  </a>
+                  <a
+                    onClick={() => setActive("pa")}
+                    className={`tab ${active === "pa" ? "tab-active" : ""}`}
+                  >
+                    Enrollments
                   </a>
                 </div>
               </>
