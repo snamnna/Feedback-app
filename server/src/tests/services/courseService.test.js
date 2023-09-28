@@ -129,6 +129,7 @@ describe("Course Service", () => {
     const mockLecturer = { id: mockLecturerId, username: "Lecturer" };
 
     const mockUpdatedCourse = {
+      id: mockId,
       name: mockName,
       description: mockDescription,
       lectures: mockLectures,
@@ -145,7 +146,7 @@ describe("Course Service", () => {
     const result = await editCourse(mockUpdatedCourse);
     expect(PrismaClientMocked.course.update).toHaveBeenCalledWith({
       where: {
-        id: mockId,
+        id: mockUpdatedCourse.id,
       },
       data: {
         ...mockUpdatedCourse,

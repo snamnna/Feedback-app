@@ -71,10 +71,10 @@ async function getUserCourses(id) {
     },
   });
 
-  return {
+  return [
     ...user.lecturedCourses,
     ...user.enrolledCourses.map((enrollment) => enrollment.course),
-  };
+  ];
 }
 
 module.exports = {

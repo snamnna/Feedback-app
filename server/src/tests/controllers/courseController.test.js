@@ -165,9 +165,7 @@ describe("Courses API", () => {
 
       it("should return a message and an array of participants", async () => {
         courseService.getCourseById.mockResolvedValue(mockCourse);
-        courseService.getAllParticipants.mockResolvedValue(
-          mockCourse.enrollments,
-        );
+        courseService.getAllParticipants.mockResolvedValue(mockParticipants);
         verifyToken.mockImplementation((req, res, next) => {
           req.user = { id: 5, username: "lecturer", userType: "TEACHER" };
           next();
