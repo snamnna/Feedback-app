@@ -1,8 +1,11 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { selectLecture } from "../../../features/lectures/lectureSlice";
 
 const LectureCard = ({ lecture }, isOwner) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleViewFeedback = () => {
     // Navigate to the feedback page with the lectureId
@@ -10,13 +13,16 @@ const LectureCard = ({ lecture }, isOwner) => {
   };
 
   const handleGiveFeedback = () => {
-    //TODO:feedback modal
+    document.getElementById("feedback_modal").showModal();
+    dispatch(selectLecture(lecture));
   };
+
+  isOwner = false;
 
   return (
     <>
       <div
-        className="card card-compact max-h-sm border rounded-md overflow-hidden shadow-md my-2"
+        className="w-full sm:w-70 lg:w-96 card card-compact max-h-sm border rounded-md overflow-hidden shadow-md my-2"
         data-testid="lecture-card"
       >
         <div
