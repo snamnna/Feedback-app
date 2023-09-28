@@ -60,7 +60,7 @@ const Login = () => {
       }}
     >
       <div className=" w-screen flex justify-center items-center p-10">
-        <div className="px-20 py-5  bg-white opacity-70 rounded-lg shadow-md">
+        <div className="px-20 py-5  bg-white opacity-80 rounded-lg shadow-md">
           <div>
             <div
               ref={errRef}
