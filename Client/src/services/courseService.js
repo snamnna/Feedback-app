@@ -57,6 +57,8 @@ const getCourseStudents = async (courseId, token) => {
   }
 };
 
+// TODO: Tähän tarvitsisi get enrolledStudents funktion?
+
 const courseEnrollment = async (courseId, token) => {
   try {
     const res = await axios.put(`${BASE_URL}/${courseId}/enroll`, {
