@@ -107,8 +107,8 @@ const CourseDetails = () => {
                     Participants
                   </a>
                   <a
-                    onClick={() => setActive("pa")}
-                    className={`tab ${active === "pa" ? "tab-active" : ""}`}
+                    onClick={() => setActive("en")}
+                    className={`tab ${active === "en" ? "tab-active" : ""}`}
                   >
                     Enrollments
                   </a>
