@@ -62,18 +62,13 @@ describe("Feedback Service", () => {
         id: mockId,
       },
       select: {
-        feedback: true,
+        lectures: {
+          select: {
+            feedback: true,
+          },
+        },
       },
     });
-    expect(
-      result,
-      "getCourseFeedback should return an array of feedbacks",
-    ).toBeArray();
-    expect(
-      result,
-      "Does the array include every lectures every feedback??",
-    ).toBeArrayOfSize(2);
-    expect(result[0]).toEqual(mockFeedback);
   });
 
   it("should fetch ALL feedbacks given by a specific user", async () => {

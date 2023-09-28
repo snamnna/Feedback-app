@@ -7,7 +7,11 @@ async function getCourseFeedback(id) {
       id,
     },
     select: {
-      feedback: true,
+      lectures: {
+        select: {
+          feedback: true,
+        },
+      },
     },
   });
 }

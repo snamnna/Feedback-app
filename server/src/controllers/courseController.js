@@ -67,7 +67,7 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
   if (!course) throw new CustomError(404, "Participants can not be found");
 
   // get participants by id and add to response
-  const participants = await courseService.getApprovedParticipants(id);
+  const participants = await courseService.getAllParticipants(id);
 
   if (!participants) throw new CustomError(404, "Participants not found");
 
