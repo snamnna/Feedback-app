@@ -1,13 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = {
+  lectures: [],
+  selectedLecture: {},
+};
 
 const lectureSlice = createSlice({
   name: "lectures",
   initialState,
   reducers: {
     removeLecture(state, action) {
-      //return new array without the removed course by using filter
+      //return new array without the removed lecture by using filter
       state = state.filter((lecture) => lecture.id !== action.payload);
     },
     addLecture(state, action) {
@@ -20,9 +23,17 @@ const lectureSlice = createSlice({
     resetLectures() {
       return initialState;
     },
+    selectLecture(state, action) {
+      state.selectedLecture = action.payload;
+    },
   },
 });
 
-export const { removeLecture, addLecture, setLectures, resetLectures } =
-  lectureSlice.actions;
+export const {
+  removeLecture,
+  addLecture,
+  selectLecture,
+  setLectures,
+  resetLectures,
+} = lectureSlice.actions;
 export default lectureSlice.reducer;
