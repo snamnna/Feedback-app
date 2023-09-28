@@ -162,6 +162,8 @@ const CourseDetails = () => {
         {isOwner && active === "ow" && <OverViewTab />}
         {/* Participants tab active */}
         {isOwner && active === "pa" && <ParticipantsTab />}
+        {/* Enroll tab active */}
+        {isOwner && active === "en" && <EnrollmentTab />}
       </div>
     );
   }

@@ -85,6 +85,43 @@ const courseEnrollment = async (courseId, token) => {
   }
 };
 
+//Tähän accept enrollment??
+const acceptEnrollment = async (courseId, userId, token) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/${courseId}/acceptEnroll/${userId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Enrollment acceptance failed:", error);
+    throw error;
+  }
+};
+
+const rejectEnrollment = async (courseId, userId, token) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/${courseId}/rejectEnroll/${userId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Enrollment rejection failed:", error);
+    throw error;
+  }
+};
+
 const deleteEnroll = async (courseId, token) => {
   try {
     const res = await axios.put(`${BASE_URL}/${courseId}/deleteEnroll`, {
@@ -107,4 +144,6 @@ export default {
   deleteCourse,
   deleteEnroll,
   getEnrollments,
+  acceptEnrollment,
+  rejectEnrollment,
 };

@@ -5,49 +5,81 @@ import courseService from "../../../services/courseService";
 const EnrollmentTab = () => {
   const course = useSelector((state) => state.courses.selectedCourse);
   const courseId = course.id;
-  const [enrollments, setParticipants] = useState([]);
+  const [enrollments, setEnrolls] = useState([]);
   const token = useSelector((state) => state.auth.token);
 
-  const phparticipants = [
-    { id: 1, username: "user1" },
-    { id: 2, username: "user2" },
-    { id: 3, username: "user3" },
-    { id: 4, username: "user4" },
-    { id: 5, username: "user5" },
-  ];
-
-  //TODO: ei toimi vielä oikein
   useEffect(() => {
-    const getParticipants = async () => {
-      console.log(courseId);
-      const participantsData = await courseService.getCourseStudents(
+    const getEnrollments = async () => {
+      try {
+        const enrollmentData = await courseService.getEnrollments(
+          courseId,
+          token
+        );
+        setEnrolls(enrollmentData);
+      } catch (error) {
+        console.error("Enrollments retrieval failed:", error);
+      }
+    };
+    getEnrollments();
+  }, [courseId, token]);
+
+  const acceptEnroll = async (userId) => {
+    try {
+      const response = await courseService.acceptEnrollment(
         courseId,
+        userId,
         token
       );
-      setParticipants(participantsData);
-    };
-    getParticipants();
-  }, [courseId]);
+      // Poista hyväksytty ilmoittautuminen tilasta
+      setEnrolls((prevEnrolls) =>
+        prevEnrolls.filter((enroll) => enroll.userId !== userId)
+      );
+      console.log("Enrollment accepted:", response);
+    } catch (error) {
+      console.error("Enrollment acceptance failed:", error);
+    }
+  };
 
-  const handleRemoveStudent = async (userId) => {
-    //TODO: tee loppuun
+  const rejectEnroll = async (userId) => {
+    try {
+      const response = await courseService.rejectEnrollment(
+        courseId,
+        userId,
+        token
+      );
+      // Poista hylätty ilmoittautuminen tilasta
+      setEnrolls((prevEnrolls) =>
+        prevEnrolls.filter((enroll) => enroll.userId !== userId)
+      );
+      console.log("Enrollment rejected:", response);
+    } catch (error) {
+      console.error("Enrollment rejection failed:", error);
+    }
   };
 
   return (
     <div className="text-center max-w-xl mx-auto flex flex-col items-center">
-      <h1 className="font-bold text-xl">Participants</h1>
+      <h1 className="font-bold text-xl">Enrollments</h1>
       <ul>
-        {/*TODO. VAIHDA PARTICIPANTSIIN KUN SE TOIMII*/}
-        {phparticipants.map((user) => (
-          <li key={user.id} className="m-5 border-b flex flex-row p-3">
+        {enrollments.map((enrollment) => (
+          <li
+            key={enrollment.userId}
+            className="m-5 border-b flex flex-row p-3"
+          >
             <p>
-              Username: {user.username} id: {user.id}
+              Username: {enrollment.username} id: {enrollment.userId}
             </p>
             <button
-              className="btn btn-primary btn-xs mx-5"
-              onClick={() => handleRemoveStudent(user.id)}
+              className="btn btn-primary btn-xs mx-2"
+              onClick={() => acceptEnroll(enrollment.userId)}
             >
-              remove student
+              Accept
+            </button>
+            <button
+              className="btn btn-danger btn-xs mx-2"
+              onClick={() => rejectEnroll(enrollment.userId)}
+            >
+              Reject
             </button>
           </li>
         ))}
