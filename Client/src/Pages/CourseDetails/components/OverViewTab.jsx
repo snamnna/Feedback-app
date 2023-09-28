@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 const OverViewTab = () => {
   const course = useSelector((state) => state.courses.selectedCourse);
+  const token = useSelector((state) => state.auth.token);
   //const [feedback, setFeedback] = useState({});
   const courseId = course.id;
 
@@ -65,13 +66,14 @@ const OverViewTab = () => {
   // Calculate the percentage of positive feedback
   const percentage = (goodfb / totalFeedback) * 100;
 
+  //TODO:Korjaa
   /*
   useEffect(() => {
     console.log(courseId);
 
     const fetchFeedback = async () => {
       try {
-        const feedbacks = await feedbackService.courseFeedback(courseId);
+        const feedbacks = await feedbackService.courseFeedback(courseId, token);
         setFeedback(feedbacks);
         console.log(feedback);
       } catch (error) {

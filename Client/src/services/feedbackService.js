@@ -2,9 +2,13 @@ import axios from "axios";
 
 const BASE_URL = "/api/feedback";
 
-const newFeedback = async (feedback) => {
+const newFeedback = async (feedback, token) => {
   try {
-    const response = await axios.post(BASE_URL, feedback);
+    const response = await axios.post(BASE_URL, feedback, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("giving feedback failed:", error);
@@ -26,18 +30,26 @@ const courseFeedback = async (courseId, token) => {
   }
 };
 
-const lectureFeedback = async (lectureId) => {
+const lectureFeedback = async (lectureId, token) => {
   try {
-    const response = await axios.get(`/api/lectures/${lectureId}/feedback`);
+    const response = await axios.get(`/api/lectures/${lectureId}/feedback`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("getting feedback for lecture failed:", error);
     throw error;
   }
 };
-const userFeedback = async (userId) => {
+const userFeedback = async (userId, token) => {
   try {
-    const response = await axios.get(`${BASE_URL}/${userId}`);
+    const response = await axios.get(`${BASE_URL}/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("getting user feedback failed:", error);

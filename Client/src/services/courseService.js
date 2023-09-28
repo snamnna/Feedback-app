@@ -30,18 +30,26 @@ const updateCourse = async (courseId, course, token) => {
   }
 };
 
-const deleteCourse = async (courseId) => {
+const deleteCourse = async (courseId, token) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/${courseId}`);
+    const response = await axios.delete(`${BASE_URL}/${courseId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Course deletion failed");
   }
 };
 
-const getCourseStudents = async (courseId) => {
+const getCourseStudents = async (courseId, token) => {
   try {
-    const res = await axios.get(`${BASE_URL}/${courseId}/participants`);
+    const res = await axios.get(`${BASE_URL}/${courseId}/participants`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res.data;
   } catch (error) {
     console.error("Course students retrieval failed:", error);
@@ -51,7 +59,11 @@ const getCourseStudents = async (courseId) => {
 
 const courseEnrollment = async (courseId, token) => {
   try {
-    const res = await axios.put(`${BASE_URL}/${courseId}/enroll`, token);
+    const res = await axios.put(`${BASE_URL}/${courseId}/enroll`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res.data;
   } catch (error) {
     console.error("course enrollment failed", error);
@@ -59,9 +71,13 @@ const courseEnrollment = async (courseId, token) => {
   }
 };
 
-const deleteEnroll = async (courseId) => {
+const deleteEnroll = async (courseId, token) => {
   try {
-    const res = await axios.put(`${BASE_URL}/${courseId}/deleteEnroll`);
+    const res = await axios.put(`${BASE_URL}/${courseId}/deleteEnroll`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res.data;
   } catch (error) {
     console.error("Leaving course failed", error);

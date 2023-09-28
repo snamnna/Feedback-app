@@ -1,18 +1,23 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import feedbackService from "../../services/feedbackService";
+import { useSelector } from "react-redux";
 
 const LectureDetails = () => {
   const { lectureId } = useParams();
   const [feedback, setFeedback] = useState([]);
   const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     console.log(lectureId);
 
     const fetchFeedback = async () => {
       try {
-        const feedbacks = await feedbackService.lectureFeedback(lectureId);
+        const feedbacks = await feedbackService.lectureFeedback(
+          lectureId,
+          token
+        );
         setFeedback(feedbacks);
         console.log(feedback);
       } catch (error) {
@@ -60,6 +65,8 @@ const LectureDetails = () => {
       id: 4,
     },
   ];
+
+  //TODO: vaihda oikeeseen feedbackiin kun fetch toimii
   // Calculate the number of good feedback
   const goodfb = phfeedbacks.filter(
     (feedback) => feedback.type === "good"
@@ -96,7 +103,6 @@ const LectureDetails = () => {
           >
             <h3>Type: {feedback.type}</h3>
             <p>Comment: {feedback.comment}</p>
-            {/*TODO: navigoi sivulle jossa userin antamat feedbackit*/}
             <Link to={`/feedback/${feedback.id}`} className="link text-primary">
               User: {feedback.user}
             </Link>

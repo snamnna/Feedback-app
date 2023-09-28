@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
 import { BsEmojiSmile, BsEmojiNeutral } from "react-icons/bs";
 import { RiEmotionUnhappyLine } from "react-icons/ri";
@@ -8,9 +8,18 @@ import feedbackService from "../../services/feedbackService";
 const FeedbackModal = () => {
   const [feedback, setFeedback] = useState("");
   const [comment, setComment] = useState("");
-  const userId = useSelector((state) => state.auth.user.id);
+  const token = useSelector((state) => state.auth.token);
+  const user = useSelector((state) => state.auth.user);
+  const [userId, setUserId] = useState();
   //const lecture = useSelector((state) => state.lectures.selectedLecture);
   //const lectureId = lecture.selectedLecture.id;
+
+  useEffect(() => {
+    if (token) {
+      setUserId(user.id);
+    }
+  }, [token]);
+
   //TODO: korjaa slice toimimaan
   const lectureId = 2;
 
@@ -27,7 +36,7 @@ const FeedbackModal = () => {
         lectureId,
       };
 
-      console.log("sending", data);
+      console.log("sending", data, token);
 
       const newFeedback = await feedbackService.newFeedback(data);
       console.log(newFeedback);

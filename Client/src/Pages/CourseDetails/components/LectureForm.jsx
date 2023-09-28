@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 const LectureForm = ({ onSubmit, lectureName, setLectureName }) => {
   if (lectureName.length > 64) setLectureName(lectureName.slice(0, 64));
 
-  //TODO: tarvitaanko pvm?
   return (
     <form className="form-control w-full max-w-lg" onSubmit={onSubmit}>
       {/*Lecture Name*/}

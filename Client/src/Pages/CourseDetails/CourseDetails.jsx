@@ -62,7 +62,7 @@ const CourseDetails = () => {
 
   //delete course
   const handleDelete = async () => {
-    const deleteCourse = await courseService.deleteCourse(courseId);
+    const deleteCourse = await courseService.deleteCourse(courseId, token);
     console.log(deleteCourse);
   };
 
@@ -197,7 +197,6 @@ LectureList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
-      feedback: PropTypes.string.isRequired,
     })
   ),
 };

@@ -12,33 +12,12 @@ export const loginUser = async (loginData) => {
   }
 };
 
-export const logoutUser = async () => {
-  try {
-    const res = await axios.get(`${BASE_URL}/logout`);
-    return res.data;
-  } catch (error) {
-    // Handle any errors that occur during the logout process
-    console.error("Logout failed:", error);
-    throw error;
-  }
-};
-
 export const createUser = async (user) => {
   try {
     const response = await axios.post(`${BASE_URL}/register`, user);
     return response.data;
   } catch (error) {
     console.error("User creation failed:", error);
-    throw error;
-  }
-};
-
-export const getUserCourses = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/users/:id/courses`);
-    return response.data;
-  } catch (error) {
-    console.log("getting user courses failed", error);
     throw error;
   }
 };

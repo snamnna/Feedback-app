@@ -18,7 +18,7 @@ const UserDetails = () => {
       username: newName,
       password: newPwd,
     };
-    const userRes = await editUser(user.id, data);
+    const userRes = await editUser(user.id, data, token);
     console.log(data);
     console.log("update success", userRes);
     dispatch(updateUser({ username: newName }));

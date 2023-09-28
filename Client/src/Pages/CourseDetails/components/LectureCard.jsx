@@ -33,7 +33,6 @@ const LectureCard = ({ lecture }, isOwner) => {
           <div className="flex-grow"></div>
           {isOwner ? (
             <>
-              <p className="">{lecture.feedback}</p>
               <button
                 className="btn btn-primary btn-sm self-end"
                 onClick={handleViewFeedback}
@@ -60,7 +59,6 @@ const LectureCard = ({ lecture }, isOwner) => {
 LectureCard.defaultProps = {
   lecture: {
     name: "Lecture 1",
-    feedback: "lecture feedback",
     id: 1,
   },
 };
@@ -68,7 +66,6 @@ LectureCard.defaultProps = {
 LectureCard.propTypes = {
   lecture: PropTypes.shape({
     name: PropTypes.string,
-    feedback: PropTypes.string,
     id: PropTypes.number,
   }),
 };

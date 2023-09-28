@@ -6,6 +6,7 @@ const ParticipantsTab = () => {
   const course = useSelector((state) => state.courses.selectedCourse);
   const courseId = course.id;
   const [participants, setParticipants] = useState([]);
+  const token = useSelector((state) => state.auth.token);
 
   const phparticipants = [
     { id: 1, username: "user1" },
@@ -19,7 +20,10 @@ const ParticipantsTab = () => {
   useEffect(() => {
     const getParticipants = async () => {
       console.log(courseId);
-      const participantsData = await courseService.getCourseStudents(courseId);
+      const participantsData = await courseService.getCourseStudents(
+        courseId,
+        token
+      );
       setParticipants(participantsData);
     };
     getParticipants();
@@ -33,7 +37,7 @@ const ParticipantsTab = () => {
     <div className="text-center max-w-xl mx-auto flex flex-col items-center">
       <h1 className="font-bold text-xl">Participants</h1>
       <ul>
-        {/*VAIHDA PARTICIPANTSIIN KUN SE TOIMII*/}
+        {/*TODO. VAIHDA PARTICIPANTSIIN KUN SE TOIMII*/}
         {phparticipants.map((user) => (
           <li key={user.id} className="m-5 border-b flex flex-row p-3">
             <p>
