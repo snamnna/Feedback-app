@@ -130,19 +130,19 @@ const CourseDetails = () => {
               />
             </div>
           )}
+          {isOwner && active === "le" && (
+            <div>
+              {/* Move the search input to the right of the header for owners */}
+              <input
+                className="border border-gray-300 shadow-md rounded-md"
+                type="text"
+                placeholder="Search Lectures"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+          )}
         </div>
-        {isOwner && active === "le" && (
-          <div className="flex justify-center">
-            {/* Move the search input to the right of the header for owners */}
-            <input
-              className="border border-gray-300 shadow-md rounded-md"
-              type="text"
-              placeholder="Search Lectures"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-        )}
         {/* Display the lecture list centered */}
         <div className="flex justify-center">
           <LectureList lectures={filterLectures} isOwner={isOwner} />
