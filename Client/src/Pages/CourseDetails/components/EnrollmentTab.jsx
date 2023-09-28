@@ -6,19 +6,21 @@ const EnrollmentTab = () => {
   const course = useSelector((state) => state.courses.selectedCourse);
   const courseId = course.id;
   const [enrollments, setEnrolls] = useState([]);
+  const [enrollmentsAvailable, setEnrollmentsAvailable] = useState(false); // Lisää enrollmentsAvailable-tila
   const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     const getEnrollments = async () => {
-      try {
-        const enrollmentData = await courseService.getEnrollments(
-          courseId,
-          token
-        );
-        setEnrolls(enrollmentData);
-      } catch (error) {
-        console.error("Enrollments retrieval failed:", error);
-      }
+      console.log(courseId);
+      const EnrollmentData = await courseService.getEnrollments(
+        courseId,
+        token
+      );
+
+      // Päivitä enrollmentsAvailable-tila sen perusteella, onko ilmoittautumisia saatavilla
+      setEnrollmentsAvailable(EnrollmentData.length > 0);
+
+      setEnrolls(EnrollmentData);
     };
     getEnrollments();
   }, [courseId, token]);
@@ -30,10 +32,11 @@ const EnrollmentTab = () => {
         userId,
         token
       );
-      // Poista hyväksytty ilmoittautuminen tilasta
+
       setEnrolls((prevEnrolls) =>
         prevEnrolls.filter((enroll) => enroll.userId !== userId)
       );
+
       console.log("Enrollment accepted:", response);
     } catch (error) {
       console.error("Enrollment acceptance failed:", error);
@@ -47,10 +50,11 @@ const EnrollmentTab = () => {
         userId,
         token
       );
-      // Poista hylätty ilmoittautuminen tilasta
+
       setEnrolls((prevEnrolls) =>
         prevEnrolls.filter((enroll) => enroll.userId !== userId)
       );
+
       console.log("Enrollment rejected:", response);
     } catch (error) {
       console.error("Enrollment rejection failed:", error);
@@ -60,30 +64,33 @@ const EnrollmentTab = () => {
   return (
     <div className="text-center max-w-xl mx-auto flex flex-col items-center">
       <h1 className="font-bold text-xl">Enrollments</h1>
-      <ul>
-        {enrollments.map((enrollment) => (
-          <li
-            key={enrollment.userId}
-            className="m-5 border-b flex flex-row p-3"
-          >
-            <p>
-              Username: {enrollment.username} id: {enrollment.userId}
-            </p>
-            <button
-              className="btn btn-primary btn-xs mx-2"
-              onClick={() => acceptEnroll(enrollment.userId)}
+      {enrollmentsAvailable ? (
+        <ul>
+          <li>Enrolled students, please accept or reject:</li>
+          {enrollments.map((enrollment) => (
+            <li
+              key={enrollment.userId}
+              className="m-5 border-b flex flex-row p-3"
             >
-              Accept
-            </button>
-            <button
-              className="btn btn-danger btn-xs mx-2"
-              onClick={() => rejectEnroll(enrollment.userId)}
-            >
-              Reject
-            </button>
-          </li>
-        ))}
-      </ul>
+              <p>id: {enrollment.userId}</p>
+              <button
+                className="btn btn-primary btn-xs mx-2"
+                onClick={() => acceptEnroll(enrollment.userId)}
+              >
+                Accept
+              </button>
+              <button
+                className="btn btn-danger btn-xs mx-2"
+                onClick={() => rejectEnroll(enrollment.userId)}
+              >
+                Reject
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No enrollments available.</p>
+      )}
     </div>
   );
 };
