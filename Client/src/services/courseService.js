@@ -57,7 +57,19 @@ const getCourseStudents = async (courseId, token) => {
   }
 };
 
-// TODO: Tähän tarvitsisi get enrolledStudents funktion?
+const getEnrollments = async (courseId, token) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/${courseId}/enrollments`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Enrollments retrieval failed", error);
+    throw error;
+  }
+};
 
 const courseEnrollment = async (courseId, token) => {
   try {
@@ -94,4 +106,5 @@ export default {
   courseEnrollment,
   deleteCourse,
   deleteEnroll,
+  getEnrollments,
 };
