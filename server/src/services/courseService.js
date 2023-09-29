@@ -57,8 +57,8 @@ async function getAllCourses() {
   return prisma.course.findMany({});
 }
 
-// get all participants of specific course regardless of the status
-async function getAllParticipants(id) {
+// get all enrollments
+async function getEnrollments(id) {
   return prisma.course.findUnique({
     where: {
       id,
@@ -108,7 +108,7 @@ module.exports = {
   deleteCourse,
   editCourse,
   getAllCourses,
-  getAllParticipants,
+  getEnrollments,
   getApprovedParticipants,
   getAllLectures,
 };

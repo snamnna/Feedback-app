@@ -118,7 +118,7 @@ router.get("/:id/lectures", verifyToken, async (req, res) => {
 });
 
 // course enrollment (tietyn kurssin ilmoittautuneet riippumatta statuksesta)
-router.get("/:id/enrollment", verifyToken, async (req, res) => {
+router.get("/:id/enrollments", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10);
   const participants = await courseService.getAllParticipants(courseId);
 
