@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetCourseByIdQuery } from "../../features/courseApi";
 import { useParams } from "react-router";
 import PropTypes from "prop-types";
@@ -10,6 +10,7 @@ import DropdownMenu from "./components/DropdownMenu";
 import OverViewTab from "./components/OverViewTab";
 import ParticipantsTab from "./components/ParticipantsTab";
 import EnrollmentTab from "./components/EnrollmentTab";
+import { useNavigate } from "react-router-dom";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -24,6 +25,7 @@ const CourseDetails = () => {
   const [active, setActive] = useState("le");
   const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED"); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
   const [enrollBtn, setEnrollBtn] = useState(true);
+  const navigate = useNavigate();
 
   //get data needed
   useEffect(() => {
@@ -44,9 +46,14 @@ const CourseDetails = () => {
   }, [data]);
 
   //enrolling to a course
-  const handleEnroll = async (e) => {
-    e.preventDefault();
-    const enroll = await courseService.courseEnrollment(courseId, token);
+  const handleEnroll = async () => {
+    const status = "PENDING";
+    const data = {
+      status,
+      userId,
+    };
+    console.log(data);
+    const enroll = await courseService.courseEnrollment(courseId, data, token);
     if (enroll) {
       console.log("enrollment success");
       setEnrollBtn(false);
@@ -66,6 +73,7 @@ const CourseDetails = () => {
   const handleDelete = async () => {
     const deleteCourse = await courseService.deleteCourse(courseId, token);
     console.log(deleteCourse);
+    navigate("/");
   };
 
   //Show lectures if enrollmentStatus is approved
@@ -75,7 +83,7 @@ const CourseDetails = () => {
         <div className="flex justify-between px-10 py-3 bg-base-100 ">
           <div className="flex flex-row ">
             <h1 className="my-2 text-xl font-bold">
-              Details for course {course.name}
+              Details for {course.name}
             </h1>
             {isOwner ? (
               <>
@@ -99,7 +107,7 @@ const CourseDetails = () => {
                     onClick={() => setActive("ow")}
                     className={`tab ${active === "ow" ? "tab-active" : ""}`}
                   >
-                    Feedback Overview
+                    Feedback
                   </a>
                   <a
                     onClick={() => setActive("pa")}
@@ -188,16 +196,35 @@ const CourseDetails = () => {
 };
 
 const LectureList = ({ lectures }, isOwner) => {
+  if (lectures.length > 0) {
+    return (
+      <div>
+        <h1 className="text-center font-bold">Lectures:</h1>
+        <ul className="mt-3 mb-5">
+          {lectures.map((lecture) => (
+            <li className="mx-10" key={lecture.id}>
+              <LectureCard lecture={lecture} isOwner={isOwner} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
   return (
-    <div>
-      <h1 className="text-center font-bold">Lectures:</h1>
-      <ul className="mt-3 mb-5">
-        {lectures.map((lecture) => (
-          <li className="mx-10" key={lecture.id}>
-            <LectureCard lecture={lecture} isOwner={isOwner} />
-          </li>
-        ))}
-      </ul>
+    <div className="flex justify-center">
+      <div className="border py-7 px-10 rounded-md mt-10 mb-20 text-center">
+        <p>No lectures yet</p>
+        {isOwner && (
+          <button
+            className="btn btn-sm btn-primary mt-3"
+            onClick={() =>
+              document.getElementById("new_lecture_modal").showModal()
+            }
+          >
+            New lecture
+          </button>
+        )}
+      </div>
     </div>
   );
 };
