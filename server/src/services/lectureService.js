@@ -1,10 +1,10 @@
 const prisma = require("../utils/prisma");
 
 // create new lecture to database and return lecture data
-async function createLecture(name, courseId) {
+async function createLecture({ courseId, lectureName }) {
   return prisma.lecture.create({
     data: {
-      name,
+      name: lectureName,
       courseId,
     },
   });
