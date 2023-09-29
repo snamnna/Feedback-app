@@ -23,7 +23,7 @@ const FeedbackModal = () => {
   //TODO: korjaa slice toimimaan
   const lectureId = 2;
 
-  if (comment.length > 64) setComment(comment.slice(0, 64));
+  if (comment.length > 160) setComment(comment.slice(0, 160));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +38,7 @@ const FeedbackModal = () => {
 
       console.log("sending", data, token);
 
-      const newFeedback = await feedbackService.newFeedback(data);
+      const newFeedback = await feedbackService.newFeedback(data, token);
       console.log(newFeedback);
     }
   };
