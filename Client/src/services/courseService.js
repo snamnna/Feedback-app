@@ -30,6 +30,7 @@ const updateCourse = async (courseId, course, token) => {
   }
 };
 
+//Delete Course TOIMII
 const deleteCourse = async (courseId, token) => {
   try {
     const response = await axios.delete(`${BASE_URL}/${courseId}`, {
@@ -71,9 +72,10 @@ const getEnrollments = async (courseId, token) => {
   }
 };
 
-const courseEnrollment = async (courseId, token) => {
+//TODO:: varmista toimiiko
+const courseEnrollment = async (courseId, data, token) => {
   try {
-    const res = await axios.put(`${BASE_URL}/${courseId}/enroll`, {
+    const res = await axios.put(`/api/enroll/${courseId}/`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -85,11 +87,11 @@ const courseEnrollment = async (courseId, token) => {
   }
 };
 
-//Tähän accept enrollment??
+//TODO: varmista onko oikein
 const acceptEnrollment = async (courseId, userId, token) => {
   try {
     const response = await axios.put(
-      `${BASE_URL}/${courseId}/acceptEnroll/${userId}`,
+      `/api/enroll/${courseId}/${userId}`,
       {},
       {
         headers: {
@@ -104,11 +106,12 @@ const acceptEnrollment = async (courseId, userId, token) => {
   }
 };
 
-const rejectEnrollment = async (courseId, userId, token) => {
+//TODO: lisää status "REJECTED" sinne mis tätä kutsutaan
+const rejectEnrollment = async (courseId, userId, enrollmentStatus, token) => {
   try {
     const response = await axios.put(
-      `${BASE_URL}/${courseId}/rejectEnroll/${userId}`,
-      {},
+      `/api/${courseId}/${userId}`,
+      { enrollmentStatus },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -122,9 +125,10 @@ const rejectEnrollment = async (courseId, userId, token) => {
   }
 };
 
-const deleteEnroll = async (courseId, token) => {
+//TODO: missä kutsutaan lisää userID ja varmisutetaan että backis oikein varmaan tarvitaan kurssi ja userId
+const deleteEnroll = async (courseId, userId, token) => {
   try {
-    const res = await axios.put(`${BASE_URL}/${courseId}/deleteEnroll`, {
+    const res = await axios.put(`api/enroll/${courseId}/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
