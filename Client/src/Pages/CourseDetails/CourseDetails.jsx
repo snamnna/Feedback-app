@@ -47,7 +47,13 @@ const CourseDetails = () => {
 
   //enrolling to a course
   const handleEnroll = async () => {
-    const enroll = await courseService.courseEnrollment(courseId, token);
+    const status = "PENDING";
+    const data = {
+      status,
+      userId,
+    };
+    console.log(data);
+    const enroll = await courseService.courseEnrollment(courseId, data, token);
     if (enroll) {
       console.log("enrollment success");
       setEnrollBtn(false);
