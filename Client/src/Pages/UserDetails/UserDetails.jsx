@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "../../features/user/userSlice";
+import { editUser, deleteUser } from "../../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
+import DelConf from "./components/deleteConfirmationPopUp";
 
 const UserDetails = () => {
   const dispatch = useDispatch();
@@ -10,6 +12,8 @@ const UserDetails = () => {
   const [newName, setNewName] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confPwd, setConfPwd] = useState("");
+  const navigate = useNavigate();
+  const [showDelConf, setShowDelConf] = useState("");
 
   const handleEditUser = () => {
     if (newName && newPassword && confPwd) {
@@ -26,6 +30,19 @@ const UserDetails = () => {
     }
   };
 
+  const handleDeleteUser = () => {
+    setShowDelConf(true);
+  };
+
+  const handleConfDel = () => {
+    dispatch(deleteUser(user.id, token));
+    navigate("/login");
+  };
+
+  const handleCancelDel = () => {
+    setShowDelConf(false);
+  };
+
   return (
     <div className="w-screen flex justify-center items-center p-10">
       <div className="px-20 py-5  bg-white opacity-70 rounded-lg shadow-md">
@@ -34,7 +51,7 @@ const UserDetails = () => {
         </h1>
         <div>
           {error && <p>Error: {error}</p>}
-          <form>
+          <form className="flex flex-col items-center">
             <div className="mb-6">
               <input
                 className="border border-gray-300 shadow-md rounded-md"
@@ -86,7 +103,20 @@ const UserDetails = () => {
                 <span>Edit User</span>
               </button>
             </div>
+
+            <div className="flex justify-center mb-6">
+              <button
+                type="button"
+                onClick={handleDeleteUser}
+                className="btn btn-xs btn-primary shadow-md"
+              >
+                <span>Delete User</span>
+              </button>
+            </div>
           </form>
+          {showDelConf && (
+            <DelConf onCancel={handleCancelDel} onConfirm={handleConfDel} />
+          )}
         </div>
       </div>
     </div>
