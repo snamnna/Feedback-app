@@ -88,18 +88,14 @@ const courseEnrollment = async (courseId, data, token) => {
   }
 };
 
-//TODO: varmista onko oikein
-const acceptEnrollment = async (courseId, userId, token) => {
+// Accept enroll
+const acceptEnrollment = async (data, token) => {
   try {
-    const response = await axios.put(
-      `/api/enroll/${courseId}/${userId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.put(`/api/enroll/`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Enrollment acceptance failed:", error);
@@ -107,36 +103,17 @@ const acceptEnrollment = async (courseId, userId, token) => {
   }
 };
 
-//TODO: lisää status "REJECTED" sinne mis tätä kutsutaan
-const rejectEnrollment = async (courseId, userId, enrollmentStatus, token) => {
+// Reject enroll / delete
+const deleteEnrollment = async (data, token) => {
   try {
-    const response = await axios.put(
-      `/api/${courseId}/${userId}`,
-      { enrollmentStatus },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Enrollment rejection failed:", error);
-    throw error;
-  }
-};
-
-//TODO: missä kutsutaan lisää userID ja varmisutetaan että backis oikein varmaan tarvitaan kurssi ja userId
-const deleteEnroll = async (courseId, userId, token) => {
-  try {
-    const res = await axios.put(`api/enroll/${courseId}/${userId}`, {
+    const response = await axios.delete(`/api/enroll`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    return res.data;
+    return response.data;
   } catch (error) {
-    console.error("Leaving course failed", error);
+    console.error("Enrollment rejection failed:", error);
     throw error;
   }
 };
@@ -147,8 +124,7 @@ export default {
   getCourseStudents,
   courseEnrollment,
   deleteCourse,
-  deleteEnroll,
   getEnrollments,
   acceptEnrollment,
-  rejectEnrollment,
+  deleteEnrollment,
 };

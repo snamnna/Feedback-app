@@ -14,22 +14,25 @@ async function createEnrollment(userId, courseId) {
 async function getEnrollById(userId, courseId) {
   return prisma.courseEnrollment.findUnique({
     where: {
-      userId,
-      courseId,
+      userId_courseId: {
+        userId,
+        courseId,
+      },
     },
   });
 }
 
 // update enrollment in db and return updated enrollment
-async function updateEnrollment(userId, courseId) {
+async function updateEnrollment({ userId, courseId, status }) {
   return prisma.courseEnrollment.update({
     where: {
-      userId,
-      courseId,
+      userId_courseId: {
+        userId,
+        courseId,
+      },
     },
     data: {
-      userId,
-      courseId,
+      status,
     },
   });
 }
@@ -38,8 +41,10 @@ async function updateEnrollment(userId, courseId) {
 async function deleteEnrollment(userId, courseId) {
   return prisma.courseEnrollment.delete({
     where: {
-      userId,
-      courseId,
+      userId_courseId: {
+        userId,
+        courseId,
+      },
     },
   });
 }

@@ -66,7 +66,7 @@ const CourseDetails = () => {
     lecture.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  //leave course
+  //muista implementoida samalla tavalla kun on tehty enrollment tabissa (status rejected)
   //TODO: toteuta
   const handleLeave = async () => {};
 

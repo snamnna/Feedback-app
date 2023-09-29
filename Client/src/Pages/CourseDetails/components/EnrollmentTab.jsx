@@ -25,11 +25,9 @@ const EnrollmentTab = () => {
 
   const acceptEnroll = async (userId) => {
     try {
-      const response = await courseService.acceptEnrollment(
-        courseId,
-        userId,
-        token
-      );
+      const data = { courseId, userId, status: "APPROVED" };
+      const response = await courseService.acceptEnrollment(data, token);
+      console.log(response);
 
       setEnrolls((prevEnrolls) =>
         prevEnrolls.filter((enroll) => enroll.userId !== userId)
@@ -41,21 +39,19 @@ const EnrollmentTab = () => {
     }
   };
 
-  const rejectEnroll = async (userId) => {
+  const deleteEnroll = async (userId) => {
     try {
-      const response = await courseService.rejectEnrollment(
-        courseId,
-        userId,
-        token
-      );
+      const data = { courseId, userId, status: "REJECTED" };
+      const response = await courseService.acceptEnrollment(data, token);
+      console.log(response);
 
       setEnrolls((prevEnrolls) =>
         prevEnrolls.filter((enroll) => enroll.userId !== userId)
       );
 
-      console.log("Enrollment rejected:", response);
+      console.log("Enrollment accepted:", response);
     } catch (error) {
-      console.error("Enrollment rejection failed:", error);
+      console.error("Enrollment acceptance failed:", error);
     }
   };
 
@@ -79,9 +75,9 @@ const EnrollmentTab = () => {
               </button>
               <button
                 className="btn btn-danger btn-xs mx-2"
-                onClick={() => rejectEnroll(enrollment.userId)}
+                onClick={() => deleteEnroll(enrollment.userId)}
               >
-                Reject
+                Delete
               </button>
             </li>
           ))}
