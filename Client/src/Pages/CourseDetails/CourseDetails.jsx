@@ -26,16 +26,17 @@ const CourseDetails = () => {
   const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED"); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
   const [enrollBtn, setEnrollBtn] = useState(true);
   const navigate = useNavigate();
+  const [enrollments, setEnrollments] = useState([]);
 
   //get data needed
   useEffect(() => {
     if (data) {
       console.log(data);
-      const { course, enrollment } = data;
+      const { course, enrollments } = data;
       setCourse(course);
       setLectures(course.lectures);
-      //setEnrollmentStatus(enrollment);
-      console.log("enrollment: ", enrollment);
+      setEnrollments(enrollments);
+      console.log("enrollment: ", enrollments);
       dispatch(selectCourse(course));
 
       //set isOwner to true if user is the owner of the course
