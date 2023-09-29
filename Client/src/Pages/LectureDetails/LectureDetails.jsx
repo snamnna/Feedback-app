@@ -78,9 +78,12 @@ const LectureDetails = () => {
   }
   return (
     <div className="flex justify-center">
-      <p className="border p-7 rounded-md mt-10 mb-20">
-        No feedbacks available
-      </p>
+      <div className="text-center border p-7 rounded-md mt-10 mb-20">
+        <p className="">No feedbacks available</p>
+        <a className="link link-primary" href={"/"}>
+          Back to courses
+        </a>
+      </div>
     </div>
   );
 };
