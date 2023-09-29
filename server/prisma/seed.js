@@ -88,18 +88,6 @@ async function main() {
           id: teacher2.id,
         },
       },
-      enrollments: {
-        create: [
-          {
-            userId: student2.id,
-            status: "APPROVED",
-          },
-          {
-            userId: student3.id,
-            status: "PENDING",
-          },
-        ],
-      },
     },
   });
 
@@ -125,7 +113,13 @@ async function main() {
     data: {
       userId: student3.id,
       courseId: course2.id,
-      status: "PENDING",
+    },
+  });
+
+  await prisma.courseEnrollment.create({
+    data: {
+      userId: student1.id,
+      courseId: course2.id,
     },
   });
 

@@ -65,6 +65,7 @@ const getEnrollments = async (courseId, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("Tää on res.data ", res.data);
     return res.data;
   } catch (error) {
     console.error("Enrollments retrieval failed", error);

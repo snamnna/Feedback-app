@@ -58,7 +58,7 @@ async function getAllCourses() {
 }
 
 // get all enrollments
-async function getEnrollments(id) {
+async function getParticipants(id) {
   return prisma.course.findUnique({
     where: {
       id,
@@ -77,14 +77,11 @@ async function getEnrollments(id) {
 }
 
 // get all participants of specific course who has the status approved
-async function getApprovedParticipants(courseId) {
+async function getEnrollments(courseId) {
   return prisma.courseEnrollment.findMany({
     where: {
       courseId,
-      status: "APPROVED",
-    },
-    select: {
-      userId: true,
+      status: "PENDING",
     },
   });
 }
@@ -109,6 +106,6 @@ module.exports = {
   editCourse,
   getAllCourses,
   getEnrollments,
-  getApprovedParticipants,
+  getParticipants,
   getAllLectures,
 };

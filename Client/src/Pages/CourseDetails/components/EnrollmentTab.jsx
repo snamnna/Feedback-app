@@ -6,7 +6,6 @@ const EnrollmentTab = () => {
   const course = useSelector((state) => state.courses.selectedCourse);
   const courseId = course.id;
   const [enrollments, setEnrolls] = useState([]);
-  const [enrollmentsAvailable, setEnrollmentsAvailable] = useState(false);
   const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
@@ -17,10 +16,9 @@ const EnrollmentTab = () => {
         token
       );
 
-      // Update if there is enrollments available
-      setEnrollmentsAvailable(EnrollmentData.length > 0);
+      console.log("Enrollment data: ", EnrollmentData);
 
-      setEnrolls(EnrollmentData);
+      setEnrolls(EnrollmentData.enrollments);
     };
     getEnrollments();
   }, [courseId, token]);
@@ -64,7 +62,7 @@ const EnrollmentTab = () => {
   return (
     <div className="text-center max-w-xl mx-auto flex flex-col items-center">
       <h1 className="font-bold text-xl">Enrollments</h1>
-      {enrollmentsAvailable ? (
+      {enrollments.length ? (
         <ul>
           <li>Enrolled students, please accept or reject:</li>
           {enrollments.map((enrollment) => (
