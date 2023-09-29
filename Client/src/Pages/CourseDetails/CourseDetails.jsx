@@ -32,11 +32,11 @@ const CourseDetails = () => {
   useEffect(() => {
     if (data) {
       console.log(data);
-      const { course, enrollments } = data;
+      const { course } = data;
       setCourse(course);
       setLectures(course.lectures);
-      setEnrollments(enrollments);
-      console.log("enrollment: ", enrollments);
+      console.log("enrollit", course.enrollments);
+      setEnrollments(course.enrollments);
       dispatch(selectCourse(course));
 
       //set isOwner to true if user is the owner of the course
