@@ -31,7 +31,7 @@ router.put("/:id", verifyToken, async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) throw new CustomError(400, "Bad Request");
 
-  const updated = await userService.editUser(username, password);
+  const updated = await userService.editUser(userId, username, password);
   return res.json(updated);
 });
 

@@ -42,11 +42,10 @@ async function deleteUser(username, password) {
 
 // pitäis palauttaa kontrolleriin se päivitetty käyttäjä et kontrolleri voi palauttaa sen fronttiin
 // edit user in db
-async function editUser(username, password) {
+async function editUser(id, username, password) {
   return prisma.user.update({
     where: {
-      username,
-      password,
+      id,
     },
     data: {
       username,
