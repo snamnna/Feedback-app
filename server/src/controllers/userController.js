@@ -1,6 +1,6 @@
 const express = require("express");
 const Joi = require("joi");
-
+const bcrypt = require("bcrypt");
 const router = express.Router();
 const userService = require("../services/userService");
 const verifyToken = require("../middlewares/verifyToken");
@@ -31,7 +31,9 @@ router.put("/:id", verifyToken, async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) throw new CustomError(400, "Bad Request");
 
-  const updated = await userService.editUser(userId, username, password);
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const updated = await userService.editUser(userId, username, hashedPassword);
   return res.json(updated);
 });
 
