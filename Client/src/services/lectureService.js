@@ -16,9 +16,13 @@ const createLecture = async (lecture, token) => {
   }
 };
 
-const updateLecture = async (lectureId, lecture) => {
+const updateLecture = async (lectureId, lecture, token) => {
   try {
-    const response = await axios.put(`${BASE_URL}/${lectureId}`, lecture);
+    const response = await axios.put(`${BASE_URL}/${lectureId}`, lecture, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Lecture update failed:", error);
@@ -26,9 +30,13 @@ const updateLecture = async (lectureId, lecture) => {
   }
 };
 
-const deleteLecture = async (lectureId) => {
+const deleteLecture = async (lectureId, token) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/${lectureId}`);
+    const response = await axios.delete(`${BASE_URL}/${lectureId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("lecture deletion failed");
