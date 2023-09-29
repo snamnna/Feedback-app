@@ -56,6 +56,17 @@ async function main() {
     },
   });
 
+  // Tehty kolmonen kokeeksi
+  const student3 = await prisma.user.upsert({
+    where: { username: "student3" },
+    update: { password_hash: hashedPassword },
+    create: {
+      username: "student3",
+      password_hash: hashedPassword,
+      userType: "STUDENT",
+    },
+  });
+
   const course1 = await prisma.course.create({
     data: {
       name: "Introduction to Mathematics",
@@ -77,6 +88,18 @@ async function main() {
           id: teacher2.id,
         },
       },
+      enrollments: {
+        create: [
+          {
+            userId: student2.id,
+            status: "APPROVED",
+          },
+          {
+            userId: student3.id,
+            status: "PENDING",
+          },
+        ],
+      },
     },
   });
 
@@ -94,6 +117,15 @@ async function main() {
       userId: student2.id,
       courseId: course2.id,
       status: "APPROVED",
+    },
+  });
+
+  // Tehty kokeeksi
+  await prisma.courseEnrollment.create({
+    data: {
+      userId: student3.id,
+      courseId: course2.id,
+      status: "PENDING",
     },
   });
 
