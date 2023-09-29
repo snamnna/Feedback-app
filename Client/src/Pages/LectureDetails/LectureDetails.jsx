@@ -50,6 +50,7 @@ const LectureDetails = () => {
     navigate(`/feedback/${userId}`);
   };
 
+  //TODO: halutaanko lisää prosentit ja eriteltynbnä mitä feedbackei saanu miten paljon samal taval ku kurssi feedbackis
   if (feedback.length > 0) {
     return (
       <div>
@@ -65,7 +66,7 @@ const LectureDetails = () => {
               <h3>Type: {feedback.type}</h3>
               <p>Comment: {feedback.comment}</p>
               <Link
-                to={`/feedback/${feedback.id}`}
+                to={`/feedback/${feedback.userId}`}
                 className="link text-primary"
               >
                 User: {feedback.user}
