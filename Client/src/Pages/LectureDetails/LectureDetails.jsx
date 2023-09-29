@@ -27,88 +27,60 @@ const LectureDetails = () => {
     fetchFeedback();
   }, [lectureId]);
 
-  const phfeedbacks = [
-    {
-      type: "good",
-      comment: "Great lecture! I learned a lot.",
-      user: "John Doe",
-      id: 1,
-    },
-    {
-      type: "bad",
-      comment: "The lecture was too long and hard to follow.",
-      user: "Jane Smith",
-      id: 1,
-    },
-    {
-      type: "good",
-      comment: "It would be helpful to have more examples in the lecture.",
-      user: "Alice Johnson",
-      id: 2,
-    },
-    {
-      type: "neutral",
-      comment: "The content was well-organized and easy to understand.",
-      user: "Bob Wilson",
-      id: 3,
-    },
-    {
-      type: "bad",
-      comment: "The audio quality was poor, and it was difficult to hear.",
-      user: "Emily Davis",
-      id: 4,
-    },
-    {
-      type: "bad",
-      comment: "It would be beneficial to include quizzes for self-assessment.",
-      user: "Michael Brown",
-      id: 4,
-    },
-  ];
+  if (feedback.length > 0) {
+    // Calculate the number of good feedback
+    const goodfb = feedback.filter(
+      (feedback) => feedback.type === "good"
+    ).length;
 
-  //TODO: vaihda oikeeseen feedbackiin kun fetch toimii
-  // Calculate the number of good feedback
-  const goodfb = phfeedbacks.filter(
-    (feedback) => feedback.type === "good"
-  ).length;
+    const badfb = feedback.filter((feedback) => feedback.type === "bad").length;
 
-  const badfb = phfeedbacks.filter(
-    (feedback) => feedback.type === "bad"
-  ).length;
+    const neutralfb = feedback.filter(
+      (feedback) => feedback.type === "neutral"
+    ).length;
 
-  const neutralfb = phfeedbacks.filter(
-    (feedback) => feedback.type === "neutral"
-  ).length;
+    // Calculate the total number of feedback
+    const totalFeedback = feedback.length;
 
-  // Calculate the total number of feedback
-  const totalFeedback = phfeedbacks.length;
-
-  // Calculate the percentage of positive feedback
-  const percentage = (goodfb / totalFeedback) * 100;
+    // Calculate the percentage of positive feedback
+    const percentage = (goodfb / totalFeedback) * 100;
+  }
 
   const handleUserFeedback = (userId) => {
     navigate(`/feedback/${userId}`);
   };
 
+  if (feedback.length > 0) {
+    return (
+      <div>
+        <h1 className="mt-10 mb-10 text-xl font-bold text-center">
+          List of feedbacks
+        </h1>
+        <ul>
+          {feedback.map((feedback, index) => (
+            <li
+              className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"
+              key={index}
+            >
+              <h3>Type: {feedback.type}</h3>
+              <p>Comment: {feedback.comment}</p>
+              <Link
+                to={`/feedback/${feedback.id}`}
+                className="link text-primary"
+              >
+                User: {feedback.user}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
   return (
-    <div>
-      <h1 className="mt-10 mb-10 text-xl font-bold text-center">
-        List of feedbacks
-      </h1>
-      <ul>
-        {phfeedbacks.map((feedback, index) => (
-          <li
-            className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"
-            key={index}
-          >
-            <h3>Type: {feedback.type}</h3>
-            <p>Comment: {feedback.comment}</p>
-            <Link to={`/feedback/${feedback.id}`} className="link text-primary">
-              User: {feedback.user}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="flex justify-center">
+      <p className="border p-7 rounded-md mt-10 mb-20">
+        No feedbacks available
+      </p>
     </div>
   );
 };
