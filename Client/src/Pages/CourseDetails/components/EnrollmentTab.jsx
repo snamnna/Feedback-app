@@ -6,7 +6,7 @@ const EnrollmentTab = () => {
   const course = useSelector((state) => state.courses.selectedCourse);
   const courseId = course.id;
   const [enrollments, setEnrolls] = useState([]);
-  const [enrollmentsAvailable, setEnrollmentsAvailable] = useState(false); // Lisää enrollmentsAvailable-tila
+  const [enrollmentsAvailable, setEnrollmentsAvailable] = useState(false);
   const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const EnrollmentTab = () => {
         token
       );
 
-      // Päivitä enrollmentsAvailable-tila sen perusteella, onko ilmoittautumisia saatavilla
+      // Update if there is enrollments available
       setEnrollmentsAvailable(EnrollmentData.length > 0);
 
       setEnrolls(EnrollmentData);

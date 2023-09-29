@@ -32,8 +32,19 @@ async function getUserFeedback(userId) {
   });
 }
 
+// check if user has already given feedback to lecture
+async function getUserLectureFeedback(userId, lectureId) {
+  return prisma.feedback.findMany({
+    where: {
+      userId,
+      lectureId,
+    },
+  });
+}
+
 module.exports = {
   getCourseFeedback,
   createFeedback,
   getUserFeedback,
+  getUserLectureFeedback,
 };
