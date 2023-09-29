@@ -17,8 +17,6 @@ const LectureCard = ({ lecture }, isOwner) => {
     dispatch(selectLecture(lecture));
   };
 
-  isOwner = false;
-
   return (
     <>
       <div
