@@ -8,15 +8,6 @@ const ParticipantsTab = () => {
   const [participants, setParticipants] = useState([]);
   const token = useSelector((state) => state.auth.token);
 
-  const phparticipants = [
-    { id: 1, username: "user1" },
-    { id: 2, username: "user2" },
-    { id: 3, username: "user3" },
-    { id: 4, username: "user4" },
-    { id: 5, username: "user5" },
-  ];
-
-  //TODO: ei toimi vielä oikein
   useEffect(() => {
     const getParticipants = async () => {
       console.log(courseId);
@@ -32,26 +23,31 @@ const ParticipantsTab = () => {
   const handleRemoveStudent = async (userId) => {
     //TODO: tee loppuun
   };
-
+  if (participants.length > 0) {
+    return (
+      <div className="text-center max-w-xl mx-auto flex flex-col items-center">
+        <h1 className="font-bold text-xl">Participants</h1>
+        <ul>
+          {participants.map((user) => (
+            <li key={user.id} className="m-5 border-b flex flex-row p-3">
+              <p>
+                Username: {user.username} id: {user.id}
+              </p>
+              <button
+                className="btn btn-primary btn-xs mx-5"
+                onClick={() => handleRemoveStudent(user.id)}
+              >
+                remove student
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
   return (
-    <div className="text-center max-w-xl mx-auto flex flex-col items-center">
-      <h1 className="font-bold text-xl">Participants</h1>
-      <ul>
-        {/*TODO. VAIHDA PARTICIPANTSIIN KUN SE TOIMII*/}
-        {phparticipants.map((user) => (
-          <li key={user.id} className="m-5 border-b flex flex-row p-3">
-            <p>
-              Username: {user.username} id: {user.id}
-            </p>
-            <button
-              className="btn btn-primary btn-xs mx-5"
-              onClick={() => handleRemoveStudent(user.id)}
-            >
-              remove student
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className="flex justify-center">
+      <p className="border p-7 rounded-md mt-10 mb-20">No participants found</p>
     </div>
   );
 };
