@@ -32,14 +32,25 @@ router.post("/", verifyToken, async (req, res) => {
 
   validate(courseCreateSchema, req.body);
   const { courseName, courseDescription } = req.body;
-  const id = parseInt(req.user.id, 10);
+  const teacherId = parseInt(req.user.id, 10);
   const data = {
     name: courseName,
     description: courseDescription,
-    lecturerId: id,
+    lecturerId: teacherId,
   };
 
   const newCourse = await courseService.createCourse(data);
+
+  const courseId = newCourse.id;
+
+  // Teacher enrolls to course with status approved
+  const enrollmentData = {
+    userId: teacherId,
+    courseId,
+    status: "APPROVED",
+  };
+
+  await courseService.createEnrollment(enrollmentData);
   res.status(200).json(newCourse);
 });
 
