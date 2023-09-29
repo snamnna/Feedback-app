@@ -22,7 +22,7 @@ const LectureCard = ({ lecture }, isOwner) => {
   return (
     <>
       <div
-        className="w-full sm:w-70 lg:w-96 card card-compact max-h-sm border rounded-md overflow-hidden shadow-md my-2"
+        className="w-full sm:w-70 lg:w-96 card card-compact max-h-sm border rounded-md overflow-hidden my-2"
         data-testid="lecture-card"
       >
         <div
