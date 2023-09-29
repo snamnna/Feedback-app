@@ -9,6 +9,7 @@ const courseController = require("./controllers/courseController");
 const userController = require("./controllers/userController");
 const feedbackController = require("./controllers/feedbackController");
 const lectureController = require("./controllers/lectureController");
+const enrollController = require("./controllers/enrollController");
 const errorHandler = require("./middlewares/errorHandler");
 
 app.use(cors());
@@ -33,6 +34,8 @@ app.use("/api/users", userController);
 app.use("/api/lectures", lectureController);
 
 app.use("/api/feedback", feedbackController);
+
+app.use("/api/enroll", enrollController);
 
 app.use(errorHandler);
 
