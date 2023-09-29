@@ -33,7 +33,14 @@ router.get("/:id", verifyToken, async (req, res) => {
 router.post("/", verifyToken, async (req, res) => {
   validate(feedbackCreateSchema, req.body);
   const { feedbackType, comment, userId, lectureId } = req.body;
-  // const id = parseInt(req.user.id, 10)
+
+  const existingFeedback = await feedbackService.getUserLectureFeedback(
+    userId,
+    lectureId,
+  );
+
+  if (existingFeedback)
+    throw new CustomError(400, "Can't give more than one feedback");
 
   const data = {
     feedbackType,
