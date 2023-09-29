@@ -10,8 +10,10 @@ export const CoursesSection = () => {
   const { userType } = useSelector((state) => state.auth.user.userType);
   const [search, setSearch] = useState("");
   const [isTeacher, setIsTeacher] = useState(false);
+  const allCourses = useSelector((state) => state.courses.allCourses);
+  const [showAllCourses, setShowAllCourses] = useState(false);
 
-  const filterCourses = courses.filter((course) =>
+  const filterCourses = allCourses.filter((course) =>
     course.name.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -20,11 +22,16 @@ export const CoursesSection = () => {
     setIsTeacher(true);
   }
 
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setShowAllCourses(true); // Show all courses when searching
+  };
+
   return (
     <div>
       <div className="px-10 py-3 flex justify-between items-center bg-base-100 opacity-90">
         <div className="text-2xl font-semibold">
-          Courses
+          My Courses
           {isTeacher && (
             <button
               className="btn btn-xs btn-primary shadow-md m-0 px-1.5 py-1 box-content text-sm ml-4"
@@ -40,12 +47,17 @@ export const CoursesSection = () => {
         <input
           className="border border-gray-300 rounded-md shadow-md"
           type="text"
-          placeholder="Search courses"
+          placeholder="Search from all courses"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={handleSearchChange}
         />
       </div>
-      <CourseList courses={filterCourses} />
+      <p className="ml-10 mb-5">
+        Find new courses and enroll to them by searching the course by name and
+        clicking the course.
+      </p>
+
+      <CourseList courses={showAllCourses ? filterCourses : courses} />
     </div>
   );
 };

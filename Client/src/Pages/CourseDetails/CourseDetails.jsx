@@ -22,7 +22,7 @@ const CourseDetails = () => {
   const [isOwner, setIsOwner] = useState(false);
   const dispatch = useDispatch();
   const [active, setActive] = useState("le");
-  const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED"); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
+  const [enrollmentStatus, setEnrollmentStatus] = useState(""); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
   const [enrollBtn, setEnrollBtn] = useState(true);
 
   //get data needed
@@ -44,7 +44,8 @@ const CourseDetails = () => {
   }, [data]);
 
   //enrolling to a course
-  const handleEnroll = async () => {
+  const handleEnroll = async (e) => {
+    e.preventDefault();
     const enroll = await courseService.courseEnrollment(courseId, token);
     if (enroll) {
       console.log("enrollment success");

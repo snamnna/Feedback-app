@@ -26,7 +26,10 @@ export const courseApi = createApi({
     getCourseById: builder.query({
       query: (courseId) => `${courseId}`,
     }),
+    getAllCourses: builder.query({
+      query: () => "/",
+    }),
   }),
 });
 
-export const { useGetCourseByIdQuery } = courseApi;
+export const { useGetCourseByIdQuery, useGetAllCoursesQuery } = courseApi;
