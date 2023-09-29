@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetCourseByIdQuery } from "../../features/courseApi";
 import { useParams } from "react-router";
 import PropTypes from "prop-types";
@@ -196,16 +196,35 @@ const CourseDetails = () => {
 };
 
 const LectureList = ({ lectures }, isOwner) => {
+  if (lectures.length > 0) {
+    return (
+      <div>
+        <h1 className="text-center font-bold">Lectures:</h1>
+        <ul className="mt-3 mb-5">
+          {lectures.map((lecture) => (
+            <li className="mx-10" key={lecture.id}>
+              <LectureCard lecture={lecture} isOwner={isOwner} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
   return (
-    <div>
-      <h1 className="text-center font-bold">Lectures:</h1>
-      <ul className="mt-3 mb-5">
-        {lectures.map((lecture) => (
-          <li className="mx-10" key={lecture.id}>
-            <LectureCard lecture={lecture} isOwner={isOwner} />
-          </li>
-        ))}
-      </ul>
+    <div className="flex justify-center">
+      <div className="border py-7 px-10 rounded-md mt-10 mb-20 text-center">
+        <p>No lectures yet</p>
+        {isOwner && (
+          <button
+            className="btn btn-sm btn-primary mt-3"
+            onClick={() =>
+              document.getElementById("new_lecture_modal").showModal()
+            }
+          >
+            New lecture
+          </button>
+        )}
+      </div>
     </div>
   );
 };
