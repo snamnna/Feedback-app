@@ -1,15 +1,25 @@
 import { FiX } from "react-icons/fi";
-import CourseForm from "./CourseForm";
 import { useState } from "react";
 import courseService from "../../../services/courseService";
 import { useSelector } from "react-redux";
+import lectureService from "../../../services/lectureService";
+import LectureForm from "./LectureForm";
 
-const EditCourseModal = () => {
-  const course = useSelector((state) => state.courses.selectedCourse);
-  const [courseName, setCourseName] = useState("");
+const EditLectureModal = () => {
+  //TODO: selected lecture ei toimi ku slice ei toimi
+
+  //hetkellinen placeholder lecture:
+
+  const lecture = {
+    id: 1,
+    name: "nimi",
+  };
+
+  // const lecture = useSelector((state) => state.lectures.selectedLecture);
+  const [lectureName, setLectureName] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
   const token = useSelector((state) => state.auth.token);
-  const courseId = course.id;
+  const lectureId = lecture.id;
 
   const handleClose = () => {};
 
@@ -17,25 +27,24 @@ const EditCourseModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      courseName,
-      courseDescription,
+      lectureName,
     };
     console.log(data);
-    const editedCourse = await courseService.updateCourse(
-      courseId,
+    const editedLecture = await lectureService.updateLecture(
+      lectureId,
       data,
       token
     );
-    console.log(editedCourse);
-    document.getElementById("edit_course_modal").close();
+    console.log(editedLecture);
+    document.getElementById("edit_lecture_modal").close();
   };
 
   return (
-    <dialog id="edit_course_modal" className="modal">
+    <dialog id="edit_lecture_modal" className="modal">
       <div className="modal-box">
         <div className="relative flex justify-end">
           <h3 className="absolute font-bold text-lg left-0 top-3.5">
-            Edit course
+            Edit Lecture
           </h3>
           <div onClick={handleClose}>
             <form method={"dialog"}>
@@ -46,11 +55,9 @@ const EditCourseModal = () => {
           </div>
         </div>
 
-        <CourseForm
-          courseDescription={courseDescription}
-          setCourseDescription={setCourseDescription}
-          courseName={courseName}
-          setCourseName={setCourseName}
+        <LectureForm
+          lectureName={lectureName}
+          setLectureName={setLectureName}
           onSubmit={handleSubmit}
         />
         <div className="flex justify-end pt-4">
@@ -74,4 +81,4 @@ const EditCourseModal = () => {
     </dialog>
   );
 };
-export default EditCourseModal;
+export default EditLectureModal;

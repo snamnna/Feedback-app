@@ -1,11 +1,15 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectLecture } from "../../../features/lectures/lectureSlice";
+import { FiEdit, FiX } from "react-icons/fi";
+import React from "react";
 
-const LectureCard = ({ lecture }, isOwner) => {
+const LectureCard = ({ lecture, isOwner }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const userId = useSelector((state) => state.auth.user.id);
 
   const handleViewFeedback = () => {
     // Navigate to the feedback page with the lectureId
@@ -17,10 +21,18 @@ const LectureCard = ({ lecture }, isOwner) => {
     dispatch(selectLecture(lecture));
   };
 
+  const handleDeleteLecture = () => {
+    const lectureId = lecture.id;
+  };
+
+  const handleEditLecture = () => {
+    document.getElementById("edit_lecture_modal").showModal();
+  };
+
   return (
     <>
       <div
-        className="w-full sm:w-70 lg:w-96 card card-compact max-h-sm border rounded-md overflow-hidden my-2"
+        className=" lg:w-96 card card-compact max-h-sm border rounded-md overflow-hidden my-2"
         data-testid="lecture-card"
       >
         <div
@@ -32,11 +44,25 @@ const LectureCard = ({ lecture }, isOwner) => {
           {isOwner ? (
             <>
               <button
-                className="btn btn-primary btn-sm self-end"
+                className="btn btn-primary btn-sm mb-2 self-end"
                 onClick={handleViewFeedback}
               >
                 View feedback
               </button>
+              <div className="flex flex-row">
+                <a
+                  className="btn btn-ghost btn-sm mt-2"
+                  onClick={handleEditLecture}
+                >
+                  <FiEdit size={15} />
+                </a>
+                <a
+                  className="btn btn-ghost max-w-sm flex flex-col text-xs"
+                  onClick={handleDeleteLecture}
+                >
+                  delete
+                </a>
+              </div>
             </>
           ) : (
             <div className="">
