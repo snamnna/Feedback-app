@@ -10,6 +10,7 @@ import DropdownMenu from "./components/DropdownMenu";
 import OverViewTab from "./components/OverViewTab";
 import ParticipantsTab from "./components/ParticipantsTab";
 import EnrollmentTab from "./components/EnrollmentTab";
+import { useNavigate } from "react-router-dom";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -22,8 +23,9 @@ const CourseDetails = () => {
   const [isOwner, setIsOwner] = useState(false);
   const dispatch = useDispatch();
   const [active, setActive] = useState("le");
-  const [enrollmentStatus, setEnrollmentStatus] = useState(""); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
+  const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED"); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
   const [enrollBtn, setEnrollBtn] = useState(true);
+  const navigate = useNavigate();
 
   //get data needed
   useEffect(() => {
@@ -44,8 +46,7 @@ const CourseDetails = () => {
   }, [data]);
 
   //enrolling to a course
-  const handleEnroll = async (e) => {
-    e.preventDefault();
+  const handleEnroll = async () => {
     const enroll = await courseService.courseEnrollment(courseId, token);
     if (enroll) {
       console.log("enrollment success");
@@ -66,6 +67,7 @@ const CourseDetails = () => {
   const handleDelete = async () => {
     const deleteCourse = await courseService.deleteCourse(courseId, token);
     console.log(deleteCourse);
+    navigate("/");
   };
 
   //Show lectures if enrollmentStatus is approved
@@ -75,7 +77,7 @@ const CourseDetails = () => {
         <div className="flex justify-between px-10 py-3 bg-base-100 ">
           <div className="flex flex-row ">
             <h1 className="my-2 text-xl font-bold">
-              Details for course {course.name}
+              Details for {course.name}
             </h1>
             {isOwner ? (
               <>
@@ -99,7 +101,7 @@ const CourseDetails = () => {
                     onClick={() => setActive("ow")}
                     className={`tab ${active === "ow" ? "tab-active" : ""}`}
                   >
-                    Feedback Overview
+                    Feedback
                   </a>
                   <a
                     onClick={() => setActive("pa")}
