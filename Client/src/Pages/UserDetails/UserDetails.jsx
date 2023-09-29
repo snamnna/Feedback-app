@@ -9,12 +9,18 @@ const UserDetails = () => {
   const error = useSelector((state) => state.auth.error);
   const [newName, setNewName] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confPwd, setConfPwd] = useState("");
 
   const handleEditUser = () => {
-    if (newName && newPassword) {
-      dispatch(editUser(user.id, newName, newPassword, token));
-      setNewName("");
-      setNewPassword("");
+    if (newName && newPassword && confPwd) {
+      if (newPassword === confPwd) {
+        dispatch(editUser(user.id, newName, newPassword, token));
+        setNewName("");
+        setNewPassword("");
+        setConfPwd("");
+      } else {
+        alert("Passwords do not match!");
+      }
     } else {
       alert("Please fill in both new name and password.");
     }
@@ -56,6 +62,21 @@ const UserDetails = () => {
                 placeholder="New password*"
               />
             </div>
+
+            <div className="mb-6">
+              <input
+                className="border border-gray-300 shadow-md rounded-md"
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                autoComplete="off"
+                value={confPwd}
+                onChange={(e) => setConfPwd(e.target.value)}
+                required
+                placeholder="Confirm password*"
+              />
+            </div>
+
             <div className="flex justify-center mb-6">
               <button
                 type="button"
