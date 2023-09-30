@@ -24,11 +24,10 @@ async function updateLecture(id, courseId, name) {
 }
 
 //delete lecture from db and return deleted data
-async function deleteLecture(id, courseId) {
+async function deleteLecture(id) {
   return prisma.lecture.delete({
     where: {
       id,
-      courseId,
     },
   });
 }

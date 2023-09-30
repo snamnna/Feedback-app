@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectLecture } from "../../../features/lectures/lectureSlice";
 import { FiEdit, FiX } from "react-icons/fi";
 import React from "react";
+import lectureService from "../../../services/lectureService";
 
 const LectureCard = ({ lecture, isOwner }) => {
+  const lectureId = lecture.id;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -21,8 +23,9 @@ const LectureCard = ({ lecture, isOwner }) => {
     dispatch(selectLecture(lecture));
   };
 
-  const handleDeleteLecture = () => {
-    const lectureId = lecture.id;
+  const handleDeleteLecture = async () => {
+    const deleteLecture = await lectureService.deleteLecture(lectureId, token);
+    console.log(deleteLecture);
   };
 
   const handleEditLecture = () => {
