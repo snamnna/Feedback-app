@@ -11,17 +11,19 @@ const lectureSlice = createSlice({
   reducers: {
     removeLecture(state, action) {
       //return new array without the removed lecture by using filter
-      state = state.filter((lecture) => lecture.id !== action.payload);
+      state.lectures = state.lectures.filter(
+        (lecture) => lecture.id !== action.payload,
+      );
     },
     addLecture(state, action) {
       //add new lecture to the array
-      state.push(action.payload);
+      state.lectures.push(action.payload);
     },
     setLectures(state, action) {
-      return action.payload;
+      state.lectures = action.payload;
     },
-    resetLectures() {
-      return initialState;
+    resetLectures(state) {
+      state.lectures = [];
     },
     selectLecture(state, action) {
       state.selectedLecture = action.payload;
