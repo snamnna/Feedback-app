@@ -55,7 +55,7 @@ model CourseEnrollment {
   userId   Int
   courseId Int
   user     User             @relation(fields: [userId], references: [id])
-  course   Course           @relation(fields: [courseId], references: [id])
+  course   Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
   status   EnrollmentStatus @default(PENDING)
 
   @@id([userId, courseId])
