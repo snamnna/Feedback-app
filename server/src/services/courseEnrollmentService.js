@@ -1,7 +1,7 @@
 const prisma = require("../utils/prisma");
 
 // create new enrollment to database and return enrollment data
-async function createEnrollment(userId, courseId) {
+async function createEnrollment({ userId, courseId }) {
   return prisma.courseEnrollment.create({
     data: {
       userId,

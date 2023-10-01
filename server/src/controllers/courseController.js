@@ -4,6 +4,7 @@ const router = express.Router();
 const Joi = require("joi");
 const courseService = require("../services/courseService");
 const feedbackService = require("../services/feedbackService");
+const enrollmentService = require("../services/courseEnrollmentService");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const validate = require("../utils/validate");
@@ -48,10 +49,13 @@ router.post("/", verifyToken, async (req, res) => {
   const enrollmentData = {
     userId: teacherId,
     courseId,
-    status: "APPROVED",
   };
 
-  await courseService.createEnrollment(enrollmentData);
+  await enrollmentService.createEnrollment(enrollmentData);
+  await enrollmentService.updateEnrollment({
+    ...enrollmentData,
+    status: "APPROVED",
+  });
   res.status(200).json(newCourse);
 });
 
