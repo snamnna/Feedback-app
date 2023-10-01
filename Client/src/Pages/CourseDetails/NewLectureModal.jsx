@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LectureForm from "./components/LectureForm";
 import lectureService from "../../services/lectureService";
-import { addLecture } from "../../features/lectures/lectureSlice";
+import { addLecture } from "../../features/courses/courseSlice";
 
 const NewLectureModal = () => {
   const course = useSelector((state) => state.courses.selectedCourse);

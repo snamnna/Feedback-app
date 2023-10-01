@@ -7,6 +7,7 @@ const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const lectureService = require("../services/lectureService");
 const validate = require("../utils/validate");
+const feedbackService = require("../services/feedbackService");
 
 const lectureCreateSchema = Joi.object({
   lectureName: Joi.string().min(4).max(160).required(),
@@ -36,6 +37,14 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
   const lecture = await lectureService.getLectureById(id);
 
   if (!lecture) throw new CustomError(404, "Lecture not found");
+
+  if (req.user.userType === "STUDENT") {
+    const feedback = await feedbackService.getUserLectureFeedback(
+      req.user.id,
+      id,
+    );
+    return res.status(200).json(feedback);
+  }
 
   const feedback = await lectureService.getAllFeedbacksOfLecture(id);
   if (!feedback) throw new CustomError(404, "Feedback not found");

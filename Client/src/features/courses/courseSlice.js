@@ -32,6 +32,9 @@ const courseSlice = createSlice({
       // Update the allCourses state with the courses array
       state.allCourses = coursesArray;
     },
+    addLecture(state, action) {
+      state.selectedCourse.lectures.push(action.payload);
+    },
     resetCourses(state) {
       // Reset the state to the initial state
       state.courses = initialState.courses;
@@ -50,5 +53,6 @@ export const {
   setAllCourses,
   resetCourses,
   selectCourse,
+  addLecture,
 } = courseSlice.actions;
 export default courseSlice.reducer;

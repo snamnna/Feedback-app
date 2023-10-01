@@ -30,13 +30,16 @@ const courseFeedback = async (courseId, token) => {
   }
 };
 
-const lectureFeedback = async (lectureId, token) => {
+const lectureFeedback = async (data, token) => {
   try {
-    const response = await axios.get(`/api/lectures/${lectureId}/feedback`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `/api/lectures/${data.lectureId}/feedback`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("getting feedback for lecture failed:", error);

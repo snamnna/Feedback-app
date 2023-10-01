@@ -8,16 +8,17 @@ const LectureDetails = () => {
   const [feedback, setFeedback] = useState([]);
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     console.log(lectureId);
 
     const fetchFeedback = async () => {
       try {
-        const feedbacks = await feedbackService.lectureFeedback(
+        const data = {
           lectureId,
-          token
-        );
+        };
+        const feedbacks = await feedbackService.lectureFeedback(data, token);
         setFeedback(feedbacks);
         console.log(feedback);
       } catch (error) {
@@ -30,13 +31,15 @@ const LectureDetails = () => {
   if (feedback.length > 0) {
     // Calculate the number of good feedback
     const goodfb = feedback.filter(
-      (feedback) => feedback.type === "good"
+      (feedback) => feedback.feedbackType === "good"
     ).length;
 
-    const badfb = feedback.filter((feedback) => feedback.type === "bad").length;
+    const badfb = feedback.filter(
+      (feedback) => feedback.feedbackType === "bad"
+    ).length;
 
     const neutralfb = feedback.filter(
-      (feedback) => feedback.type === "neutral"
+      (feedback) => feedback.feedbackType === "neutral"
     ).length;
 
     // Calculate the total number of feedback
@@ -48,6 +51,10 @@ const LectureDetails = () => {
 
   const handleUserFeedback = (userId) => {
     navigate(`/feedback/${userId}`);
+  };
+
+  const openNewFeedbackModal = () => {
+    document.getElementById("feedback_modal").showModal();
   };
 
   //TODO: halutaanko lisää prosentit ja eriteltynbnä mitä feedbackei saanu miten paljon samal taval ku kurssi feedbackis
@@ -63,7 +70,7 @@ const LectureDetails = () => {
               className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"
               key={index}
             >
-              <h3>Type: {feedback.type}</h3>
+              <h3>Type: {feedback.feedbackType}</h3>
               <p>Comment: {feedback.comment}</p>
               <Link
                 to={`/feedback/${feedback.userId}`}
@@ -77,7 +84,12 @@ const LectureDetails = () => {
       </div>
     );
   }
-  return (
+
+  return user.userType === "STUDENT" && feedback ? (
+    <div>
+      <button onClick={openNewFeedbackModal}>Give feedback</button>
+    </div>
+  ) : (
     <div className="flex justify-center">
       <div className="text-center border p-7 rounded-md mt-10 mb-20">
         <p className="">No feedbacks available</p>

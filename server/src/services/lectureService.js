@@ -10,7 +10,7 @@ async function createLecture({ courseId, lectureName }) {
   });
 }
 
-//update lecture in db and return updated lecture
+// update lecture in db and return updated lecture
 async function updateLecture(id, courseId, name) {
   return prisma.lecture.update({
     where: {
@@ -23,7 +23,7 @@ async function updateLecture(id, courseId, name) {
   });
 }
 
-//delete lecture from db and return deleted data
+// delete lecture from db and return deleted data
 async function deleteLecture(id) {
   return prisma.lecture.delete({
     where: {
@@ -39,7 +39,7 @@ async function getAllFeedbacksOfLecture(id, courseId) {
       id,
       courseId,
     },
-    include: {
+    select: {
       feedback: true,
     },
   });

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import feedbackService from "../../services/feedbackService";
 
 const FeedbackModal = () => {
-  const [feedback, setFeedback] = useState("");
+  const [feedbackType, setFeedbackType] = useState("");
   const [comment, setComment] = useState("");
   const token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.auth.user);
@@ -28,11 +28,10 @@ const FeedbackModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (feedback) {
+    if (feedbackType) {
       const data = {
-        feedback,
+        feedbackType,
         comment,
-        userId,
         lectureId,
       };
 
@@ -44,7 +43,7 @@ const FeedbackModal = () => {
   };
 
   const handleClose = () => {
-    setFeedback("");
+    setFeedbackType("");
   };
 
   const FeedbackButton = ({ icon, feedbackType }) => {
@@ -59,18 +58,18 @@ const FeedbackModal = () => {
       justifyContent: "center",
       alignItems: "center",
       backgroundColor:
-        feedbackType === "good"
+        feedbackType === "GREAT"
           ? "green"
-          : feedbackType === "neutral"
+          : feedbackType === "NEUTRAL"
           ? "yellow"
           : "red",
       color: "black",
       boxShadow:
-        feedback === feedbackType ? "0 0 10px rgba(0,0,0,0.4)" : "none",
+        feedbackType === feedbackType ? "0 0 10px rgba(0,0,0,0.4)" : "none",
     };
 
     return (
-      <button style={buttonStyle} onClick={() => setFeedback(feedbackType)}>
+      <button style={buttonStyle} onClick={() => setFeedbackType(feedbackType)}>
         {icon}
       </button>
     );
@@ -95,12 +94,12 @@ const FeedbackModal = () => {
           <div className="flex flex-row justify-evenly my-7">
             <FeedbackButton
               icon={<BsEmojiSmile className="flex" />}
-              feedbackType="good"
+              feedbackType="GREAT"
             />
-            <FeedbackButton icon={<BsEmojiNeutral />} feedbackType="neutral" />
+            <FeedbackButton icon={<BsEmojiNeutral />} feedbackType="NEUTRAL" />
             <FeedbackButton
               icon={<RiEmotionUnhappyLine />}
-              feedbackType="bad"
+              feedbackType="BAD"
             />
           </div>
           <p className="m-2 text-center">Give a comment (optional)</p>
@@ -114,7 +113,7 @@ const FeedbackModal = () => {
           <span className="label-text-alt mt-2">
             {`${comment.length || 0} / 64`}
           </span>
-          {feedback && (
+          {feedbackType && (
             <div className="flex justify-center mt-5">
               <button className="btn btn-primary " onClick={handleSubmit}>
                 Send

@@ -10,7 +10,6 @@ const validate = require("../utils/validate");
 const feedbackCreateSchema = Joi.object({
   feedbackType: Joi.string().valid("BAD", "GREAT", "NEUTRAL").required(),
   comment: Joi.string().max(160).optional().allow(""),
-  userId: Joi.number().integer().required(),
   lectureId: Joi.number().integer().required(),
 });
 
@@ -32,7 +31,8 @@ router.get("/:id", verifyToken, async (req, res) => {
 // create new feedback
 router.post("/", verifyToken, async (req, res) => {
   validate(feedbackCreateSchema, req.body);
-  const { feedbackType, comment, userId, lectureId } = req.body;
+  const { feedbackType, comment, lectureId } = req.body;
+  const userId = req.user.id;
 
   const existingFeedback = await feedbackService.getUserLectureFeedback(
     userId,
@@ -45,7 +45,6 @@ router.post("/", verifyToken, async (req, res) => {
   const data = {
     feedbackType,
     comment,
-    userId,
     lectureId,
   };
 
