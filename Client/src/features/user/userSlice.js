@@ -23,10 +23,21 @@ const userSlice = createSlice({
     editUserFailure: (state, action) => {
       state.error = action.payload;
     },
+    deleteUserSuccess: (state, action) => {
+      state.error = null;
+    },
+    deleteUserFailure: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
-export const { editUserSuccess, editUserFailure } = userSlice.actions;
+export const {
+  editUserSuccess,
+  editUserFailure,
+  deleteUserSuccess,
+  deleteUserFailure,
+} = userSlice.actions;
 
 export const editUser =
   (userId, newName, newPassword, token) => async (dispatch) => {
@@ -48,5 +59,20 @@ export const editUser =
       dispatch(editUserFailure(error.message));
     }
   };
+
+export const deleteUser = (userId, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.delete(`${BASE_URL}/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(deleteUserSuccess(response.data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+};
 
 export default userSlice.reducer;

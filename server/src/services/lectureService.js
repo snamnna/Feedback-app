@@ -1,10 +1,10 @@
 const prisma = require("../utils/prisma");
 
 // create new lecture to database and return lecture data
-async function createLecture(name, courseId) {
+async function createLecture({ courseId, lectureName }) {
   return prisma.lecture.create({
     data: {
-      name,
+      name: lectureName,
       courseId,
     },
   });
@@ -24,11 +24,10 @@ async function updateLecture(id, courseId, name) {
 }
 
 //delete lecture from db and return deleted data
-async function deleteLecture(id, courseId) {
+async function deleteLecture(id) {
   return prisma.lecture.delete({
     where: {
       id,
-      courseId,
     },
   });
 }

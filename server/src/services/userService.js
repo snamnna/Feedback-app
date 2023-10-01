@@ -31,11 +31,10 @@ async function createUser(username, password) {
 
 // pitäis palauttaa kontrolleriin arvoja että tietää mitä poistettiin ja onnistuiko poisto
 // delete user from db
-async function deleteUser(username, password) {
+async function deleteUser(id) {
   return prisma.user.delete({
     where: {
-      username,
-      password,
+      id,
     },
   });
 }

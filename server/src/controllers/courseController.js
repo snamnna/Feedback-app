@@ -7,6 +7,7 @@ const feedbackService = require("../services/feedbackService");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const validate = require("../utils/validate");
+const { getEnrollById } = require("../services/courseEnrollmentService");
 
 const courseCreateSchema = Joi.object({
   courseName: Joi.string().min(4).max(160).required(),
@@ -66,8 +67,12 @@ router.get("/:id", verifyToken, async (req, res) => {
     delete course.enrollments;
   }
 
+  const enrollment = await getEnrollById(req.user.id, id);
+
   // get course by id and add it to response
-  return res.status(200).json({ message: "Course found successfully", course });
+  return res
+    .status(200)
+    .json({ message: "Course found successfully", course, enrollment });
 });
 
 // get course participants (tämä palauttaa vain hyväksytyt)

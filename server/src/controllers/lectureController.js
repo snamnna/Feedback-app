@@ -18,12 +18,12 @@ router.post("/", verifyToken, async (req, res) => {
     return res.status(403).json({ message: "Permission denied" });
   }
 
-  validate(lectureCreateSchema, req.body);
+  // validate(lectureCreateSchema, req.body);
   const { lectureName } = req.body;
-  const lectureId = parseInt(req.user.id, 10);
+  const courseId = parseInt(req.body.courseId, 10);
   const data = {
     lectureName,
-    lectureId,
+    courseId,
   };
 
   const newLecture = await lectureService.createLecture(data);

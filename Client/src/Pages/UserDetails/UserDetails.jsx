@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "../../features/user/userSlice";
+import { editUser, deleteUser } from "../../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
+import DelConf from "./components/deleteConfirmationPopUp";
+
+const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
 
 const UserDetails = () => {
   const dispatch = useDispatch();
@@ -10,9 +15,24 @@ const UserDetails = () => {
   const [newName, setNewName] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confPwd, setConfPwd] = useState("");
+  const navigate = useNavigate();
+  const [showDelConf, setShowDelConf] = useState("");
+
+  const [validName, setValidName] = useState(false);
+  const [validPwd, setValidPwd] = useState(false);
+  const [validMatch, setValidMatch] = useState(false);
+
+  useEffect(() => {
+    setValidName(USER_REGEX.test(newName));
+  }, [newName]);
+
+  useEffect(() => {
+    setValidPwd(PWD_REGEX.test(newPassword));
+    setValidMatch(newPassword === confPwd);
+  }, [newPassword, confPwd]);
 
   const handleEditUser = () => {
-    if (newName && newPassword && confPwd) {
+    if (validName && validPwd && validMatch) {
       if (newPassword === confPwd) {
         dispatch(editUser(user.id, newName, newPassword, token));
         setNewName("");
@@ -22,8 +42,23 @@ const UserDetails = () => {
         alert("Passwords do not match!");
       }
     } else {
-      alert("Please fill in both new name and password.");
+      alert(
+        "Please fill in both new name and password and ensure they meet the requirements."
+      );
     }
+  };
+
+  const handleDeleteUser = () => {
+    setShowDelConf(true);
+  };
+
+  const handleConfDel = () => {
+    dispatch(deleteUser(user.id, token));
+    navigate("/login");
+  };
+
+  const handleCancelDel = () => {
+    setShowDelConf(false);
   };
 
   return (
@@ -34,10 +69,14 @@ const UserDetails = () => {
         </h1>
         <div>
           {error && <p>Error: {error}</p>}
-          <form>
+          <form className="flex flex-col items-center">
             <div className="mb-6">
               <input
-                className="border border-gray-300 shadow-md rounded-md"
+                className={
+                  validName
+                    ? "border border-gray-300 shadow-md rounded-md"
+                    : "border border-red-500 shadow-md rounded-md"
+                }
                 type="text"
                 id="newName"
                 name="newName"
@@ -51,7 +90,11 @@ const UserDetails = () => {
 
             <div className="mb-6">
               <input
-                className="border border-gray-300 shadow-md rounded-md"
+                className={
+                  validPwd // Käyttää validPwd-tilaa määrittelemään luokan
+                    ? "border border-gray-300 shadow-md rounded-md"
+                    : "border border-red-500 shadow-md rounded-md"
+                }
                 type="password"
                 id="newPassword"
                 name="newPassword"
@@ -65,7 +108,11 @@ const UserDetails = () => {
 
             <div className="mb-6">
               <input
-                className="border border-gray-300 shadow-md rounded-md"
+                className={
+                  validMatch
+                    ? "border border-gray-300 shadow-md rounded-md"
+                    : "border border-red-500 shadow-md rounded-md"
+                }
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
@@ -77,6 +124,27 @@ const UserDetails = () => {
               />
             </div>
 
+            <div>
+              <p className="flex justify-center">
+                Password must contain at least one lowercase letter,
+              </p>
+              <p className="flex justify-center">
+                one uppercase letter, one number,
+              </p>
+              <p className="flex justify-center mb-6">
+                and one special character (!@#$%+).
+              </p>
+            </div>
+
+            <div>
+              <p className="flex justify-center">
+                If you prefer to change only one of these,
+              </p>
+              <p className="flex justify-center mb-6">
+                please provide your old credentials for the unchanged parts.
+              </p>
+            </div>
+
             <div className="flex justify-center mb-6">
               <button
                 type="button"
@@ -86,7 +154,20 @@ const UserDetails = () => {
                 <span>Edit User</span>
               </button>
             </div>
+
+            <div className="flex justify-center mb-6">
+              <button
+                type="button"
+                onClick={handleDeleteUser}
+                className="btn btn-xs btn-primary shadow-md"
+              >
+                <span>Delete User</span>
+              </button>
+            </div>
           </form>
+          {showDelConf && (
+            <DelConf onCancel={handleCancelDel} onConfirm={handleConfDel} />
+          )}
         </div>
       </div>
     </div>
