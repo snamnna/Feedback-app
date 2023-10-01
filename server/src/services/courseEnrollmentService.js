@@ -38,7 +38,7 @@ async function updateEnrollment({ userId, courseId, status }) {
 }
 
 // delete enrollment from db and return deleted data
-async function deleteEnrollment(userId, courseId) {
+async function deleteEnrollment({ userId, courseId }) {
   return prisma.courseEnrollment.delete({
     where: {
       userId_courseId: {
