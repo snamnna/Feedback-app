@@ -39,6 +39,7 @@ const EnrollmentTab = () => {
     }
   };
 
+  // Tämä toimii
   const deleteEnroll = async (userId) => {
     try {
       const data = { courseId, userId, status: "REJECTED" };
@@ -49,9 +50,9 @@ const EnrollmentTab = () => {
         prevEnrolls.filter((enroll) => enroll.userId !== userId)
       );
 
-      console.log("Enrollment accepted:", response);
+      console.log("Enrollment deleted:", response);
     } catch (error) {
-      console.error("Enrollment acceptance failed:", error);
+      console.error("Enrollment delete failed:", error);
     }
   };
 

@@ -68,7 +68,21 @@ const CourseDetails = () => {
 
   //muista implementoida samalla tavalla kun on tehty enrollment tabissa (status rejected)
   //TODO: toteuta
-  const handleLeave = async () => {};
+  const handleLeave = async () => {
+    try {
+      const data = {
+        courseId,
+        userId,
+        status: "REJECTED",
+      };
+      const response = await courseService.acceptEnrollment(data, token);
+
+      setEnrollBtn(true);
+      console.log("Left the course:", response);
+    } catch (error) {
+      console.error("Leaving the course failed:", error);
+    }
+  };
 
   //delete course
   const handleDelete = async () => {
