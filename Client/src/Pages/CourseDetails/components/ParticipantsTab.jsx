@@ -22,8 +22,6 @@ const ParticipantsTab = () => {
   }, [courseId, token]);
 
   const handleRemoveStudent = async (userId) => {
-    //TODO: tee loppuun
-    // Voiko tämän tehdä niin että rejectaa strudentin?
     try {
       const data = { courseId, userId, status: "REJECTED" };
       const response = await courseService.acceptEnrollment(data, token);

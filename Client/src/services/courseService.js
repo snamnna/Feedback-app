@@ -74,9 +74,9 @@ const getEnrollments = async (courseId, token) => {
 };
 
 //TODO:: varmista toimiiko
-const courseEnrollment = async (courseId, data, token) => {
+const courseEnrollment = async (data, token) => {
   try {
-    const res = await axios.put(`/api/enroll/${courseId}/`, data, {
+    const res = await axios.post(`/api/enroll/`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
