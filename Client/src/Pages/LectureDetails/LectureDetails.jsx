@@ -1,45 +1,49 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import feedbackService from "../../services/feedbackService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedLecture } from "../../features/lectures/lectureSlice";
 
 const LectureDetails = () => {
   const { lectureId } = useParams();
   const [feedback, setFeedback] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     console.log(lectureId);
-
     const fetchFeedback = async () => {
       try {
         const data = {
           lectureId,
         };
         const feedbacks = await feedbackService.lectureFeedback(data, token);
-        setFeedback(feedbacks);
+        console.log(feedbacks);
+
+        setFeedback([...feedbacks]);
+
         console.log(feedback);
       } catch (error) {
         console.error("Error fetching feedback:", error);
       }
     };
     fetchFeedback();
-  }, [lectureId]);
+  }, [token]);
 
-  if (feedback.length > 0) {
+  if (user.userType === "TEACHER" && feedback.length > 0) {
     // Calculate the number of good feedback
     const goodfb = feedback.filter(
-      (feedback) => feedback.feedbackType === "good"
+      (feedback) => feedback.feedbackType === "GREAT"
     ).length;
 
     const badfb = feedback.filter(
-      (feedback) => feedback.feedbackType === "bad"
+      (feedback) => feedback.feedbackType === "BAD"
     ).length;
 
     const neutralfb = feedback.filter(
-      (feedback) => feedback.feedbackType === "neutral"
+      (feedback) => feedback.feedbackType === "NEUTRAL"
     ).length;
 
     // Calculate the total number of feedback
@@ -54,12 +58,13 @@ const LectureDetails = () => {
   };
 
   const openNewFeedbackModal = () => {
+    dispatch(setSelectedLecture(lectureId));
     document.getElementById("feedback_modal").showModal();
   };
 
   //TODO: halutaanko lisää prosentit ja eriteltynbnä mitä feedbackei saanu miten paljon samal taval ku kurssi feedbackis
-  if (feedback.length > 0) {
-    return (
+  if (user.userType === "TEACHER") {
+    return feedback.length > 0 ? (
       <div>
         <h1 className="mt-10 mb-10 text-xl font-bold text-center">
           List of feedbacks
@@ -76,27 +81,44 @@ const LectureDetails = () => {
                 to={`/feedback/${feedback.userId}`}
                 className="link text-primary"
               >
-                User: {feedback.user}
+                User: {feedback.userId}
               </Link>
             </li>
           ))}
         </ul>
       </div>
+    ) : (
+      <div className="flex justify-center">
+        <h1 className="mt-10 mb-10 text-xl font-bold text-center">
+          No feedbacks yet
+        </h1>
+      </div>
     );
   }
 
-  return user.userType === "STUDENT" && feedback ? (
+  return user.userType === "STUDENT" && !feedback[0] ? (
     <div>
       <button onClick={openNewFeedbackModal}>Give feedback</button>
     </div>
   ) : (
     <div className="flex justify-center">
-      <div className="text-center border p-7 rounded-md mt-10 mb-20">
-        <p className="">No feedbacks available</p>
-        <a className="link link-primary" href={"/"}>
-          Back to courses
-        </a>
-      </div>
+      <ul>
+        {feedback.map((feedback, index) => (
+          <li
+            className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"
+            key={index}
+          >
+            <h3>Type: {feedback.feedbackType}</h3>
+            <p>Comment: {feedback.comment}</p>
+            <Link
+              to={`/feedback/${feedback.userId}`}
+              className="link text-primary"
+            >
+              User: {feedback.userId}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

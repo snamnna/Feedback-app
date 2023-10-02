@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLecture } from "../../../features/lectures/lectureSlice";
+import { setSelectedLecture } from "../../../features/lectures/lectureSlice";
 import { FiEdit, FiX } from "react-icons/fi";
 import React from "react";
 import lectureService from "../../../services/lectureService";
@@ -20,7 +20,7 @@ const LectureCard = ({ lecture, isOwner }) => {
 
   const handleGiveFeedback = () => {
     document.getElementById("feedback_modal").showModal();
-    dispatch(selectLecture(lecture));
+    dispatch(setSelectedLecture(lecture.id));
   };
 
   const handleDeleteLecture = async () => {

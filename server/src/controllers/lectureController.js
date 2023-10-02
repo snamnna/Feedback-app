@@ -43,15 +43,13 @@ router.get("/:id/feedback", verifyToken, async (req, res) => {
       req.user.id,
       id,
     );
-    return res.status(200).json(feedback);
+    return res.status(200).json([feedback]);
   }
 
   const feedback = await lectureService.getAllFeedbacksOfLecture(id);
   if (!feedback) throw new CustomError(404, "Feedback not found");
-
-  return res
-    .status(200)
-    .json({ message: "Feedback found successfully", feedback });
+  const feedbacks = feedback.map((f) => f.feedback);
+  return res.status(200).json(...feedbacks);
 });
 
 // Update lecture

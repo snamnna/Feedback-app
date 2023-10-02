@@ -9,19 +9,7 @@ const FeedbackModal = () => {
   const [feedbackType, setFeedbackType] = useState("");
   const [comment, setComment] = useState("");
   const token = useSelector((state) => state.auth.token);
-  const user = useSelector((state) => state.auth.user);
-  const [userId, setUserId] = useState();
-  //const lecture = useSelector((state) => state.lectures.selectedLecture);
-  //const lectureId = lecture.selectedLecture.id;
-
-  useEffect(() => {
-    if (token) {
-      setUserId(user.id);
-    }
-  }, [token]);
-
-  //TODO: korjaa slice toimimaan
-  const lectureId = 2;
+  const lectureId = useSelector((state) => state.lectures.selectedLecture);
 
   if (comment.length > 160) setComment(comment.slice(0, 160));
 

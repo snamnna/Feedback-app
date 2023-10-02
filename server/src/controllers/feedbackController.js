@@ -6,6 +6,7 @@ const feedbackService = require("../services/feedbackService");
 const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const validate = require("../utils/validate");
+const lectureService = require("../services/lectureService");
 
 const feedbackCreateSchema = Joi.object({
   feedbackType: Joi.string().valid("BAD", "GREAT", "NEUTRAL").required(),
@@ -32,27 +33,27 @@ router.get("/:id", verifyToken, async (req, res) => {
 router.post("/", verifyToken, async (req, res) => {
   validate(feedbackCreateSchema, req.body);
   const { feedbackType, comment, lectureId } = req.body;
-  const userId = req.user.id;
+  const parsedLectureId = parseInt(lectureId, 10);
+  const { user } = req;
 
   const existingFeedback = await feedbackService.getUserLectureFeedback(
-    userId,
-    lectureId,
+    user.id,
+    parsedLectureId,
   );
 
   if (existingFeedback)
     throw new CustomError(400, "Can't give more than one feedback");
 
+  const lecture = await lectureService.getLectureById(parsedLectureId);
+
+  if (!lecture) throw new CustomError(404, "Lecture not found");
+
   const data = {
     feedbackType,
     comment,
-    lectureId,
+    lectureId: lecture.id,
+    userId: user.id,
   };
-
-  const validation = feedbackCreateSchema.validate(data);
-
-  if (validation.error) {
-    throw new CustomError(400, "Invalid feedback data");
-  }
 
   const newFeedback = await feedbackService.createFeedback(data);
   return res
