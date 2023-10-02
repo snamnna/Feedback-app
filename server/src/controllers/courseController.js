@@ -89,11 +89,16 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
   // get participants by id and add to response
   const participants = await courseService.getParticipants(id);
 
+  const returnParticipants = participants.enrollments;
+
   if (!participants) throw new CustomError(404, "Participants not found");
 
-  return res
-    .status(200)
-    .json({ message: "Participants found successfully", participants });
+  console.log("retrunParticipants", returnParticipants);
+
+  return res.status(200).json({
+    message: "Participants found successfully",
+    participants: [...returnParticipants],
+  });
 });
 
 // Get feedback for a course

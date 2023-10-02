@@ -15,20 +15,37 @@ const ParticipantsTab = () => {
         courseId,
         token
       );
-      setParticipants(participantsData);
+      setParticipants(participantsData.participants);
+      console.log(participantsData);
     };
     getParticipants();
-  }, [courseId]);
+  }, [courseId, token]);
 
   const handleRemoveStudent = async (userId) => {
     //TODO: tee loppuun
+    // Voiko tämän tehdä niin että rejectaa strudentin?
+    try {
+      const data = { courseId, userId, status: "REJECTED" };
+      const response = await courseService.acceptEnrollment(data, token);
+      console.log(response);
+
+      setParticipants((prevParticipants) =>
+        prevParticipants.filter(
+          (participants) => participants.userId !== userId
+        )
+      );
+
+      console.log("Student deleted:", response);
+    } catch (error) {
+      console.error("Student delete failed:", error);
+    }
   };
   if (participants.length > 0) {
     return (
       <div className="text-center max-w-xl mx-auto flex flex-col items-center">
         <h1 className="font-bold text-xl">Participants</h1>
         <ul>
-          {participants.map((user) => (
+          {participants.map(({ user }) => (
             <li key={user.id} className="m-5 border-b flex flex-row p-3">
               <p>
                 Username: {user.username} id: {user.id}
