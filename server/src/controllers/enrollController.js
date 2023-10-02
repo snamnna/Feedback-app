@@ -9,14 +9,6 @@ const verifyToken = require("../middlewares/verifyToken");
 const CustomError = require("../utils/CustomError");
 const validate = require("../utils/validate");
 
-// const enrollCreateSchema = Joi.object({
-//   enrollmentStatus: Joi.string()
-//     .valid("REJECTED", "PENDING", "APPROVED")
-//     .required(),
-//   userId: Joi.number().integer().required(),
-//   courseId: Joi.number().integer().required(),
-// });
-
 // Create enrollment
 router.post("/", verifyToken, async (req, res) => {
   const userId = req.user.id;
@@ -26,12 +18,6 @@ router.post("/", verifyToken, async (req, res) => {
     userId,
     courseId,
   };
-
-  // const validation = enrollCreateSchema.validate(data);
-
-  // if (validation.error) {
-  //   throw new CustomError(400, "Invalid feedback data");
-  // }
 
   const newEnroll = await enrollService.createEnrollment(data);
 
