@@ -23,7 +23,7 @@ const CourseDetails = () => {
   const [isOwner, setIsOwner] = useState(false);
   const dispatch = useDispatch();
   const [active, setActive] = useState("le");
-  const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED");
+  const [enrollmentStatus, setEnrollmentStatus] = useState("");
   const [enrollBtn, setEnrollBtn] = useState(true);
   const navigate = useNavigate();
   const [enrollments, setEnrollments] = useState([]);
@@ -32,12 +32,19 @@ const CourseDetails = () => {
   useEffect(() => {
     if (data) {
       console.log(data);
-      const { course } = data;
+      const { course, enrollment } = data;
       setCourse(course);
       setLectures(course.lectures);
-      console.log("enrollit", course.enrollments);
       setEnrollments(course.enrollments);
       dispatch(selectCourse(course));
+
+      if (enrollment) {
+        console.log(enrollment.status);
+        setEnrollmentStatus(enrollment.status);
+      } else {
+        console.log("enrollmentStatus is null ");
+        setEnrollmentStatus("");
+      }
 
       //set isOwner to true if user is the owner of the course
       if (course.lecturerId === userId) {
@@ -57,6 +64,7 @@ const CourseDetails = () => {
     const enroll = await courseService.courseEnrollment(courseId, data, token);
     if (enroll) {
       console.log("enrollment success");
+      setEnrollBtn(false);
     }
   };
 
@@ -142,6 +150,7 @@ const CourseDetails = () => {
                 <button
                   className="ml-2 mt-1 btn btn-primary btn-sm"
                   onClick={() => handleLeave()}
+                  disabled={enrollBtn}
                 >
                   Leave the course
                 </button>
