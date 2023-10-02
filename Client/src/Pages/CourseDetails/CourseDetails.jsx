@@ -42,8 +42,8 @@ const CourseDetails = () => {
         console.log(enrollment.status);
         setEnrollmentStatus(enrollment.status);
       } else {
-        console.log("enrollmentStatus is null setting status to PENDING");
-        setEnrollmentStatus("PENDING");
+        console.log("enrollmentStatus is null ");
+        setEnrollmentStatus("");
       }
 
       //set isOwner to true if user is the owner of the course
@@ -64,6 +64,7 @@ const CourseDetails = () => {
     const enroll = await courseService.courseEnrollment(courseId, data, token);
     if (enroll) {
       console.log("enrollment success");
+      setEnrollBtn(false);
     }
   };
 
@@ -149,6 +150,7 @@ const CourseDetails = () => {
                 <button
                   className="ml-2 mt-1 btn btn-primary btn-sm"
                   onClick={() => handleLeave()}
+                  disabled={enrollBtn}
                 >
                   Leave the course
                 </button>
