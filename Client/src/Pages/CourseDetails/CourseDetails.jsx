@@ -23,7 +23,7 @@ const CourseDetails = () => {
   const [isOwner, setIsOwner] = useState(false);
   const dispatch = useDispatch();
   const [active, setActive] = useState("le");
-  const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED"); //VÄLIAIKASESTI APPROVED TÄÄLLÄ KUN EI VIELÄ TOIMI
+  const [enrollmentStatus, setEnrollmentStatus] = useState("APPROVED");
   const [enrollBtn, setEnrollBtn] = useState(true);
   const navigate = useNavigate();
   const [enrollments, setEnrollments] = useState([]);
@@ -57,7 +57,6 @@ const CourseDetails = () => {
     const enroll = await courseService.courseEnrollment(courseId, data, token);
     if (enroll) {
       console.log("enrollment success");
-      setEnrollBtn(false);
     }
   };
 
@@ -173,12 +172,12 @@ const CourseDetails = () => {
           )}
         </div>
         {isOwner && active === "le" && (
-          <div className="flex justify-center">
+          <div className="flex justify-center w-full">
             <LectureList lectures={filterLectures} isOwner={isOwner} />
           </div>
         )}
         {!isOwner && (
-          <div className="flex justify-center">
+          <div className="flex w-2xl justify-center">
             <LectureList lectures={filterLectures} isOwner={isOwner} />
           </div>
         )}
@@ -198,11 +197,7 @@ const CourseDetails = () => {
         <h1 className=" text-2xl font-bold">{course.name}</h1>
         <h2 className="text-md font-bold">Description:</h2>
         <p className="italic">{course.description}</p>
-        <button
-          onClick={() => handleEnroll()}
-          className="btn btn-primary my-2"
-          disabled={enrollBtn}
-        >
+        <button onClick={() => handleEnroll()} className="btn btn-primary my-2">
           Request to join the course
         </button>
       </div>
@@ -217,7 +212,7 @@ const LectureList = ({ lectures }, isOwner) => {
         <h1 className="text-center font-bold">Lectures:</h1>
         <ul className="mt-3 mb-5">
           {lectures.map((lecture) => (
-            <li className="mx-10" key={lecture.id}>
+            <li className="mx-10 w-full" key={lecture.id}>
               <LectureCard lecture={lecture} isOwner={isOwner} />
             </li>
           ))}
