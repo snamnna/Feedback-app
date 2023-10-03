@@ -20,14 +20,18 @@ const EditLectureModal = () => {
   const [courseDescription, setCourseDescription] = useState("");
   const token = useSelector((state) => state.auth.token);
   const lectureId = lecture.id;
+  const course = useSelector((state) => state.courses.selectedCourse);
+  const courseId = course.id;
 
   const handleClose = () => {};
 
   //TODO: courseId sisään dataan?
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(courseId);
     const data = {
       lectureName,
+      courseId,
     };
     console.log(data);
     const editedLecture = await lectureService.updateLecture(

@@ -74,7 +74,7 @@ const CourseList = ({ courses }) => {
   };
 
   return (
-    <ul className="grid grid-cols-3 mx-7">
+    <ul className="grid grid-cols-1 md:grid-cols-3 mx-7">
       {courses.map((course, index) => (
         <li className="p-3" key={index} onClick={() => handleClick(course.id)}>
           <CourseCard key={index} course={course} />

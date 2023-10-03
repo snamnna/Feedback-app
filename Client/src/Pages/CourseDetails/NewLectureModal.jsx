@@ -25,8 +25,11 @@ const NewLectureModal = () => {
 
     const newLecture = await lectureService.createLecture(data, token);
     console.log(newLecture);
-    dispatch(addLecture(newLecture));
-    document.getElementById("new_lecture_modal").close();
+    if (newLecture) {
+      dispatch(addLecture(newLecture));
+      document.getElementById("new_lecture_modal").close();
+      window.location.reload(false);
+    }
   };
 
   return (

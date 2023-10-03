@@ -58,9 +58,9 @@ const EnrollmentTab = () => {
 
   return (
     <div className="text-center max-w-xl mx-auto flex flex-col items-center">
-      <h1 className="font-bold text-xl">Enrollments</h1>
       {enrollments.length ? (
         <ul>
+          <h1 className="font-bold text-xl">Enrollments</h1>
           <li>Enrolled students, please accept or reject:</li>
           {enrollments.map((enrollment) => (
             <li
@@ -84,7 +84,11 @@ const EnrollmentTab = () => {
           ))}
         </ul>
       ) : (
-        <p>No enrollments available.</p>
+        <div className="flex justify-center">
+          <p className="border p-7 rounded-md mt-10 mb-20">
+            No enrollments available
+          </p>
+        </div>
       )}
     </div>
   );

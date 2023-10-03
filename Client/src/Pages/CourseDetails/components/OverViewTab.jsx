@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import feedbackService from "../../../services/feedbackService";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { setSelectedLecture } from "../../../features/lectures/lectureSlice";
 
@@ -56,36 +56,34 @@ const OverViewTab = () => {
 
   if (user.userType === "TEACHER") {
     return feedback.length > 0 ? (
-      <div className="grid grid-cols-2 m-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 m-5">
         <div className="border rounded-sm max-w-2xl text-center p-10 mx-2">
           <div className="flex flex-col justify-between h-full">
             <h1 className="text-xl font-bold">Statistics:</h1>
-            <div className="border rounded-md p-5">
-              <h1 className="text-xl font-bold">
-                Overall % of positive feedback for the whole course:
-              </h1>
+            <div className="border rounded-md my-2 p-5">
+              <h1 className="text-xl ">Overall % of positive feedback:</h1>
               <p>{percentage}</p>
             </div>
-            <div className="border rounded-md  p-5">
-              <h1 className="text-xl font-bold">Good feedbacks:</h1>
+            <div className="border rounded-md mb-[0.125rem]  p-5">
+              <h1 className="text-lg ">Good feedbacks:</h1>
               <p>{goodfb}</p>
             </div>
-            <div className="border rounded-md  p-5">
-              <h1 className="text-xl font-bold">Neutral feedbacks:</h1>
+            <div className="border rounded-md mb-2 p-5">
+              <h1 className="text-lg ">Neutral feedbacks:</h1>
               <p>{neutralfb}</p>
             </div>
-            <div className="border rounded-md  p-5">
-              <h1 className="text-xl font-bold">Bad feedbacks:</h1>
+            <div className="border rounded-md mb-2 p-5">
+              <h1 className="text-lg ">Bad feedbacks:</h1>
               <p>{badfb}</p>
             </div>
-            <div className="border rounded-md  p-5">
-              <h1 className="text-xl font-bold">Total amount of feedbacks:</h1>
-              <h1 className="font-bold text-lg">{totalFeedback}</h1>
+            <div className="border rounded-md mb-2 p-5">
+              <h1 className="text-lg ">Total amount of feedbacks:</h1>
+              <h1 className="text-lg">{totalFeedback}</h1>
             </div>
           </div>
         </div>
         <div className="overflow-y-auto flex-col border rounded-sm p-10 mx-2">
-          <h1 className="mb-10 text-xl font-bold text-center">
+          <h1 className="mb-10 text-lg font-bold text-center">
             List of feedbacks
           </h1>
           <ul>
@@ -104,9 +102,7 @@ const OverViewTab = () => {
       </div>
     ) : (
       <div className="flex justify-center">
-        <h1 className="mt-10 mb-10 text-xl font-bold text-center">
-          No feedbacks yet
-        </h1>
+        <p className="border p-7 rounded-md mt-10 mb-20">No feedbacks yet</p>
       </div>
     );
   }

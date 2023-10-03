@@ -63,10 +63,16 @@ router.put("/:id", verifyToken, async (req, res) => {
   if (req.user.userType !== "TEACHER") {
     return res.status(403).json({ message: "Permission denied" });
   }
-
-  const updatedLecture = await lectureService.updateLecture(lectureId, {
+  console.log("name and courseid", lectureName, lectureId);
+  const updatedLecture = await lectureService.updateLecture(
+    lectureId,
     lectureName,
-  });
+  );
+
+  console.log(
+    "updatedLecture --------------------------------",
+    updatedLecture,
+  );
 
   return res
     .status(200)

@@ -11,6 +11,7 @@ const ParticipantsTab = () => {
   useEffect(() => {
     const getParticipants = async () => {
       console.log(courseId);
+      console.log("owner:", course.lecturerId);
       const participantsData = await courseService.getCourseStudents(
         courseId,
         token
@@ -41,19 +42,21 @@ const ParticipantsTab = () => {
   if (participants.length > 0) {
     return (
       <div className="text-center max-w-xl mx-auto flex flex-col items-center">
-        <h1 className="font-bold text-xl">Participants</h1>
+        <h1 className="font-bold text-lg">Participants</h1>
         <ul>
           {participants.map(({ user }) => (
             <li key={user.id} className="m-5 border-b flex flex-row p-3">
               <p>
                 Username: {user.username} id: {user.id}
               </p>
-              <button
-                className="btn btn-primary btn-xs mx-5"
-                onClick={() => handleRemoveStudent(user.id)}
-              >
-                remove student
-              </button>
+              {user.id !== course.lecturerId && (
+                <button
+                  className="btn btn-primary btn-xs mx-5"
+                  onClick={() => handleRemoveStudent(user.id)}
+                >
+                  remove student
+                </button>
+              )}
             </li>
           ))}
         </ul>

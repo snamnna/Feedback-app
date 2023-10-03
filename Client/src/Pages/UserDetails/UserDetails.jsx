@@ -63,7 +63,7 @@ const UserDetails = () => {
 
   return (
     <div className="w-screen flex justify-center items-center p-10">
-      <div className="px-20 py-5  bg-white opacity-70 rounded-lg shadow-md">
+      <div className="px-20 py-5  rounded-lg border">
         <h1 className="text-2xl font-semibold mb-4 flex justify-center">
           User settings
         </h1>
@@ -124,23 +124,15 @@ const UserDetails = () => {
               />
             </div>
 
-            <div>
-              <p className="flex justify-center">
-                Password must contain at least one lowercase letter,
-              </p>
-              <p className="flex justify-center">
-                one uppercase letter, one number,
-              </p>
-              <p className="flex justify-center mb-6">
-                and one special character (!@#$%+).
-              </p>
+            <div className="text-center   text-sm mb-5">
+              <p>Password must contain at least one lowercase letter,</p>
+              <p>one uppercase letter, one number,</p>
+              <p>and one special character (!@#$%+).</p>
             </div>
 
-            <div>
-              <p className="flex justify-center">
-                If you prefer to change only one of these,
-              </p>
-              <p className="flex justify-center mb-6">
+            <div className="text-center border rounded-md mb-5 p-4">
+              <p className="">If you prefer to change only one of these,</p>
+              <p className="">
                 please provide your old credentials for the unchanged parts.
               </p>
             </div>
@@ -149,17 +141,17 @@ const UserDetails = () => {
               <button
                 type="button"
                 onClick={handleEditUser}
-                className="btn btn-xs btn-primary shadow-md"
+                className="btn btn-sm btn-primary shadow-md"
               >
                 <span>Edit User</span>
               </button>
             </div>
 
-            <div className="flex justify-center mb-6">
+            <div className="flex justify-center mt-10 mb-6">
               <button
                 type="button"
                 onClick={handleDeleteUser}
-                className="btn btn-xs btn-primary shadow-md"
+                className="btn btn-sm btn-primary shadow-md"
               >
                 <span>Delete User</span>
               </button>

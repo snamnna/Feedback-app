@@ -11,11 +11,10 @@ async function createLecture({ courseId, lectureName }) {
 }
 
 // update lecture in db and return updated lecture
-async function updateLecture(id, courseId, name) {
+async function updateLecture(id, name) {
   return prisma.lecture.update({
     where: {
       id,
-      courseId,
     },
     data: {
       name,

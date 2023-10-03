@@ -26,6 +26,9 @@ const LectureCard = ({ lecture, isOwner }) => {
   const handleDeleteLecture = async () => {
     const deleteLecture = await lectureService.deleteLecture(lectureId, token);
     console.log(deleteLecture);
+    if (deleteLecture) {
+      window.location.reload(false);
+    }
   };
 
   const handleEditLecture = () => {
@@ -35,7 +38,7 @@ const LectureCard = ({ lecture, isOwner }) => {
   return (
     <>
       <div
-        className=" w-full card card-compact max-h-sm border rounded-md  my-2"
+        className="card card-compact max-h-sm border rounded-md  my-2"
         data-testid="lecture-card"
       >
         <div

@@ -168,7 +168,7 @@ const CourseDetails = () => {
           {isOwner && active === "le" && (
             <div>
               <input
-                className="border border-gray-300 shadow-md rounded-md"
+                className=" border border-gray-300 shadow-md rounded-md"
                 type="text"
                 placeholder="Search Lectures"
                 value={search}
@@ -178,12 +178,12 @@ const CourseDetails = () => {
           )}
         </div>
         {isOwner && active === "le" && (
-          <div className="flex justify-center w-full">
+          <div className="flex justify-center max-w-full">
             <LectureList lectures={filterLectures} isOwner={isOwner} />
           </div>
         )}
         {!isOwner && (
-          <div className="flex w-2xl justify-center">
+          <div className="flex w-2xl ">
             <LectureList lectures={filterLectures} isOwner={isOwner} />
           </div>
         )}
@@ -227,7 +227,7 @@ const LectureList = ({ lectures }, isOwner) => {
     );
   }
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center max-w-full">
       <div className="border py-7 px-10 rounded-md mt-10 mb-20 text-center">
         <p>No lectures yet</p>
         {isOwner && (
