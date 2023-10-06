@@ -57,3 +57,10 @@ jobs:
       - name: Run Playwright tests
         working-directory: Client
         run: npx playwright test
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: Client/playwright-report/
+          retention-days: 30
