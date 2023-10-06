@@ -4,9 +4,9 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
+import Home from "./Pages/Home";
+import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
 import PrivateRoute from "./PrivateRoute";
 import Layout from "./Components/Layout";
 import CourseDetails from "./Pages/CourseDetails/CourseDetails";
