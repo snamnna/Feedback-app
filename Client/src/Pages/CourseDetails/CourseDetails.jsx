@@ -211,24 +211,37 @@ const CourseDetails = () => {
   );
 };
 
-const LectureList = ({ lectures }, isOwner) => {
+const LectureList = ({ lectures }) => {
+  const course = useSelector((state) => state.courses.selectedCourse);
+  const userId = useSelector((state) => state.auth.user.id);
+  const [isOwner, setIsOwner] = useState(false);
+
+  useEffect(() => {
+    if (course.lecturerId === userId) {
+      setIsOwner(true);
+    } else {
+      setIsOwner(false);
+    }
+  }, [course.lecturerId, userId]);
   if (lectures.length > 0) {
     return (
-      <div>
+      <div className="">
         <h1 className="text-center font-bold">Lectures:</h1>
-        <ul className="mt-3 mb-5">
-          {lectures.map((lecture) => (
-            <li className="mx-10 w-full" key={lecture.id}>
-              <LectureCard lecture={lecture} isOwner={isOwner} />
-            </li>
-          ))}
-        </ul>
+        <div className="flex justify-center items-center w-screen ">
+          <ul className="mt-3 mb-5">
+            {lectures.map((lecture) => (
+              <li className="mx-10 w-full" key={lecture.id}>
+                <LectureCard lecture={lecture} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     );
   }
   return (
-    <div className="flex justify-center max-w-full">
-      <div className="border py-7 px-10 rounded-md mt-10 mb-20 text-center">
+    <div className="flex justify-center items-center w-screen my-20">
+      <div className="mx-auto border py-7 px-10 rounded-md text-center">
         <p>No lectures yet</p>
         {isOwner && (
           <button

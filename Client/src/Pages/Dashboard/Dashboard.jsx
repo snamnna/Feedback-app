@@ -1,4 +1,3 @@
-import { DashboardHeader } from "./components/DashboardHeader";
 import { CoursesSection } from "./components/CoursesSection";
 
 const Dashboard = () => {
