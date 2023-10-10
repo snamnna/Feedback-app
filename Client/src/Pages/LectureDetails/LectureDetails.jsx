@@ -89,16 +89,19 @@ const LectureDetails = () => {
       </div>
     ) : (
       <div className="flex justify-center">
-        <h1 className="mt-10 mb-10 text-xl font-bold text-center">
-          No feedbacks yet
-        </h1>
+        <h1 className="border p-7 rounded-md mt-10 mb-20">No feedbacks yet</h1>
       </div>
     );
   }
 
   return user.userType === "STUDENT" && !feedback[0] ? (
-    <div>
-      <button onClick={openNewFeedbackModal}>Give feedback</button>
+    <div className="flex justify-center">
+      <button
+        className="border p-7 rounded-md mt-10 mb-20"
+        onClick={openNewFeedbackModal}
+      >
+        Give feedback
+      </button>
     </div>
   ) : (
     <div className="flex justify-center">

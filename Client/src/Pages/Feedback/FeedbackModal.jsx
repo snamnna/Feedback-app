@@ -27,11 +27,13 @@ const FeedbackModal = () => {
 
       const newFeedback = await feedbackService.newFeedback(data, token);
       console.log(newFeedback);
+      document.getElementById("feedback_modal").close();
     }
   };
 
   const handleClose = () => {
     setFeedbackType("");
+    document.getElementById("feedback_modal").close();
   };
 
   const FeedbackButton = ({ icon, feedbackType }) => {
@@ -52,8 +54,6 @@ const FeedbackModal = () => {
           ? "yellow"
           : "red",
       color: "black",
-      boxShadow:
-        feedbackType === feedbackType ? "0 0 10px rgba(0,0,0,0.4)" : "none",
     };
 
     return (
@@ -83,13 +83,20 @@ const FeedbackModal = () => {
             <FeedbackButton
               icon={<BsEmojiSmile className="flex" />}
               feedbackType="GREAT"
+              selectedFeedbackType={feedbackType}
             />
-            <FeedbackButton icon={<BsEmojiNeutral />} feedbackType="NEUTRAL" />
+            <FeedbackButton
+              icon={<BsEmojiNeutral />}
+              feedbackType="NEUTRAL"
+              selectedFeedbackType={feedbackType}
+            />
             <FeedbackButton
               icon={<RiEmotionUnhappyLine />}
               feedbackType="BAD"
+              selectedFeedbackType={feedbackType}
             />
           </div>
+          <p className="m-2 text-center">You have selected {feedbackType}</p>
           <p className="m-2 text-center">Give a comment (optional)</p>
           <input
             type="text"

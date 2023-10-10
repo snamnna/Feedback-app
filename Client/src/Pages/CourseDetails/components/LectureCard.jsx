@@ -3,15 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedLecture } from "../../../features/lectures/lectureSlice";
 import { FiEdit, FiX } from "react-icons/fi";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import lectureService from "../../../services/lectureService";
 
-const LectureCard = ({ lecture, isOwner }) => {
+const LectureCard = ({ lecture }) => {
   const lectureId = lecture.id;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.user.id);
+  const course = useSelector((state) => state.courses.selectedCourse);
+  const [isOwner, setIsOwner] = useState(false);
+
+  useEffect(() => {
+    if (course.lecturerId === userId) {
+      setIsOwner(true);
+    } else {
+      setIsOwner(false);
+    }
+  }, [course.lecturerId, userId]);
 
   const handleViewFeedback = () => {
     // Navigate to the feedback page with the lectureId
@@ -71,7 +81,7 @@ const LectureCard = ({ lecture, isOwner }) => {
               </div>
             </>
           ) : (
-            <div className="">
+            <div className="flex justify-center items-center">
               <button
                 className="btn btn-primary btn-sm"
                 onClick={handleGiveFeedback}
