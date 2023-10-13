@@ -155,5 +155,5 @@ In addition to the listed functionalities, there are issues with course and less
 **Picture 3. Student’s view**
 
 - For students, the page has no "create course" -button. Otherwise the page is identical to the one for the teachers.
-- The dashboard displays all the courses the student is joind in.
+- The dashboard displays all the courses the student is joined in.
 - The student can give feedback to a lecture by clicking the course open.
