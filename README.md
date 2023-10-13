@@ -111,13 +111,13 @@ The following functionalities have been implemented in the project
 ### For Teachers:
 
 - **Accepting students** into a course.
-- **Adding new lectures** inside a course.
+- **Adding new lectures** to a course.
 - Generating **reports as a percentage** from a single lecture.
-- Generating **feedback reports as a percentage** from a course/month.
+- Generating **feedback reports as a percentage** from a whole course.
 
 ### For Students:
 
-- **Enrollment** in a course (requires teacher's permission).
+- **Enrollment** to a course (requires teacher's permission).
 - **Feedback provision** using buttons and an optional text field (up to 160 characters).
 
 ### For Admin:
@@ -154,6 +154,6 @@ In addition to the listed functionalities, there are issues with course and less
 
 **Picture 3. Student’s view**
 
-- For students, the navigation menu has a search bar on the right side, allowing all courses to be searched, and enrollment requests to be sent.
-- The dashboard displays all the courses to which the student has been joined.
-- From the course view, feedback can be provided for lessons.
+- For students, the page has no "create course" -button. Otherwise the page is identical to the one for the teachers.
+- The dashboard displays all the courses the student is joind in.
+- The student can give feedback to a lecture by clicking the course open.
