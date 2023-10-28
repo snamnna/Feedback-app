@@ -32,12 +32,22 @@ async function createCourse(courseData) {
 }
 
 // delete course from database and returns deleted data
-async function deleteCourse(id) {
-  return prisma.course.delete({
+async function deleteCourse(courseId) {
+  // delete all lectures in the course first
+  await prisma.lecture.deleteMany({
     where: {
-      id,
+      courseId: courseId,
     },
   });
+
+  // then delete course
+  const deletedCourse = await prisma.course.delete({
+    where: {
+      id: courseId,
+    },
+  });
+
+  return deletedCourse;
 }
 
 // edit course in db and returns all of it's data
