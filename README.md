@@ -1,67 +1,159 @@
-# Project Plan: Instance FeedbackApp
+# Feedback App
 
-## Project Objectives
-The goal for this project is to develop a feedback app where teachers can gather feedback from their lectures. The primary objectives are to develop the project according to the project owner's requirements and to implement an application that will enable teachers to improve their lectures with the help of the feedback they collect.
+## Description
 
-## Scope Definition
-As this project is carried out as a part of a course, there are not enough resources for a big scope of features and functions. The lack of resources has been taken into consideration when defining the scope for this project. The core features and functionalities that are implemented for the first version of the application include the following:
+In the project, a Feedback application has been developed, through which students can provide feedback directly to the teacher about the lectures. Giving feedback is done anonymously, and the feedback is given after the lecture. The purpose of the application is to enable the teacher to improve their teaching and customize it for each teaching group, even during the course. By tailoring the instruction, students' learning outcomes also improve, as the teaching becomes more supportive of individual learning. The application has been designed to be simple, making it easy to provide feedback after each lecture.
 
-- User authentication.
-- Different roles depending on if the user is a teacher or a student.
-- Enrolling in and leaving a course and giving feedback to a lecture for students.
-- Creating courses and lectures and viewing the feedback given to the lectures for users that are teachers.
-- Removing students from courses.
-- Editing user profile for all users.
+## Table of Contents
 
-The project could be scaled to have more features and functions that were left out of the first version. The features that were left out are as follows:
+- [Feedback App](#feedback-app)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Project Structure](#project-structure)
+  - [Technologies](#technologies)
+  - [Installation \& Setup](#installation--setup)
+    - [Pre-requisites](#pre-requisites)
+    - [Clone the Repository](#clone-the-repository)
+    - [Server Setup](#server-setup)
+    - [Client Setup](#client-setup)
+    - [Running the Application](#running-the-application)
+  - [Usage](#usage)
+    - [All Users:](#all-users)
+    - [For Teachers:](#for-teachers)
+    - [For Students:](#for-students)
+    - [For Admin:](#for-admin)
+    - [Noteworthy:](#noteworthy)
+    - [Screenshots](#screenshots)
 
-- Data visualization: graphical formatting of data using, for example, different kinds of charts.
-- Statistics of feedback from any given period, for example, from one month or week. The excluded features will be implemented in the second version of the application.
+## Project Structure
 
-## Requirements Gathering
-As this project is conducted as a part of a course, and the product owner is the teacher, there is no formal process for gathering requirements. The product owner has given this project requirements, and there have been discussions regarding the backlog for the project. For the functional requirements, the primary function is to develop an application that will enable teachers to get feedback from the students. The other functional requirements are discussed below:
+- `Client`: Frontend codebase of the application.
+- `Server`: Backend codebase managing server-side operations.
 
-- Teachers can create and manage courses and create and manage lectures within the courses. They can also approve or reject requests to join the courses and review feedback given by the students.
-- Students, on the other hand, can join courses and give feedback for the lectures they attend.
+## Technologies
 
-## Resource Allocation
-The necessary resources include four students as personnel, computers for each student, and software for developing the application. The students use their own computers. The software for developing includes a free software visual studio code or webstorm, which is commercial software. The license for webstorm is provided to all students by Metropolia University of Applied Sciences. There is no budget for the project.
+- **React**: For building the user interface.
+- **Redux**: State management for the application.
+- **TailwindCSS**: Styling and responsive design.
+- **Vite**: Build tool and development server.
+- **Express**: Backend server framework.
+- **Prisma**: ORM and database management.
+- **PostgreSQL**: Database for storing application data.
+- **GitHub Actions**: CI/CD pipeline for the application.
 
-## Risk Assessment
-The risks for the project are minimal as there is no budget included. In case the project fails, the risk is the students not passing the course, having to retake it later.
+## Installation & Setup
 
-## Team Formation
-The team for the project was formed from students attending the Ohjelmistoprojekti course. The students could form the teams by themselves, which means that the team members agreed to work together for the project without input from the teacher.
+### Pre-requisites
 
-## Technology Stack Selections
-### Frontend Technologies
-- React: Used for building user interfaces.
-- JavaScript: Core programming language for front-end and backend.
-- Vitest: Framework for testing React components.
-- Tailwind CSS: Utility-first CSS framework for custom designs.
-- Redux & Redux Toolkit: State management tools.
-- Axios: HTTP client for requests to backend.
+- [Node.js](https://nodejs.org/)
+- [Git](https://git-scm.com/)
+- [PostgreSQL Server](https://www.postgresql.org/download/)
 
-### Backend Technologies
-- Node.js: JavaScript runtime for server-side.
-- Express.js: Web framework for routing and middleware.
-- Prisma ORM: Database toolkit for interacting with PostgreSQL.
-- PostgreSQL: Object-relational database system.
-- Jest: Testing framework
+### Clone the Repository
 
-## Sequencing of Activities
-1. Project Initialization: Setup version control, repositories, and project directories.
-2. Environment Setup: Configure development, testing, and production environments, setup database and ORM.
-3. Backend Development: Define and implement API endpoints, authentication, and authorization.
-4. Frontend Development: Setup React, Redux, Axios, and implement user interfaces using Tailwind CSS.
-5. Testing: Write and conduct unit, integration, and manual tests using Vitest and Jest.
-6. Deployment: Configure servers, deploy application, setup CI/CD pipelines.
+```bash
+git clone https://github.com/snamnna/Feedback-app feedback-app
+cd feedback-app
+```
 
-## Communication Plan
-Communication for the project happens at school when the team members are present, and other times via Discord. Project meetings are held every Monday and Wednesday. The meetings are held either at school or in Discord. The team has a Discord server set up, and the members can discuss the project there.
+### Server Setup
 
-## Budgeting and Cost Estimation
-As mentioned earlier, this project has a budget of 0 euros as it is a school project.
+1. Navigate to `./server`.
+2. Create a `.env` file with your PostgreSQL details:
 
-## Client Involvement
-Client involvement for this project is maintained by communicating with the project owner during sprint meetings every Monday. In terms of legal and compliance considerations, the team adheres to relevant school or institutional policies and standards that apply to the project.
+```bash
+DATABASE_URL=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME
+```
+
+3. Install server dependencies:
+
+```bash
+npm install
+```
+
+### Client Setup
+
+1. Navigate to `./Client`.
+2. Install client dependencies:
+
+```bash
+npm install
+```
+
+### Running the Application
+
+To start the server:
+
+```bash
+cd server
+npm start
+```
+
+To start the client:
+
+```bash
+cd Client
+npm run dev
+```
+
+Visit `localhost` in your browser to access the FeedbackApp.
+
+## Usage
+
+The following functionalities have been implemented in the project
+
+### All Users:
+
+- **Logging in**
+- **Registration**
+- **Updating user information**
+
+### For Teachers:
+
+- **Accepting students** into a course.
+- **Adding new lectures** to a course.
+- Generating **reports as a percentage** from a single lecture.
+- Generating **feedback reports as a percentage** from a whole course.
+
+### For Students:
+
+- **Enrollment** to a course (requires teacher's permission).
+- **Feedback provision** using buttons and an optional text field (up to 160 characters).
+
+### For Admin:
+
+- **Assign user permissions/make a user a teacher**.
+
+### Noteworthy:
+
+The following functionality has not yet been implemented:
+
+- Feedback reports from a single student from different teachers' courses.
+
+In addition to the listed functionalities, there are issues with course and lesson management, specifically in terms of deletion, which are not working perfectly.
+
+### Screenshots
+
+![Login](./documents/images/login.jpg)
+
+**Picture 1. Login**
+
+- Registration and login options are positioned in the center of the window.
+- All users have "user settings" and "logout" options in the top right corner.
+
+![Teacher's View](./documents/images/tview.png)
+
+**Picture 2. Teacher’s view**
+
+- For teachers, a button for creating a new course is located on the left side of the main dashboard.
+- On the right side, there is a search bar in the navigation menu for searching all courses.
+- The dashboard displays all the courses created by the teacher.
+- On the course page, the course and lessons can be managed, and it provides access to view the feedback given for lessons.
+
+![Student's View](./documents/images/sview.png)
+
+**Picture 3. Student’s view**
+
+- For students, the page has no "create course" -button. Otherwise the page is identical to the one for the teachers.
+- The dashboard displays all the courses the student is joined in.
+- The student can give feedback to a lecture by clicking the course open.

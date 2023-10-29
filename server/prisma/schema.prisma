@@ -65,7 +65,7 @@ model CourseEnrollment {
 model Lecture {
   id        Int        @id @default(autoincrement())
   name      String     @db.VarChar(160)
-  course    Course     @relation(fields: [courseId], references: [id])
+  course    Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId  Int
   feedback  Feedback[]
   createdAt DateTime   @default(now())

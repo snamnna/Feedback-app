@@ -29,9 +29,6 @@ jobs:
         working-directory: Client
         run: npm ci
 
-      - name: Print secrets.DATABASE_URL
-        run: echo ${{ secrets.DATABASE_URL }}
-
       - name: setup .env file for server
         working-directory: server
         run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
@@ -60,3 +57,10 @@ jobs:
       - name: Run Playwright tests
         working-directory: Client
         run: npx playwright test
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: Client/playwright-report/
+          retention-days: 30
