@@ -18,13 +18,23 @@ const createCourse = async (course, token) => {
 };
 
 //edit course
-const updateCourse = async (courseId, course, token) => {
+const updateCourse = async (courseId, newCourseName, newDescription, token) => {
   try {
-    const response = await axios.put(`${BASE_URL}/${courseId}`, course, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    console.log("new course name:", newCourseName);
+    console.log("new course description:", newDescription);
+    console.log("token:", token);
+    const response = await axios.put(
+      `${BASE_URL}/${courseId}`,
+      {
+        name: newCourseName,
+        description: newDescription,
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Course update failed:", error);
