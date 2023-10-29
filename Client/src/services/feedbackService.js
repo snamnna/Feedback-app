@@ -23,7 +23,8 @@ const courseFeedback = async (courseId, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
+    console.log("raakadata:", response.data);
+    return response.data.feedback;
   } catch (error) {
     console.error("getting feedback for course failed:", error);
     throw error;
@@ -48,7 +49,7 @@ const lectureFeedback = async (data, token) => {
 };
 const userFeedback = async (userId, token) => {
   try {
-    const response = await axios.get(`${BASE_URL}/${userId}`, {
+    const response = await axios.get(`${BASE_URL}/user/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
