@@ -14,7 +14,7 @@ const feedbackCreateSchema = Joi.object({
   lectureId: Joi.number().integer().required(),
 });
 
-// get all feedback of spesific course
+// get all feedback of specific course
 router.get("/:id", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10);
 
@@ -61,15 +61,14 @@ router.post("/", verifyToken, async (req, res) => {
     .json({ message: "Feedback created successfully", newFeedback });
 });
 
-// feedback from spesific user
-router.get("/:id", verifyToken, async (req, res) => {
+// feedback from specific user
+router.get("/user/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
-  const feedback = await feedbackService.getUserFeedback(userId);
 
   if (req.user.userType !== "TEACHER") {
     return res.status(403).json({ message: "Permission denied" });
   }
-
+  const feedback = await feedbackService.getUserFeedback(userId);
   if (!feedback) throw new CustomError(404, "Feedback not found");
   return res
     .status(200)

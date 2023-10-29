@@ -2,7 +2,7 @@ const prisma = require("../utils/prisma");
 
 // get all feedback of specific course
 async function getCourseFeedback(id) {
-  return prisma.course.findUnique({
+  const courseData = await prisma.course.findUnique({
     where: {
       id,
     },
@@ -14,6 +14,13 @@ async function getCourseFeedback(id) {
       },
     },
   });
+
+  // Extract feedbacks from the nested structure
+  const feedbackArray = courseData?.lectures
+    .map((lecture) => lecture.feedback)
+    .flat();
+
+  return feedbackArray;
 }
 
 // create feedback

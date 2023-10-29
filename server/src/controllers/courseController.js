@@ -102,6 +102,7 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
 });
 
 // Get feedback for a course
+//TODO: miks tää on tääl jos on jo tuol feedback controlleris? selvitetää ja poistetaan jos tarve
 router.get("/:id/feedback", verifyToken, async (req, res) => {
   const id = parseInt(req.params.id, 10);
   const course = await courseService.getCourseById(id);

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import feedbackService from "../../services/feedbackService";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedLecture } from "../../features/lectures/lectureSlice";
+import lectureService from "../../services/lectureService";
 
 const LectureDetails = () => {
   const { lectureId } = useParams();
@@ -11,6 +12,7 @@ const LectureDetails = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.auth.user);
+  const [lecture, setLecture] = useState({});
 
   useEffect(() => {
     console.log(lectureId);
@@ -24,7 +26,9 @@ const LectureDetails = () => {
 
         setFeedback([...feedbacks]);
 
-        console.log(feedback);
+        const lecture = await lectureService.getLectureById(lectureId, token);
+        console.log("lecture", lecture);
+        setLecture(lecture);
       } catch (error) {
         console.error("Error fetching feedback:", error);
       }
@@ -67,7 +71,7 @@ const LectureDetails = () => {
     return feedback.length > 0 ? (
       <div>
         <h1 className="mt-10 mb-10 text-xl font-bold text-center">
-          List of feedbacks
+          List of feedbacks for lecture: {lecture.name}
         </h1>
         <ul>
           {feedback.map((feedback, index) => (
