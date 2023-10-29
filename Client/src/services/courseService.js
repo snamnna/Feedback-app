@@ -2,6 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "/api/courses";
 
+//create a new course
 const createCourse = async (course, token) => {
   try {
     const response = await axios.post(BASE_URL, course, {
@@ -16,6 +17,7 @@ const createCourse = async (course, token) => {
   }
 };
 
+//edit course
 const updateCourse = async (courseId, course, token) => {
   try {
     const response = await axios.put(`${BASE_URL}/${courseId}`, course, {
@@ -44,6 +46,7 @@ const deleteCourse = async (courseId, token) => {
   }
 };
 
+//get course participants
 const getCourseStudents = async (courseId, token) => {
   try {
     const res = await axios.get(`${BASE_URL}/${courseId}/participants`, {
@@ -58,6 +61,7 @@ const getCourseStudents = async (courseId, token) => {
   }
 };
 
+//get enrollments
 const getEnrollments = async (courseId, token) => {
   try {
     const res = await axios.get(`${BASE_URL}/${courseId}/enrollments`, {
@@ -73,7 +77,7 @@ const getEnrollments = async (courseId, token) => {
   }
 };
 
-//TODO:: varmista toimiiko
+//add course enrollment
 const courseEnrollment = async (data, token) => {
   try {
     const res = await axios.post(`/api/enroll/`, data, {
@@ -118,6 +122,20 @@ const deleteEnrollment = async (data, token) => {
   }
 };
 
+const getCourseById = async (courseId, token) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/${courseId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data.course;
+  } catch (error) {
+    console.error("Getting course by id failed", error);
+    throw error;
+  }
+};
+
 export default {
   createCourse,
   updateCourse,
@@ -127,4 +145,5 @@ export default {
   getEnrollments,
   acceptEnrollment,
   deleteEnrollment,
+  getCourseById,
 };
