@@ -43,6 +43,12 @@ const courseSlice = createSlice({
     selectCourse(state, action) {
       state.selectedCourse = action.payload;
     },
+    updateCourse: (state, action) => {
+      const { id, name, description } = action.payload;
+      state.courses = state.courses.map((course) =>
+        course.id === id ? { ...course, name, description } : course
+      );
+    },
   },
 });
 
@@ -54,5 +60,6 @@ export const {
   resetCourses,
   selectCourse,
   addLecture,
+  updateCourse,
 } = courseSlice.actions;
 export default courseSlice.reducer;
