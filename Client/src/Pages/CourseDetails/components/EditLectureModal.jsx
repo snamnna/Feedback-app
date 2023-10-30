@@ -32,6 +32,8 @@ const EditLectureModal = () => {
     handleClose();
   };
 
+  // Testikommentti vain
+
   return (
     <dialog id="edit_lecture_modal" className="modal">
       <div className="modal-box">
