@@ -32,7 +32,7 @@ const EditLectureModal = () => {
     handleClose();
   };
 
-  // Testikommentti vain
+  // Miksi muutokset ei näy gitissäwebstormista pushattuna
 
   return (
     <dialog id="edit_lecture_modal" className="modal">
