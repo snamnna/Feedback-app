@@ -29,6 +29,7 @@ const EditLectureModal = () => {
       token
     );
     console.log(editedLecture);
+    window.location.reload(false);
     handleClose();
   };
 
