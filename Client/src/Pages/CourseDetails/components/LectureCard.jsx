@@ -42,6 +42,7 @@ const LectureCard = ({ lecture }) => {
   };
 
   const handleEditLecture = () => {
+    dispatch(setSelectedLecture(lecture.id));
     document.getElementById("edit_lecture_modal").showModal();
   };
 

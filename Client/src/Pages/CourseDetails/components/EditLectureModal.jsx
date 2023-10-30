@@ -6,41 +6,30 @@ import lectureService from "../../../services/lectureService";
 import LectureForm from "./LectureForm";
 
 const EditLectureModal = () => {
-  //TODO: selected lecture ei toimi ku slice ei toimi
-
-  //hetkellinen placeholder lecture:
-
-  const lecture = {
-    id: 1,
-    name: "nimi",
-  };
-
-  // const lecture = useSelector((state) => state.lectures.selectedLecture);
+  const lectureId = useSelector((state) => state.lectures.selectedLecture);
   const [lectureName, setLectureName] = useState("");
-  const [courseDescription, setCourseDescription] = useState("");
   const token = useSelector((state) => state.auth.token);
-  const lectureId = lecture.id;
   const course = useSelector((state) => state.courses.selectedCourse);
   const courseId = course.id;
 
-  const handleClose = () => {};
+  const handleClose = () => {
+    document.getElementById("edit_lecture_modal").close();
+  };
 
-  //TODO: courseId sisään dataan?
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(courseId);
     const data = {
       lectureName,
       courseId,
     };
-    console.log(data);
+    console.log(lectureId);
     const editedLecture = await lectureService.updateLecture(
       lectureId,
       data,
       token
     );
     console.log(editedLecture);
-    document.getElementById("edit_lecture_modal").close();
+    handleClose();
   };
 
   return (
@@ -71,7 +60,6 @@ const EditLectureModal = () => {
               className="btn btn-primary"
               type="submit"
               onClick={handleSubmit}
-              onSubmit={handleSubmit}
             >
               save
             </button>
