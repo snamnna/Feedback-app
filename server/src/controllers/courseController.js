@@ -102,6 +102,7 @@ router.get("/:id/participants", verifyToken, async (req, res) => {
 });
 
 // Get feedback for a course
+//TODO: miks tää on tääl jos on jo tuol feedback controlleris? selvitetää ja poistetaan jos tarve
 router.get("/:id/feedback", verifyToken, async (req, res) => {
   const id = parseInt(req.params.id, 10);
   const course = await courseService.getCourseById(id);
@@ -164,7 +165,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
 router.put("/:id", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10);
   const course = await courseService.getCourseById(courseId);
-  const { courseName, courseDescription, courseLecture } = req.body;
+  const { courseName, courseDescription } = req.body;
 
   if (!course) throw new CustomError(404, "Course not found");
 
@@ -172,11 +173,13 @@ router.put("/:id", verifyToken, async (req, res) => {
     return res.status(403).json({ message: "Permission denied" });
   }
 
-  const updatedCourse = await courseService.editCourse(courseId, {
+  const updatedCourseData = {
+    courseId,
     courseName,
     courseDescription,
-    courseLecture,
-  });
+  };
+
+  const updatedCourse = await courseService.editCourse(updatedCourseData);
 
   return res
     .status(200)

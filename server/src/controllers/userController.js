@@ -31,6 +31,18 @@ router.put("/:id", verifyToken, async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) throw new CustomError(400, "Bad Request");
 
+  // validation for username
+  if (!/^[A-Za-z][A-Za-z0-9-_]{3,23}$/.test(username)) {
+    throw new CustomError(400, "Username is not valid.");
+  }
+
+  // validation for password
+  if (
+    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{8,24}$/.test(password)
+  ) {
+    throw new CustomError(400, "Password is not valid.");
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const updated = await userService.editUser(userId, username, hashedPassword);

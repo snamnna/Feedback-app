@@ -40,6 +40,22 @@ const deleteLecture = async (lectureId, token) => {
     return response.data;
   } catch (error) {
     console.error("lecture deletion failed");
+    throw error;
+  }
+};
+
+const getLectureById = async (lectureId, token) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/${lectureId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("data", response.data.lecture);
+    return response.data.lecture;
+  } catch (error) {
+    console.error("fetching lecture failed");
+    throw error;
   }
 };
 
@@ -47,4 +63,5 @@ export default {
   createLecture,
   updateLecture,
   deleteLecture,
+  getLectureById,
 };

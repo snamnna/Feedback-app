@@ -5,6 +5,7 @@ import { setSelectedLecture } from "../../../features/lectures/lectureSlice";
 import { FiEdit, FiX } from "react-icons/fi";
 import React, { useEffect, useState } from "react";
 import lectureService from "../../../services/lectureService";
+import feedbackService from "../../../services/feedbackService";
 
 const LectureCard = ({ lecture }) => {
   const lectureId = lecture.id;
@@ -14,6 +15,7 @@ const LectureCard = ({ lecture }) => {
   const userId = useSelector((state) => state.auth.user.id);
   const course = useSelector((state) => state.courses.selectedCourse);
   const [isOwner, setIsOwner] = useState(false);
+  const [hasGivenFeedback, setHasGivenFeedback] = useState(false);
 
   useEffect(() => {
     if (course.lecturerId === userId) {
@@ -22,6 +24,22 @@ const LectureCard = ({ lecture }) => {
       setIsOwner(false);
     }
   }, [course.lecturerId, userId]);
+
+  useEffect(() => {
+    const data = {
+      lectureId,
+      userId,
+    };
+
+    feedbackService
+      .checkUserFeedbackExists(data, token)
+      .then((result) => {
+        setHasGivenFeedback(result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [lectureId, userId, token]);
 
   const handleViewFeedback = () => {
     // Navigate to the feedback page with the lectureId
@@ -83,12 +101,21 @@ const LectureCard = ({ lecture }) => {
             </>
           ) : (
             <div className="flex justify-center items-center">
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={handleGiveFeedback}
-              >
-                Give feedback
-              </button>
+              {hasGivenFeedback ? (
+                <button
+                  className="btn btn-primary btn-sm"
+                  disabled={true} // Disable the button
+                >
+                  Give feedback
+                </button>
+              ) : (
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={handleGiveFeedback}
+                >
+                  Give feedback
+                </button>
+              )}
             </div>
           )}
         </div>

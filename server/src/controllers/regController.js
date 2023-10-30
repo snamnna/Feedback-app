@@ -20,6 +20,18 @@ router.post("/", async (req, res) => {
 
   if (userExists) throw new CustomError(401, "username already in use");
 
+  // validation for username
+  if (!/^[A-Za-z][A-Za-z0-9-_]{3,23}$/.test(username)) {
+    throw new CustomError(400, "Username is not valid.");
+  }
+
+  //validate password
+  if (
+    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{8,24}$/.test(password)
+  ) {
+    throw new CustomError(400, "Password is not valid.");
+  }
+
   const saltRounds = 10;
 
   // Hashing password

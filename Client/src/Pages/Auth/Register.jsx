@@ -219,10 +219,10 @@ const Register = () => {
                     </p>
                   </div>
                 </div>
-
                 <button
-                  className="btn btn-primary my-2 w-full max-w-xs "
+                  className="btn btn-primary my-2 w-full max-w-xs"
                   type="submit"
+                  disabled={!validPwd || !validMatch || !validName} // Disable the button if validPwd is false
                 >
                   Sign Up
                 </button>
