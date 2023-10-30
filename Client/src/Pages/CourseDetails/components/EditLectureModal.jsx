@@ -32,8 +32,6 @@ const EditLectureModal = () => {
     handleClose();
   };
 
-  // Miksi muutokset ei näy gitissäwebstormista pushattuna
-
   return (
     <dialog id="edit_lecture_modal" className="modal">
       <div className="modal-box">
