@@ -33,6 +33,8 @@ const EditLectureModal = () => {
     handleClose();
   };
 
+  // Testikommentti
+
   return (
     <dialog id="edit_lecture_modal" className="modal">
       <div className="modal-box">
