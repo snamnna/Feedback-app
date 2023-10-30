@@ -75,4 +75,21 @@ router.get("/user/:id", verifyToken, async (req, res) => {
     .json({ message: "Feedback found successfully", feedback });
 });
 
+//check if user has given feedback
+router.get("/lecture/user/:id", verifyToken, async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+  const lectureId = parseInt(req.query.lectureId, 10); // Use req.query to get the URL parameter
+
+  const existingFeedback = await feedbackService.getUserLectureFeedback(
+    userId,
+    lectureId,
+  );
+
+  const response = {
+    feedbackExists: !!existingFeedback, // Convert the value to a boolean
+  };
+  // Send the response
+  res.status(200).json(response);
+});
+
 module.exports = router;

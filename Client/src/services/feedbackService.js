@@ -9,9 +9,31 @@ const newFeedback = async (feedback, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("Mennöön clientin sendissä");
     return response.data;
   } catch (error) {
     console.error("giving feedback failed:", error);
+    throw error;
+  }
+};
+
+const checkUserFeedbackExists = async (data, token) => {
+  try {
+    const response = await axios.get(
+      `/api/feedback/lecture/user/${data.userId}`,
+      {
+        params: {
+          lectureId: data.lectureId,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("service palauttaa", response.data.feedbackExists);
+    return response.data.feedbackExists;
+  } catch (error) {
+    console.error("Checking existing feedback failed:", error);
     throw error;
   }
 };
@@ -66,4 +88,5 @@ export default {
   lectureFeedback,
   userFeedback,
   newFeedback,
+  checkUserFeedbackExists,
 };
