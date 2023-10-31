@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { editUser, deleteUser } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
 import DelConf from "./components/deleteConfirmationPopUp";
+import "../../i18n/config";
+import { useTranslation } from "react-i18next";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
 
 const UserDetails = () => {
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
@@ -61,6 +65,10 @@ const UserDetails = () => {
     setShowDelConf(false);
   };
 
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
   return (
     <div className="w-screen flex justify-center items-center p-10">
       <div className="px-20 py-5  rounded-lg border">
@@ -102,7 +110,7 @@ const UserDetails = () => {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
-                placeholder="New password*"
+                placeholder={`${t("new-password")}*`}
               />
             </div>
 
@@ -154,6 +162,26 @@ const UserDetails = () => {
                 className="btn btn-sm btn-primary shadow-md"
               >
                 <span>Delete User</span>
+              </button>
+            </div>
+            <div>
+              <button
+                className="flex justify-center"
+                onClick={() => changeLanguage("en")}
+              >
+                English{" "}
+              </button>
+              <button
+                className="flex justify-center"
+                onClick={() => changeLanguage("fa")}
+              >
+                Farsi{" "}
+              </button>
+              <button
+                className="flex justify-center"
+                onClick={() => changeLanguage("fi")}
+              >
+                Finnish
               </button>
             </div>
           </form>
