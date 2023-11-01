@@ -104,6 +104,14 @@ const CourseDetails = () => {
             <h1 className="my-2 text-xl font-bold">
               Details for {course.name}
             </h1>
+            {!isOwner && enrollmentStatus === "APPROVED" && (
+              <button
+                className="ml-2 mt-1 btn btn-primary btn-sm"
+                onClick={() => handleLeave()}
+              >
+                Leave the course
+              </button>
+            )}
             {isOwner ? (
               <>
                 <DropdownMenu
@@ -143,15 +151,7 @@ const CourseDetails = () => {
                 </div>
               </>
             ) : (
-              <>
-                <button
-                  className="ml-2 mt-1 btn btn-primary btn-sm"
-                  onClick={() => handleLeave()}
-                  disabled={enrollBtn}
-                >
-                  Leave the course
-                </button>
-              </>
+              <></>
             )}
           </div>
           {!isOwner && (
