@@ -13,6 +13,7 @@ const LectureDetails = () => {
   const token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.auth.user);
   const [lecture, setLecture] = useState({});
+  const [canGiveFeedback, setCanGiveFeedback] = useState(true);
 
   useEffect(() => {
     console.log(lectureId);
@@ -29,6 +30,12 @@ const LectureDetails = () => {
         const lecture = await lectureService.getLectureById(lectureId, token);
         console.log("lecture", lecture);
         setLecture(lecture);
+
+        const userHasGivenFeedback = feedbacks.some(
+          (feedback) => feedback.userId === user.id
+        );
+
+        setCanGiveFeedback(!userHasGivenFeedback);
       } catch (error) {
         console.error("Error fetching feedback:", error);
       }
@@ -98,7 +105,7 @@ const LectureDetails = () => {
     );
   }
 
-  return user.userType === "STUDENT" && !feedback[0] ? (
+  return user.userType === "STUDENT" && canGiveFeedback ? (
     <div className="flex justify-center">
       <button
         className="border p-7 rounded-md mt-10 mb-20"
