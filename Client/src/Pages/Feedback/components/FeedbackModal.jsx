@@ -3,7 +3,7 @@ import { FiX } from "react-icons/fi";
 import { BsEmojiSmile, BsEmojiNeutral } from "react-icons/bs";
 import { RiEmotionUnhappyLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import feedbackService from "../../services/feedbackService";
+import feedbackService from "../../../services/feedbackService";
 
 const FeedbackModal = () => {
   const [feedbackType, setFeedbackType] = useState("");
