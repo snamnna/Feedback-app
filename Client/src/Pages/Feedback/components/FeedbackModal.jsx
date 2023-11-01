@@ -29,6 +29,7 @@ const FeedbackModal = () => {
       console.log(newFeedback);
       document.getElementById("feedback_modal").close();
     }
+    window.location.reload(false);
   };
 
   const handleClose = () => {
