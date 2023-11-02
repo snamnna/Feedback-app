@@ -51,13 +51,14 @@ async function deleteCourse(courseId) {
 }
 
 // edit course in db and returns all of it's data
-async function editCourse(courseData) {
+async function editCourse(id, name, description) {
   return prisma.course.update({
     where: {
-      id: courseData.id,
+      id,
     },
     data: {
-      ...courseData,
+      name,
+      description,
     },
   });
 }
