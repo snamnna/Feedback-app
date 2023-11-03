@@ -173,13 +173,17 @@ router.put("/:id", verifyToken, async (req, res) => {
     return res.status(403).json({ message: "Permission denied" });
   }
 
-  const updatedCourseData = {
+  const updatedCourseData = await courseService.editCourse(
     courseId,
     courseName,
     courseDescription,
-  };
+  );
 
-  const updatedCourse = await courseService.editCourse(updatedCourseData);
+  const updatedCourse = await courseService.editCourse(
+    courseId,
+    courseName,
+    courseDescription,
+  );
 
   return res
     .status(200)

@@ -2,8 +2,7 @@ import { FiX } from "react-icons/fi";
 import CourseForm from "./CourseForm";
 import { useState } from "react";
 import courseService from "../../../services/courseService";
-import { useDispatch, useSelector } from "react-redux";
-import { updateCourse } from "../../../features/courses/courseSlice";
+import { useSelector } from "react-redux";
 
 const EditCourseModal = () => {
   const course = useSelector((state) => state.courses.selectedCourse);
@@ -11,27 +10,28 @@ const EditCourseModal = () => {
   const [courseDescription, setCourseDescription] = useState("");
   const token = useSelector((state) => state.auth.token);
   const courseId = course.id;
-  const dispatch = useDispatch();
 
-  const handleClose = () => {};
+  const handleClose = () => {
+    document.getElementById("edit_lecture_modal").close();
+  };
 
   //TODO: courseId sisään dataan?
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (courseDescription.length > 160) {
-      setCourseDescription(courseDescription.slice(0, 160));
-    }
-    if (courseName.length > 64) {
-      setCourseName(courseName.slice(0, 64));
-    }
-    const updatedCourseData = {
-      id: courseId,
-      name: courseName,
-      description: courseDescription,
+    const data = {
+      courseName,
+      courseDescription,
     };
-    console.log("updatedCourseData", updatedCourseData);
-    dispatch(updateCourse(updatedCourseData));
-    document.getElementById("edit_course_modal").close();
+
+    console.log(data);
+
+    const editedCourse = await courseService.updateCourse(
+      courseId,
+      data,
+      token
+    );
+    window.location.reload(false);
+    handleClose();
   };
 
   return (
