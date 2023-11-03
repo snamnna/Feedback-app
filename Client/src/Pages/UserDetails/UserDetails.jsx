@@ -80,7 +80,7 @@ const UserDetails = () => {
       <select
         id="language-selector"
         name="language"
-        className=" mx-5 mt-5 select select-bordered "
+        className=" mx-2 mt-3 select select-bordered "
         onChange={(e) => changeLanguage(e.target.value)}
       >
         {languageOptions.map((option) => (
@@ -89,7 +89,7 @@ const UserDetails = () => {
           </option>
         ))}
       </select>
-      <div className="w-screen flex justify-center items-center p-10">
+      <div className="w-screen flex justify-center items-center pb-5 ">
         <div className="px-20 py-5  rounded-lg border">
           <h1 className="text-2xl font-semibold mb-4 flex justify-center">
             User settings
