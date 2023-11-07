@@ -10,5 +10,8 @@
   "edit-user": "Päivitä käyttäjä",
   "delete-user": "POISTA KÄYTTÄJÄ",
   "no-match": "Salasanat eivät täsmää!",
-  "fill-info-needed": "Täytä kaikki kentät ja varmista, että ne vastaavat vaatimuksia."
+  "fill-info-needed": "Täytä kaikki kentät ja varmista, että ne vastaavat vaatimuksia.",
+  "delete-confirm-text": "Oletko varma, että haluat poistaa käyttäjän?",
+  "yes": "KYLLÄ",
+  "no": "EI"
 }
