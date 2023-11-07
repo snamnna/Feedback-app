@@ -140,10 +140,6 @@ const Register = () => {
                         }
                       >
                         4 to 24 characters.
-                        <br />
-                        Must begin with a letter.
-                        <br />
-                        Letters, numbers, underscores, hyphens allowed.
                       </p>
                     </div>
                   </div>
@@ -174,17 +170,7 @@ const Register = () => {
                           : "hidden"
                       }
                     >
-                      8 to 24 characters.
-                      <br />
-                      Must include uppercase and lowercase letters, a number and
-                      a special character.
-                      <br />
-                      Allowed special characters:{" "}
-                      <span aria-label="exclamation mark">!</span>{" "}
-                      <span aria-label="at symbol">@</span>{" "}
-                      <span aria-label="hashtag">#</span>{" "}
-                      <span aria-label="dollar sign">$</span>{" "}
-                      <span aria-label="percent">%</span>
+                      password requirements
                     </p>
                   </div>
 

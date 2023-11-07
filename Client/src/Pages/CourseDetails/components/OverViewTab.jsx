@@ -13,13 +13,9 @@ const OverViewTab = () => {
   const [feedbackWithLecture, setFeedbackWithLecture] = useState([]);
   const courseId = course.id;
   const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
   const [goodfb, setGoodfb] = useState(0);
   const [badfb, setBadfb] = useState(0);
   const [neutralfb, setNeutralfb] = useState(0);
-  const [totalFeedback, setTotalFeedback] = useState(0);
-  const [positivePercentage, setPositivePercentage] = useState(0);
-  const [negativePercentage, setNegativePercentage] = useState(0);
 
   const CustomLegend = ({ payload }) => (
     <ul>

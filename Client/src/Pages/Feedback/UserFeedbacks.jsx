@@ -44,9 +44,6 @@ const UserFeedbacks = () => {
     let goodfb = 0;
     let badfb = 0;
     let neutralfb = 0;
-    let totalFeedback = 0;
-    let percentage = 0;
-    let negativePercentage = 0;
 
     feedbacks.forEach((fb) => {
       console.log("feedback: ", fb);
@@ -59,16 +56,9 @@ const UserFeedbacks = () => {
       }
     });
 
-    totalFeedback = goodfb + badfb + neutralfb;
-    percentage = (goodfb / totalFeedback) * 100;
-    negativePercentage = (badfb / totalFeedback) * 100;
-
     setGoodfb(goodfb);
     setBadfb(badfb);
     setNeutralfb(neutralfb);
-    setTotalFeedback(totalFeedback);
-    setPercentage(percentage);
-    setNegativePercentage(negativePercentage);
   };
 
   useEffect(() => {

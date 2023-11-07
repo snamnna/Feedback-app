@@ -77,8 +77,6 @@ const LectureDetails = () => {
     let badfb = 0;
     let neutralfb = 0;
     let totalFeedback = 0;
-    let percentage = 0;
-    let negativePercentage = 0;
 
     feedbacks.forEach((fb) => {
       console.log("feedback: ", fb);
