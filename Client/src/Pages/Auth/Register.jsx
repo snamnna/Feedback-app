@@ -1,7 +1,8 @@
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { createUser } from "../../services/userServices";
 import authBg from "../../assets/authBg.jpg";
 import RegisterSuccess from "./components/RegisterSuccess";
+import { useTranslation } from "react-i18next";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
@@ -24,6 +25,12 @@ const Register = () => {
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const languageOptions = [
+    { code: "en", name: "English", flag: "us" },
+    { code: "fa", name: "Farsi", flag: "ir" },
+    { code: "fi", name: "Finnish", flag: "fi" },
+  ];
 
   useEffect(() => {
     userRef.current.focus();
@@ -221,6 +228,21 @@ const Register = () => {
                 </a>
               </p>
             </div>
+          </div>
+
+          <div className="flex justify-center items-center">
+            <select
+              id="language-selector"
+              name="language"
+              className="mx-2 mt-3 select select-bordered"
+              onChange={(e) => changeLanguage(e.target.value)}
+            >
+              {languageOptions.map((option) => (
+                <option key={option.code} value={option.code}>
+                  {option.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       )}
