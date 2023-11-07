@@ -18,6 +18,12 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const languageOptions = [
+    { code: "en", name: "English", flag: "us" },
+    { code: "fa", name: "Farsi", flag: "ir" },
+    { code: "fi", name: "Finnish", flag: "fi" },
+  ];
+
   useEffect(() => {
     userRef.current.focus();
   }, []);
@@ -145,6 +151,20 @@ const Login = () => {
             </a>
           </p>
         </div>
+      </div>
+      <div className="w-screen flex justify-center items-center p-10">
+        <select
+          id="language-selector"
+          name="language"
+          className="mx-2 mt-3 select select-bordered"
+          onChange={(e) => changeLanguage(e.target.value)}
+        >
+          {languageOptions.map((option) => (
+            <option key={option.code} value={option.code}>
+              {option.name}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );
