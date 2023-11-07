@@ -75,6 +75,18 @@ async function getUserCourses(id) {
   ];
 }
 
+// modify user type (admin function)
+async function editUserType(id, userType) {
+  return prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      userType,
+    },
+  });
+}
+
 module.exports = {
   getUserByUsername,
   createUser,
@@ -82,4 +94,5 @@ module.exports = {
   editUser,
   getUserById,
   getUserCourses,
+  editUserType,
 };
