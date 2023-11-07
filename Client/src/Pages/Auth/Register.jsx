@@ -8,6 +8,7 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
 
 const Register = () => {
+  const { t } = useTranslation();
   const userRef = useRef();
   const errRef = useRef();
 
@@ -111,7 +112,7 @@ const Register = () => {
                   {errMsg}
                 </div>
                 <h1 className="mt-3 text-xl font-bold leading-9 tracking-tight text-gray-900 text-center">
-                  Register
+                  {t("register-header")}
                 </h1>
               </div>
               <form onSubmit={handleSubmit}>
@@ -120,7 +121,7 @@ const Register = () => {
                     htmlFor="username"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Username:
+                    {t("username-label")}
                   </label>
                   <div>
                     <input
@@ -146,7 +147,7 @@ const Register = () => {
                             : "hidden"
                         }
                       >
-                        4 to 24 characters.
+                        {t("username-reqs")}
                       </p>
                     </div>
                   </div>
@@ -154,7 +155,7 @@ const Register = () => {
                     htmlFor="password"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Password:
+                    {t("password-label")}
                   </label>
                   <input
                     type="password"
@@ -177,7 +178,7 @@ const Register = () => {
                           : "hidden"
                       }
                     >
-                      password requirements
+                      {t("password-reqs")}
                     </p>
                   </div>
 
@@ -185,7 +186,7 @@ const Register = () => {
                     htmlFor="confirm_pwd"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Confirm Password:
+                    {t("en_confirm-password")}
                   </label>
                   <input
                     type="password"
@@ -208,7 +209,7 @@ const Register = () => {
                           : "hidden"
                       }
                     >
-                      Must match the first password input field.
+                      {t("confirm-reqs")}
                     </p>
                   </div>
                 </div>
@@ -217,14 +218,14 @@ const Register = () => {
                   type="submit"
                   disabled={!validPwd || !validMatch || !validName} // Disable the button if validPwd is false
                 >
-                  Sign Up
+                  {t("sign-up")}
                 </button>
               </form>
               <p className="text-center">
-                Already registered?
+                {t("already-registered-text")}
                 <br />
                 <a className="link link-primary" href="/Login">
-                  Sign In
+                  {t("link-to-login")}
                 </a>
               </p>
             </div>

@@ -4,7 +4,7 @@
   "new-password": "New password",
   "new-username": "New Username",
   "user-settings": "User Settings",
-  "confirm-password": "Confirm Password",
+  "en_confirm-password": "Confirm Password:",
   "requirements": "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character (!@#$%+).",
   "info-text": "If you prefer to change only one of these, please provide your old credentials for the unchanged parts.",
   "edit-user": "Edit User",
@@ -13,8 +13,8 @@
   "fill-info-needed": "Please fill in both new name and password and ensure they meet the requirements.",
 
   "header": "Sign in to your account",
-  "username-label": "Username",
-  "password-label": "Password",
+  "username-label": "Username:",
+  "password-label": "Password:",
   "login-button": "Login",
   "need-account-text": "Need an account?",
   "link-to-register": "Register",
@@ -30,5 +30,6 @@
   "password-reqs": "\"8 to 24 characters.  Must include uppercase and lowercase letters, a number and a special character.  Allowed Characters: ! @ # $ %\"",
   "confirm-reqs": "\"Must match the first password input field.\"",
   "username-taken": "Username taken",
-  "registration-failed": "Registration failed"
+  "registration-failed": "Registration failed",
+  "sign-up": "SING UP"
 }
