@@ -5,8 +5,10 @@ import { useDispatch } from "react-redux";
 import { setAuth } from "../../features/auth/authSlice";
 import authBg from "../../assets/authBg.jpg";
 import { useLocation } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+  const { t } = useTranslation();
   const userRef = useRef();
   const errRef = useRef();
   const [user, setUser] = useState("");

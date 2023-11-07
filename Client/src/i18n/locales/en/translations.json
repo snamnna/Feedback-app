@@ -10,5 +10,18 @@
   "edit-user": "Edit User",
   "delete-user": "DELETE USER",
   "no-match": "Passwords do not match!",
-  "fill-info-needed": "Please fill in both new name and password and ensure they meet the requirements."
+
+  "fill-info-needed": "Please fill in both new name and password and ensure they meet the requirements.",
+  "header": "Sign in to your account",
+  "username-label": "Username",
+  "password-label": "Password",
+  "login-button": "Login",
+  "need-account-text": "Need an account?",
+  "link-to-register": "Register",
+  "login": "Login",
+  "register": "Register",
+  "no-server-response": "No Server Response",
+  "missing-username-or-pass": "Missing Username or Password",
+  "unauthorized": "Unauthorized",
+  "login-failed": "Login Failed"
 }
