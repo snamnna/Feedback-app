@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import feedbackService from "../../services/feedbackService";
 import lectureService from "../../services/lectureService";
 import courseService from "../../services/courseService";
+import { PieChart, Pie, Legend } from "recharts";
 
 const UserFeedbacks = () => {
   const [feedback, setFeedback] = useState([]);
@@ -14,10 +15,29 @@ const UserFeedbacks = () => {
   const [goodfb, setGoodfb] = useState(0);
   const [badfb, setBadfb] = useState(0);
   const [neutralfb, setNeutralfb] = useState(0);
-  const [totalFeedback, setTotalFeedback] = useState(0);
-  const [percentage, setPercentage] = useState(0);
-  const [negativePercentage, setNegativePercentage] = useState(0);
 
+  const CustomLegend = ({ payload }) => (
+    <ul>
+      {payload.map((entry, index) => (
+        <li
+          key={`legend-${index}`}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <div
+            style={{
+              width: "10px",
+              height: "10px",
+              backgroundColor: entry.color,
+              marginRight: "5px",
+            }}
+          ></div>
+          <span>
+            {entry.value} ({entry.payload.students})
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
   const calculateFeedbackStatistics = (feedbacks) => {
     console.log("calculating feedback statistics...");
     console.log("feedbacks: ", feedbacks);
@@ -86,37 +106,26 @@ const UserFeedbacks = () => {
 
   if (feedbackWithLecture.length > 0) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 m-5">
+      <div className="flex items-center justify-center p-10">
         <div className="border rounded-sm max-w-2xl text-center p-10 mx-2">
-          <div className="flex flex-col justify-between h-full">
-            <h1 className="text-xl font-bold">Statistics:</h1>
-            <div className="border rounded-md my-2 p-5">
-              <h1 className="text-xl">% of positive feedback:</h1>
-              <p>{percentage}</p>
-            </div>
-            <div className="border rounded-md my-2 p-5">
-              <h1 className="text-xl ">% of negative feedback:</h1>
-              <p>{negativePercentage}</p>
-            </div>
-            <div className="border rounded-md mb-[0.125rem] p-5">
-              <h1 className="text-lg">Good feedbacks:</h1>
-              <p>{goodfb}</p>
-            </div>
-            <div className="border rounded-md mb-2 p-5">
-              <h1 className="text-lg">Neutral feedbacks:</h1>
-              <p>{neutralfb}</p>
-            </div>
-            <div className="border rounded-md mb-2 p-5">
-              <h1 className="text-lg">Bad feedbacks:</h1>
-              <p>{badfb}</p>
-            </div>
-            <div className="border rounded-md mb-2 p-5">
-              <h1 className="text-lg">Total amount of feedbacks:</h1>
-              <h1 className="text-lg">{totalFeedback}</h1>
-            </div>
-          </div>
-        </div>
-        <div className="overflow-y-auto flex-col border rounded-sm p-10 mx-2">
+          <h1 className="text-xl font-bold">Statistics:</h1>
+          <PieChart width={400} height={200}>
+            <Pie
+              dataKey="students"
+              outerRadius={80}
+              data={[
+                { name: "GREAT", students: goodfb, fill: "green" },
+                { name: "BAD", students: badfb, fill: "red" },
+                { name: "NEUTRAL", students: neutralfb, fill: "yellow" },
+              ]}
+            />
+            <Legend
+              content={<CustomLegend />}
+              align="right"
+              verticalAlign="middle"
+              layout="vertical"
+            />
+          </PieChart>
           <h1 className="mt-10 mb-10 text-xl font-bold text-center">
             List of feedbacks from user {userId}
           </h1>

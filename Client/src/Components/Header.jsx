@@ -3,9 +3,12 @@ import { resetAuth } from "../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar } from "../Pages/Dashboard/components/Avatar";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router";
+import "../i18n/config";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = !!token;
   const dispatch = useDispatch();
@@ -32,7 +35,7 @@ const Header = () => {
   const dropdownItems = (
     <>
       <li className="border-b border-accent">
-        <a href="/">Home</a>
+        <a href="/">{t("home")}</a>
       </li>
     </>
   );
@@ -48,7 +51,7 @@ const Header = () => {
   const logout = isSmallScreen ? (
     <>
       <li className="border-b border-accent">
-        <a onClick={handleLogout}>Log out </a>
+        <a onClick={handleLogout}>{t("log-out")}</a>
       </li>
     </>
   ) : null;
@@ -95,14 +98,14 @@ const Header = () => {
       </div>
       <div className="navbar-center">
         <a className="btn btn-ghost normal-case text-xl" href="/">
-          FeedbackApp
+          TeachWise
         </a>
       </div>
       <div className="navbar-end">
         {isAuthenticated && !isSmallScreen ? (
           <>
             <button className="btn mx-2 btn-ghost" onClick={handleLogout}>
-              Log out
+              {t("log-out")}
             </button>
             {/* rest of the authenticated items in the end navbar */}
           </>

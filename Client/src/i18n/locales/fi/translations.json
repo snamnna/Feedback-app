@@ -1,3 +1,17 @@
 {
-  "new-password": "Uusi salasana"
+  "home": "Koti",
+  "log-out": "Kirjaudu ulos",
+  "user-settings": "Käyttäjäasetukset",
+  "new-username": "Uusi käyttäjänimi",
+  "new-password": "Uusi salasana",
+  "confirm-password": "Vahvista salasana",
+  "requirements": "Salasanan tulee sisältää vähintään yksi pieni kirjain, yksi iso kirjain, yksi numero ja yksi erikoismerkki (!@#$%+).",
+  "info-text": "Jos haluat vaihtaa vain yhtä ominaisuutta, anna vanhat tiedot niihin kenttiin, joita et halua muuttaa.",
+  "edit-user": "Päivitä käyttäjä",
+  "delete-user": "POISTA KÄYTTÄJÄ",
+  "no-match": "Salasanat eivät täsmää!",
+  "fill-info-needed": "Täytä kaikki kentät ja varmista, että ne vastaavat vaatimuksia.",
+  "delete-confirm-text": "Oletko varma, että haluat poistaa käyttäjän?",
+  "yes": "KYLLÄ",
+  "no": "EI"
 }

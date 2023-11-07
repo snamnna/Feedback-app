@@ -48,12 +48,10 @@ const UserDetails = () => {
         setNewPassword("");
         setConfPwd("");
       } else {
-        alert("Passwords do not match!");
+        alert(t("no-match"));
       }
     } else {
-      alert(
-        "Please fill in both new name and password and ensure they meet the requirements."
-      );
+      alert(t("fill-info-needed"));
     }
   };
 
@@ -90,9 +88,9 @@ const UserDetails = () => {
         ))}
       </select>
       <div className="w-screen flex justify-center items-center pb-5 ">
-        <div className="px-20 py-5  rounded-lg border">
+        <div className="px-20 py-5 mb-10 rounded-lg border">
           <h1 className="text-2xl font-semibold mb-4 flex justify-center">
-            User settings
+            {t("user-settings")}
           </h1>
           <div>
             {error && <p>Error: {error}</p>}
@@ -111,7 +109,7 @@ const UserDetails = () => {
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   required
-                  placeholder="New username*"
+                  placeholder={`${t("new-username")}`}
                 />
               </div>
 
@@ -129,7 +127,7 @@ const UserDetails = () => {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
-                  placeholder={`${t("new-password")}*`}
+                  placeholder={`${t("new-password")}`}
                 />
               </div>
 
@@ -147,42 +145,31 @@ const UserDetails = () => {
                   value={confPwd}
                   onChange={(e) => setConfPwd(e.target.value)}
                   required
-                  placeholder="Confirm password*"
+                  placeholder={`${t("confirm-password")}`}
                 />
               </div>
 
-              <div className="text-center   text-sm mb-5">
-                <p>Password must contain at least one lowercase letter,</p>
-                <p>one uppercase letter, one number,</p>
-                <p>and one special character (!@#$%+).</p>
+              <div className="text-center max-w-sm text-sm mb-5">
+                <p>{t("requirements")}</p>
               </div>
 
-              <div className="text-center border rounded-md mb-5 p-4">
-                <p className="">If you prefer to change only one of these,</p>
-                <p className="">
-                  please provide your old credentials for the unchanged parts.
-                </p>
+              <div className="text-center border max-w-sm rounded-md mb-5 p-4">
+                <p className="">{t("info-text")}</p>
               </div>
-
-              <div className="flex justify-center mb-6">
-                <button
-                  type="button"
-                  onClick={handleEditUser}
-                  className="btn btn-sm btn-primary shadow-md"
-                >
-                  <span>Edit User</span>
-                </button>
-              </div>
-
-              <div className="flex justify-center mt-10 mb-6">
-                <button
-                  type="button"
-                  onClick={handleDeleteUser}
-                  className="btn btn-sm btn-primary shadow-md"
-                >
-                  <span>Delete User</span>
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={handleEditUser}
+                className="btn btn-sm btn-primary shadow-md"
+              >
+                {t("edit-user")}
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteUser}
+                className="btn btn-sm btn-natural shadow-md mt-5"
+              >
+                {t("delete-user")}
+              </button>
             </form>
             {showDelConf && (
               <DelConf onCancel={handleCancelDel} onConfirm={handleConfDel} />
