@@ -48,12 +48,10 @@ const UserDetails = () => {
         setNewPassword("");
         setConfPwd("");
       } else {
-        alert("Passwords do not match!");
+        alert(t("no-match"));
       }
     } else {
-      alert(
-        "Please fill in both new name and password and ensure they meet the requirements."
-      );
+      alert(t("fill-info-needed"));
     }
   };
 

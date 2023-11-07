@@ -8,5 +8,7 @@
   "requirements": "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character (!@#$%+).",
   "info-text": "If you prefer to change only one of these, please provide your old credentials for the unchanged parts.",
   "edit-user": "Edit User",
-  "delete-user": "DELETE USER"
+  "delete-user": "DELETE USER",
+  "no-match": "Passwords do not match!",
+  "fill-info-needed": "Please fill in both new name and password and ensure they meet the requirements."
 }
