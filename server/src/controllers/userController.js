@@ -68,4 +68,12 @@ router.get("/:id/courses", verifyToken, async (req, res) => {
   return res.status(200).json({ ...courses });
 });
 
+// Get user by username
+router.get("/name/:username", verifyToken, async (req, res) => {
+  const userName = req.params.username;
+  const user = await userService.getUserByUsername(userName);
+  if (!user) throw new CustomError(404, "User not found");
+  res.json(user);
+});
+
 module.exports = router;
