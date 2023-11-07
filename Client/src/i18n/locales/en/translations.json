@@ -21,5 +21,14 @@
   "no-server-response": "No Server Response",
   "missing-username-or-pass": "Missing Username or Password",
   "unauthorized": "Unauthorized",
-  "login-failed": "Login Failed"
+  "login-failed": "Login Failed",
+
+  "register-header": "Register",
+  "already-registered-text": "Already registered?",
+  "link-to-login": "Sign in",
+  "username-reqs": "4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.",
+  "password-reqs": "\"8 to 24 characters.  Must include uppercase and lowercase letters, a number and a special character.  Allowed Characters: ! @ # $ %\"",
+  "confirm-reqs": "\"Must match the first password input field.\"",
+  "username-taken": "Username taken",
+  "registration-failed": "Registration failed"
 }
