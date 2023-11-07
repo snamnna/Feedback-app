@@ -91,7 +91,7 @@ const Login = () => {
               {errMsg}
             </div>
             <h1 className="mt-3 text-xl font-bold leading-9 tracking-tight text-gray-900 text-center">
-              Sign in to your account
+              {t("header")}
             </h1>
           </div>
           <form onSubmit={handleSubmit}>
@@ -100,7 +100,7 @@ const Login = () => {
                 htmlFor="username"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Username
+                {t("username-label")}
               </label>
               <div className="mt-2">
                 <input
@@ -120,7 +120,7 @@ const Login = () => {
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Password
+                {t("password-label")}
               </label>
             </div>
             <div className="mt-2">
@@ -139,15 +139,15 @@ const Login = () => {
                 className="btn btn-primary my-2 w-full max-w-xs "
                 type="submit"
               >
-                login
+                {t("login-button")}
               </button>
             </div>
           </form>
           <p className="text-center">
-            Need an Account?
+            {t("need-account-text")}
             <br />
             <a className="link link-primary" href="/register">
-              Register
+              {t("link-to-register")}
             </a>
           </p>
         </div>
