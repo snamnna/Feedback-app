@@ -1,9 +1,10 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import feedbackService from "../../services/feedbackService";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedLecture } from "../../features/lectures/lectureSlice";
 import lectureService from "../../services/lectureService";
+import { PieChart, Pie, Legend } from "recharts";
 
 const LectureDetails = () => {
   const { lectureId } = useParams();
@@ -14,6 +15,32 @@ const LectureDetails = () => {
   const user = useSelector((state) => state.auth.user);
   const [lecture, setLecture] = useState({});
   const [canGiveFeedback, setCanGiveFeedback] = useState(true);
+  const [goodfb, setGoodfb] = useState(0);
+  const [badfb, setBadfb] = useState(0);
+  const [neutralfb, setNeutralfb] = useState(0);
+
+  const CustomLegend = ({ payload }) => (
+    <ul>
+      {payload.map((entry, index) => (
+        <li
+          key={`legend-${index}`}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <div
+            style={{
+              width: "10px",
+              height: "10px",
+              backgroundColor: entry.color,
+              marginRight: "5px",
+            }}
+          ></div>
+          <span>
+            {entry.value} ({entry.payload.students})
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
 
   useEffect(() => {
     console.log(lectureId);
@@ -36,36 +63,40 @@ const LectureDetails = () => {
         );
 
         setCanGiveFeedback(!userHasGivenFeedback);
+        calculateFeedbackStatistics(feedbacks); // Call the function here
       } catch (error) {
         console.error("Error fetching feedback:", error);
       }
     };
     fetchFeedback();
   }, [token]);
+  const calculateFeedbackStatistics = (feedbacks) => {
+    console.log("calculating feedback statistics...");
+    console.log("feedbacks: ", feedbacks);
+    let goodfb = 0;
+    let badfb = 0;
+    let neutralfb = 0;
+    let totalFeedback = 0;
+    let percentage = 0;
+    let negativePercentage = 0;
 
-  if (user.userType === "TEACHER" && feedback.length > 0) {
-    // Calculate the number of good feedback
-    const goodfb = feedback.filter(
-      (feedback) => feedback.feedbackType === "GREAT"
-    ).length;
+    feedbacks.forEach((fb) => {
+      console.log("feedback: ", fb);
+      if (fb.feedbackType === "GREAT") {
+        goodfb++;
+      } else if (fb.feedbackType === "BAD") {
+        badfb++;
+      } else if (fb.feedbackType === "NEUTRAL") {
+        neutralfb++;
+      }
+    });
 
-    const badfb = feedback.filter(
-      (feedback) => feedback.feedbackType === "BAD"
-    ).length;
+    totalFeedback = goodfb + badfb + neutralfb;
 
-    const neutralfb = feedback.filter(
-      (feedback) => feedback.feedbackType === "NEUTRAL"
-    ).length;
-
-    // Calculate the total number of feedback
-    const totalFeedback = feedback.length;
-
-    // Calculate the percentage of positive feedback
-    const percentage = (goodfb / totalFeedback) * 100;
-  }
-
-  const handleUserFeedback = (userId) => {
-    navigate(`/feedback/${userId}`);
+    setGoodfb(goodfb);
+    setBadfb(badfb);
+    setNeutralfb(neutralfb);
+    setTotalFeedback(totalFeedback);
   };
 
   const openNewFeedbackModal = () => {
@@ -73,67 +104,96 @@ const LectureDetails = () => {
     document.getElementById("feedback_modal").showModal();
   };
 
-  //TODO: halutaanko lisää prosentit ja eriteltynbnä mitä feedbackei saanu miten paljon samal taval ku kurssi feedbackis
-  if (user.userType === "TEACHER") {
-    return feedback.length > 0 ? (
-      <div>
+  return (
+    <div className="flex items-center justify-center p-10">
+      <div className="border rounded-sm max-w-2xl text-center p-10 mx-2">
         <h1 className="mt-10 mb-10 text-xl font-bold text-center">
-          List of feedbacks for lecture: {lecture.name}
+          Feedback Statistics for Lecture: {lecture.name}
         </h1>
-        <ul>
-          {feedback.map((feedback, index) => (
-            <li
-              className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"
-              key={index}
+        <div className="flex justify-center">
+          <PieChart width={400} height={200}>
+            <Pie
+              dataKey="students"
+              outerRadius={80}
+              data={[
+                { name: "GREAT", students: goodfb, fill: "green" },
+                { name: "BAD", students: badfb, fill: "red" },
+                { name: "NEUTRAL", students: neutralfb, fill: "yellow" },
+              ]}
+            />
+            <Legend
+              content={<CustomLegend />}
+              align="right"
+              verticalAlign="middle"
+              layout="vertical"
+            />
+          </PieChart>
+        </div>
+        {user.userType === "TEACHER" ? (
+          feedback.length > 0 ? (
+            <div>
+              <h1 className="text-xl font-bold text-center">
+                List of feedbacks
+              </h1>
+              <ul>
+                {feedback.map((feedback, index) => (
+                  <li
+                    className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"
+                    key={index}
+                  >
+                    <h3>Type: {feedback.feedbackType}</h3>
+                    <p>Comment: {feedback.comment}</p>
+                    <Link
+                      to={`/feedback/${feedback.userId}`}
+                      className="link text-primary"
+                    >
+                      User: {feedback.userId}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <h1 className="border p-7 rounded-md mt-10 mb-20">
+                No feedbacks yet
+              </h1>
+            </div>
+          )
+        ) : user.userType === "STUDENT" && canGiveFeedback ? (
+          <div className="flex justify-center">
+            <button
+              className="border p-7 rounded-md mt-10 mb-20"
+              onClick={openNewFeedbackModal}
             >
-              <h3>Type: {feedback.feedbackType}</h3>
-              <p>Comment: {feedback.comment}</p>
-              <Link
-                to={`/feedback/${feedback.userId}`}
-                className="link text-primary"
-              >
-                User: {feedback.userId}
-              </Link>
-            </li>
-          ))}
-        </ul>
+              Give feedback
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-center">
+            <h1 className="text-xl font-bold text-center">List of feedbacks</h1>
+            <ul>
+              {feedback.map((feedback, index) => (
+                <li
+                  className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"
+                  key={index}
+                >
+                  <h3>Type: {feedback.feedbackType}</h3>
+                  <p>Comment: {feedback.comment}</p>
+                  <Link
+                    to={`/feedback/${feedback.userId}`}
+                    className="link text-primary"
+                  >
+                    User: {feedback.userId}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
-    ) : (
-      <div className="flex justify-center">
-        <h1 className="border p-7 rounded-md mt-10 mb-20">No feedbacks yet</h1>
-      </div>
-    );
-  }
-
-  return user.userType === "STUDENT" && canGiveFeedback ? (
-    <div className="flex justify-center">
-      <button
-        className="border p-7 rounded-md mt-10 mb-20"
-        onClick={openNewFeedbackModal}
-      >
-        Give feedback
-      </button>
-    </div>
-  ) : (
-    <div className="flex justify-center">
-      <ul>
-        {feedback.map((feedback, index) => (
-          <li
-            className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"
-            key={index}
-          >
-            <h3>Type: {feedback.feedbackType}</h3>
-            <p>Comment: {feedback.comment}</p>
-            <Link
-              to={`/feedback/${feedback.userId}`}
-              className="link text-primary"
-            >
-              User: {feedback.userId}
-            </Link>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
+
 export default LectureDetails;
