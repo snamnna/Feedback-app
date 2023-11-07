@@ -13,6 +13,11 @@ const userUpdateSchema = Joi.object({
   password: Joi.string().min(4).required(),
 });
 
+const userTypeUpdateSchema = Joi.object({
+  id: Joi.number().integer().required(),
+  userType: Joi.string().valid("STUDENT", "TEACHER", "ADMIN"),
+});
+
 // Get user
 router.get("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
@@ -66,6 +71,34 @@ router.get("/:id/courses", verifyToken, async (req, res) => {
   if (!user) throw new CustomError(404, "User not found");
   const courses = await userService.getUserCourses(userId);
   return res.status(200).json({ ...courses });
+});
+
+// Get user by username (admin function)
+router.get("/name/:username", verifyToken, async (req, res) => {
+  if (req.user.userType !== "ADMIN")
+    throw new CustomError(403, "No permission");
+
+  const userName = req.params.username;
+  const user = await userService.getUserByUsername(userName);
+  if (!user) throw new CustomError(404, "User not found");
+  res.json(user);
+});
+
+// Modify user type (admin function)
+router.put("/:id/type", verifyToken, async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+  validate(userTypeUpdateSchema, { ...req.body, id: userId });
+
+  if (req.user.userType !== "ADMIN")
+    throw new CustomError(403, "No permission to modify user type");
+
+  const { userType } = req.body;
+  if (!userType) throw new CustomError(400, "Bad Request");
+
+  const updatedUser = await userService.editUserType(userId, userType);
+  return res
+    .status(200)
+    .json({ message: "User type updated successfully", updatedUser });
 });
 
 module.exports = router;
