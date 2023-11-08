@@ -7,7 +7,7 @@ import fiTranslations from "./locales/fi/translations.json";
 
 i18n.use(initReactI18next).init({
   fallbackLng: "en",
-  lng: "fi",
+  lng: "en",
   resources: {
     en: {
       translations: enTranslations,
