@@ -3,12 +3,14 @@ import { createUser } from "../../services/userServices";
 import authBg from "../../assets/authBg.jpg";
 import RegisterSuccess from "./components/RegisterSuccess";
 import { useTranslation } from "react-i18next";
+import "../../i18n/config";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%+]).{6,24}$/;
 
 const Register = () => {
   const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const userRef = useRef();
   const errRef = useRef();
 
@@ -75,6 +77,11 @@ const Register = () => {
       }
       errRef.current.focus();
     }
+  };
+
+  const changeLanguage = (lng) => {
+    console.log("kieli vaihdettu: " + lng);
+    i18n.changeLanguage(lng);
   };
 
   return (
@@ -186,7 +193,7 @@ const Register = () => {
                     htmlFor="confirm_pwd"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    {t("en_confirm-password")}
+                    {t("confirm-password")}
                   </label>
                   <input
                     type="password"
@@ -235,7 +242,7 @@ const Register = () => {
             <select
               id="language-selector"
               name="language"
-              className="mx-2 mt-3 select select-bordered"
+              className=" mx-2 mt-3 select select-bordered "
               onChange={(e) => changeLanguage(e.target.value)}
             >
               {languageOptions.map((option) => (

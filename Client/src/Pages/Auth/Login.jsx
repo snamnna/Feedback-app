@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/userServices";
 import { useDispatch } from "react-redux";
@@ -6,9 +6,11 @@ import { setAuth } from "../../features/auth/authSlice";
 import authBg from "../../assets/authBg.jpg";
 import { useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
+import "../../i18n/config";
 
 const Login = () => {
   const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const userRef = useRef();
   const errRef = useRef();
   const [user, setUser] = useState("");
@@ -58,6 +60,11 @@ const Login = () => {
       }
       errRef.current.focus();
     }
+  };
+
+  const changeLanguage = (lng) => {
+    console.log("kieli vaihdettu: " + lng);
+    i18n.changeLanguage(lng);
   };
 
   return (
@@ -156,7 +163,7 @@ const Login = () => {
         <select
           id="language-selector"
           name="language"
-          className="mx-2 mt-3 select select-bordered"
+          className=" mx-2 mt-3 select select-bordered "
           onChange={(e) => changeLanguage(e.target.value)}
         >
           {languageOptions.map((option) => (
