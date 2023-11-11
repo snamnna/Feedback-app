@@ -122,7 +122,10 @@ const Register = () => {
                   {t("register-header")}
                 </h1>
               </div>
-              <form onSubmit={handleSubmit}>
+              <form
+                onSubmit={handleSubmit}
+                dir={i18n.language === "fa" ? "rtl" : "ltr"}
+              >
                 <div>
                   <label
                     htmlFor="username"

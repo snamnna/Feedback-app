@@ -101,7 +101,10 @@ const Login = () => {
               {t("header")}
             </h1>
           </div>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit}
+            dir={i18n.language === "fa" ? "rtl" : "ltr"}
+          >
             <div>
               <label
                 htmlFor="username"
@@ -122,14 +125,14 @@ const Login = () => {
                 />
               </div>
             </div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                {t("password-label")}
-              </label>
-            </div>
+
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              {t("password-label")}
+            </label>
+
             <div className="mt-2">
               <input
                 type="password"
