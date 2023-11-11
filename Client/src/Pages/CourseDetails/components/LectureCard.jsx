@@ -52,10 +52,35 @@ const LectureCard = ({ lecture }) => {
   };
 
   const handleDeleteLecture = async () => {
-    const deleteLecture = await lectureService.deleteLecture(lectureId, token);
-    console.log(deleteLecture);
-    if (deleteLecture) {
-      window.location.reload(false);
+    try {
+      // Check if feedback exists
+      if (hasGivenFeedback) {
+        alert("Cannot delete lecture with feedback");
+        return;
+      }
+
+      // Check if any other feedback exists for the lecture
+      const lectureFeedbackExists = await feedbackService.lectureFeedback(
+        { lectureId },
+        token
+      );
+
+      if (lectureFeedbackExists.length > 0) {
+        alert("Cannot delete lecture with existing feedback");
+        return;
+      }
+
+      // Proceed with the deletion if no feedback exists
+      const deleteLecture = await lectureService.deleteLecture(
+        lectureId,
+        token
+      );
+
+      if (deleteLecture) {
+        window.location.reload(false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
