@@ -74,7 +74,7 @@ const UserDetails = () => {
   };
 
   return (
-    <div className="text-end">
+    <div className={`text-${i18n.language === "fa" ? "start" : "end"}`}>
       <select
         id="language-selector"
         name="language"
@@ -94,7 +94,10 @@ const UserDetails = () => {
           </h1>
           <div>
             {error && <p>Error: {error}</p>}
-            <form className="flex flex-col items-center">
+            <form
+              dir={i18n.language === "fa" ? "rtl" : "ltr"}
+              className="flex flex-col items-center"
+            >
               <div className="mb-6">
                 <input
                   className={
