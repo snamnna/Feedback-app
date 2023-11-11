@@ -25,6 +25,7 @@ const UserDetails = () => {
   const [validName, setValidName] = useState(false);
   const [validPwd, setValidPwd] = useState(false);
   const [validMatch, setValidMatch] = useState(false);
+
   const languageOptions = [
     { code: "en", name: t("en"), flag: "us" },
     { code: "fa", name: t("fa"), flag: "ir" },
