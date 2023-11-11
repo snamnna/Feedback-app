@@ -30,9 +30,9 @@ const Register = () => {
   const [success, setSuccess] = useState(false);
 
   const languageOptions = [
-    { code: "en", name: "English", flag: "us" },
-    { code: "fa", name: "Farsi", flag: "ir" },
-    { code: "fi", name: "Finnish", flag: "fi" },
+    { code: "en", name: t("en"), flag: "us" },
+    { code: "fa", name: t("fa"), flag: "ir" },
+    { code: "fi", name: t("fi"), flag: "fi" },
   ];
 
   useEffect(() => {
