@@ -13,5 +13,26 @@
   "fill-info-needed": "Täytä kaikki kentät ja varmista, että ne vastaavat vaatimuksia.",
   "delete-confirm-text": "Oletko varma, että haluat poistaa käyttäjän?",
   "yes": "KYLLÄ",
-  "no": "EI"
+  "no": "EI",
+
+  "header": "Kirjaudu sisään",
+  "username-label": "Käyttäjänimi",
+  "password-label": "Salasana",
+  "login-button": "Kirjaudu",
+  "need-account-text": "Tarvitsetko käyttäjän",
+  "link-to-register": "Rekisteröidy",
+  "no-server-response": "Ei vastausta serveriltä",
+  "missing-username-or-pass": "Käyttäjänimi tai salasana puuttuu",
+  "unauthorized": "Ei oikeuksia",
+  "login-failed": "Kirjautuminen epäonnistui",
+
+  "register-header": "Rekisteröidy",
+  "already-registered-text": "Oletko jo rekisteröitynyt?",
+  "link-to-login": "Kirjaudu sisään",
+  "username-reqs": "4-24 merkkiä. Alkaa kirjaimella. Kirjaimiet, numerot, alaviivat ja väliviivat hyväksytty. ",
+  "password-reqs": "8.24 merkkiä. Täytyy sisältää iso kirjain ja pieniä kirjaimia, numero ja erikoismerkki. Hyväksytyt merkit:  ! @ # $ %",
+  "confirm-reqs": "Salasanat eivät täsmää",
+  "username-taken": "Käyttäjänimi ei ole vapaana",
+  "registration-failed": "Rekisteröinti ei onnistunut",
+  "sign-up": "KIRJAUDU"
 }
