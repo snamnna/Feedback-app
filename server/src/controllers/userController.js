@@ -21,6 +21,7 @@ const userTypeUpdateSchema = Joi.object({
 // Get user
 router.get("/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
+  if (Number.isNaN(userId)) throw new CustomError(400, "Invalid user ID");
   const user = userService.getUserById(userId);
   if (!user) throw new CustomError(404, "User not found");
   res.json(user);
@@ -75,8 +76,8 @@ router.get("/:id/courses", verifyToken, async (req, res) => {
 
 // Get user by username (admin function)
 router.get("/name/:username", verifyToken, async (req, res) => {
-  if (req.user.userType !== "ADMIN")
-    throw new CustomError(403, "No permission");
+  if (req.user.userType !== "ADMIN") throw new CustomError(403, "No permission");
+  if (!req.params.username) throw new CustomError(400, "Missing input");
 
   const userName = req.params.username;
   const user = await userService.getUserByUsername(userName);
