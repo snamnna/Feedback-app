@@ -29,6 +29,30 @@ const userSlice = createSlice({
     deleteUserFailure: (state, action) => {
       state.error = action.payload;
     },
+    getUserByUsernameSuccess: (state, action) => {
+      state.data = action.payload;
+      state.error = null;
+      console.log("User found by username: " + action.payload.username);
+    },
+    getUserByUsernameFailure: (state, action) => {
+      state.data = null;
+      state.error = action.payload;
+      console.log("User not found: " + action.payload);
+    },
+    editUserTypeSuccess: (state, action) => {
+      state.user.userType = action.payload;
+      state.error = null;
+      console.log(
+        "User type " +
+          action.payload.updatedUser.userType +
+          " changed for user ID " +
+          action.payload.updatedUser.id
+      );
+    },
+    editUserTypeFailure: (state, action) => {
+      state.error = action.payload;
+      console.log(action.payload);
+    },
   },
 });
 
@@ -37,6 +61,10 @@ export const {
   editUserFailure,
   deleteUserSuccess,
   deleteUserFailure,
+  getUserByUsernameSuccess,
+  getUserByUsernameFailure,
+  editUserTypeSuccess,
+  editUserTypeFailure,
 } = userSlice.actions;
 
 export const editUser =
@@ -74,5 +102,36 @@ export const deleteUser = (userId, token) => {
     }
   };
 };
+
+export const getUserByUsername = (username, token) => async (dispatch) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/name/${username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(getUserByUsernameSuccess(response.data));
+  } catch (error) {
+    dispatch(getUserByUsernameFailure(error.message));
+  }
+};
+
+export const editUserType =
+  (userId, newUserType, token) => async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/${userId}/type`,
+        { userType: newUserType },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(editUserTypeSuccess(response.data));
+    } catch (error) {
+      dispatch(editUserTypeFailure(error.message));
+    }
+  };
 
 export default userSlice.reducer;
