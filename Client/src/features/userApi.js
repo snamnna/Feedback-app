@@ -16,7 +16,14 @@ export const userApi = createApi({
     getUserCourses: builder.query({
       query: (id) => `/users/${id}/courses`,
     }),
+    getUserByUsername: builder.query({
+      query: (username) => `/users/name/${username}`,
+    }),
   }),
 });
 
-export const { useLoginUserMutation, useGetUserCoursesQuery } = userApi;
+export const {
+  useLoginUserMutation,
+  useGetUserCoursesQuery,
+  useGetUserByUsernameQuery,
+} = userApi;

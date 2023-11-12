@@ -13,6 +13,7 @@ import CourseDetails from "./Pages/CourseDetails/CourseDetails";
 import LectureDetails from "./Pages/LectureDetails/LectureDetails";
 import UserDetails from "./Pages/UserDetails/UserDetails";
 import UserFeedbacks from "./Pages/Feedback/UserFeedbacks";
+import AdminPanel from "./Pages/AdminPanel/AdminPanel";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,9 +41,15 @@ const router = createBrowserRouter(
           <Route path={"/user"}>
             <Route index element={<UserDetails />} />
           </Route>
+
           {/*Feedback*/}
           <Route path={"/feedback/:userId"}>
             <Route index element={<UserFeedbacks />} />
+          </Route>
+
+          {/*Admin*/}
+          <Route path={"/admin"}>
+            <Route index element={<AdminPanel />} />
           </Route>
         </Route>
 
