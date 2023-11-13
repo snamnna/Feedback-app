@@ -108,28 +108,28 @@ const LectureDetails = () => {
         <h1 className="mt-10 mb-10 text-xl font-bold text-center">
           Feedback Statistics for Lecture: {lecture.name}
         </h1>
-        <div className="flex justify-center">
-          <PieChart width={400} height={200}>
-            <Pie
-              dataKey="students"
-              outerRadius={80}
-              data={[
-                { name: "GREAT", students: goodfb, fill: "green" },
-                { name: "BAD", students: badfb, fill: "red" },
-                { name: "NEUTRAL", students: neutralfb, fill: "yellow" },
-              ]}
-            />
-            <Legend
-              content={<CustomLegend />}
-              align="right"
-              verticalAlign="middle"
-              layout="vertical"
-            />
-          </PieChart>
-        </div>
         {user.userType === "TEACHER" ? (
           feedback.length > 0 ? (
             <div>
+              <div className="flex justify-center">
+                <PieChart width={400} height={200}>
+                  <Pie
+                    dataKey="students"
+                    outerRadius={80}
+                    data={[
+                      { name: "GREAT", students: goodfb, fill: "green" },
+                      { name: "BAD", students: badfb, fill: "red" },
+                      { name: "NEUTRAL", students: neutralfb, fill: "yellow" },
+                    ]}
+                  />
+                  <Legend
+                    content={<CustomLegend />}
+                    align="right"
+                    verticalAlign="middle"
+                    layout="vertical"
+                  />
+                </PieChart>
+              </div>
               <h1 className="text-xl font-bold text-center">
                 List of feedbacks
               </h1>
