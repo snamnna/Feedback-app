@@ -10,8 +10,13 @@ export const CoursesSection = () => {
   const userType = useSelector((state) => state.auth.user.userType);
   const [search, setSearch] = useState("");
   const [isTeacher, setIsTeacher] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const allCourses = useSelector((state) => state.courses.allCourses);
   const [showAllCourses, setShowAllCourses] = useState(false);
+  const navigate = useNavigate();
+  const handleAdminClick = () => {
+    navigate("/admin");
+  };
 
   const filterCourses = allCourses.filter((course) =>
     course.name.toLowerCase().includes(search.toLowerCase())
@@ -21,8 +26,11 @@ export const CoursesSection = () => {
   useEffect(() => {
     if (userType === "TEACHER") {
       setIsTeacher(true);
+    } else if (userType === "ADMIN") {
+      setIsAdmin(true);
     } else {
       setIsTeacher(false);
+      setIsAdmin(false);
     }
   }, [userType]);
 
@@ -45,6 +53,14 @@ export const CoursesSection = () => {
             >
               <FiPlus size={20} />
               <span>New Course</span>
+            </button>
+          )}
+          {isAdmin && (
+            <button
+              className="btn btn-xs btn-primary shadow-md m-0 px-1.5 py-1 box-content text-sm ml-4"
+              onClick={handleAdminClick}
+            >
+              <span>Admin panel</span>
             </button>
           )}
         </div>
