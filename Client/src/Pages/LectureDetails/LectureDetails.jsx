@@ -63,7 +63,7 @@ const LectureDetails = () => {
         );
 
         setCanGiveFeedback(!userHasGivenFeedback);
-        calculateFeedbackStatistics(feedbacks); // Call the function here
+        calculateFeedbackStatistics(feedbacks);
       } catch (error) {
         console.error("Error fetching feedback:", error);
       }
@@ -108,7 +108,7 @@ const LectureDetails = () => {
         <h1 className="mt-10 mb-10 text-xl font-bold text-center">
           Feedback Statistics for Lecture: {lecture.name}
         </h1>
-        {user.userType === "TEACHER" ? (
+        {user.userType === "TEACHER" || user.userType === "ADMIN" ? (
           feedback.length > 0 ? (
             <div>
               <div className="flex justify-center">
