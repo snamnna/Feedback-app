@@ -5,7 +5,7 @@ const {
   deleteLecture,
   getAllFeedbacksOfLecture,
   getLectureById,
-} = require("../../services/lectureService"); // replace with your actual module path
+} = require("../../services/lectureService");
 
 const PrismaClientMocked = new PrismaClient();
 
