@@ -11,6 +11,7 @@ import OverViewTab from "./components/OverViewTab";
 import ParticipantsTab from "./components/ParticipantsTab";
 import EnrollmentTab from "./components/EnrollmentTab";
 import { useNavigate } from "react-router-dom";
+import feedbackService from "../../services/feedbackService";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -90,6 +91,20 @@ const CourseDetails = () => {
 
   //delete course
   const handleDelete = async () => {
+    //check if there is feedback
+    const courseFeedbackExists = await feedbackService.courseFeedback(
+      courseId,
+      token
+    );
+
+    console.log("haetaan feedbackit jos on" + courseFeedbackExists);
+
+    //if feedback, alert and return
+    if (courseFeedbackExists.length > 0) {
+      alert("Cannot delete course with existing feedback");
+      return;
+    }
+
     const deleteCourse = await courseService.deleteCourse(courseId, token);
     console.log(deleteCourse);
     navigate("/");
