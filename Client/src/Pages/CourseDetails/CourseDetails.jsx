@@ -121,6 +121,7 @@ const CourseDetails = () => {
             </h1>
             {!isOwner && enrollmentStatus === "APPROVED" && (
               <button
+                id="leaveCourse"
                 className="ml-2 mt-1 btn btn-primary btn-sm"
                 onClick={() => handleLeave()}
               >
