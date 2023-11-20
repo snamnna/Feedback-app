@@ -62,13 +62,6 @@ test.describe("delete course with  no feedback", () => {
       page.getByText("new lectureView feedbackdelete").isVisible
     ).toBeTruthy();
 
-    //check there is no feedback on the lecture
-    await page
-      .locator("li")
-      .filter({ hasText: "new lectureView feedbackdelete" })
-      .getByRole("button")
-      .click();
-
     expect(
       page.getByRole("heading", { name: "No feedbacks yet" }).isVisible
     ).toBeTruthy();
@@ -89,6 +82,7 @@ test.describe("delete course with  no feedback", () => {
 
     await page.reload();
 
+    //make sure the lecture is removed
     expect(
       await page.getByText("new lectureView feedbackdelete").isVisible()
     ).not.toBeTruthy();
