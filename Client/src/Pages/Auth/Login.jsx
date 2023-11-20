@@ -146,6 +146,7 @@ const Login = () => {
 
             <div>
               <button
+                id="submit-btn"
                 className="btn btn-primary my-2 w-full max-w-xs "
                 type="submit"
               >

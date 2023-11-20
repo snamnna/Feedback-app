@@ -98,7 +98,9 @@ const UserFeedbacks = () => {
     return (
       <div className="flex items-center justify-center p-10">
         <div className="border rounded-sm max-w-2xl text-center p-10 mx-2">
-          <h1 className="text-xl font-bold">Statistics:</h1>
+          <h1 id="statistics" className="text-xl font-bold">
+            Statistics:
+          </h1>
           <PieChart width={400} height={200}>
             <Pie
               dataKey="students"
@@ -119,7 +121,7 @@ const UserFeedbacks = () => {
           <h1 className="mt-10 mb-10 text-xl font-bold text-center">
             List of feedbacks from user {userId}
           </h1>
-          <ul>
+          <ul id="feedbackList">
             {feedbackWithLecture.map(({ feedback, lecture, course }, index) => (
               <li
                 className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"

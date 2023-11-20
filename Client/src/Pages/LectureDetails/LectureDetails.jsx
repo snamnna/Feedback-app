@@ -181,6 +181,7 @@ const LectureDetails = () => {
                   <Link
                     to={`/feedback/${feedback.userId}`}
                     className="link text-primary"
+                    id={`user-${feedback.userId}`}
                   >
                     User: {feedback.userId}
                   </Link>
