@@ -12,13 +12,16 @@ test.describe("create course", () => {
     await page.waitForURL(`${BASE_URL}`);
   });
 
+  let courseName;
+  let courseDescription;
+
   // Testataan kurssin luominen
   test("should create a new course and display it", async ({ page }) => {
     // Open new course modal
     await page.getByRole("button", { name: "New Course" }).click();
     // Generate random course name and description
-    const courseName = Math.random().toString(36).substring(7);
-    const courseDescription = Math.random()
+    courseName = Math.random().toString(36).substring(7);
+    courseDescription = Math.random()
       .toString(36)
       .substring(7)
       .repeat(6)
