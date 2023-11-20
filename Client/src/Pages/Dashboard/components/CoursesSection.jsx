@@ -65,6 +65,7 @@ export const CoursesSection = () => {
           )}
         </div>
         <input
+          id="courseSearch"
           className="border border-gray-300 rounded-md shadow-md"
           type="text"
           placeholder="Search from all courses"
