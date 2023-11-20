@@ -29,8 +29,6 @@ test.describe("Check user feedback", () => {
     //click the link with user id
     await page.waitForURL(`http://localhost:3000/feedback/4`);
 
-    await page.screenshot({ path: "screenshot.png" });
-
     await page.waitForSelector("#statistics");
 
     // Check if the feedback list is visible
