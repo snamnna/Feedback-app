@@ -35,7 +35,6 @@ test.describe("Check user feedback", () => {
 
     // Check if the feedback list is visible
     const feedbackListExists = await page.isVisible("#feedbackList");
-    console.log("Is feedback list visible?", feedbackListExists);
 
     expect(feedbackListExists).toBeTruthy();
   });
