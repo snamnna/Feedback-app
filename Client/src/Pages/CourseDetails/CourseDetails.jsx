@@ -218,7 +218,11 @@ const CourseDetails = () => {
         <h1 className=" text-2xl font-bold">{course.name}</h1>
         <h2 className="text-md font-bold">Description:</h2>
         <p className="italic">{course.description}</p>
-        <button onClick={() => handleEnroll()} className="btn btn-primary my-2">
+        <button
+          onClick={() => handleEnroll()}
+          id="req-btn"
+          className="btn btn-primary my-2"
+        >
           Request to join the course
         </button>
       </div>
