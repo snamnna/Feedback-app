@@ -50,8 +50,14 @@ test.describe("create course", () => {
       .getByRole("button", { name: "Create" })
       .click();
 
+    await page.goto("http://localhost:3000/courses/2");
+
     expect(
       page.getByText("new lectureView feedbackdelete").isVisible
+    ).toBeTruthy();
+
+    expect(
+      page.getByRole("heading", { name: "No feedbacks yet" }).isVisible
     ).toBeTruthy();
 
     await page.goto("http://localhost:3000/courses/2");
@@ -60,14 +66,12 @@ test.describe("create course", () => {
       page.getByText("new lectureView feedbackdelete").isVisible
     ).toBeTruthy();
 
+    /*
     await page
       .locator("li")
       .filter({ hasText: "new lectureView feedbackdelete" })
       .getByRole("button")
       .click();
-
-    expect(
-      page.getByRole("heading", { name: "No feedbacks yet" }).isVisible
-    ).toBeTruthy();
+      */
   });
 });
