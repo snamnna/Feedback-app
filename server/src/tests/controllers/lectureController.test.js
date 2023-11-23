@@ -1,56 +1,75 @@
-const { PrismaClient } = require("@prisma/client");
+const request = require("supertest");
+const express = require("express");
+require("express-async-errors");
 
-const request = require('supertest');
-const express = require('express');
-const lectureRoutes = require('../../controllers/lectureController');
+const app = express();
+const router = require("../../controllers/lectureController");
 
-describe('Lecture Routes', () => {
-    const app = express();
-    app.use(express.json());
-    app.use('/lectures', lectureRoutes);
-  
-    // Mockataan tarvittavat palvelut
-    jest.mock('../../services/lectureService', () => ({
-      createLecture: jest.fn().mockResolvedValue({ id: 1, lectureName: 'Test Lecture' }),
-      getLectureById: jest.fn().mockImplementation((id) => {
-        if (id === 1) {
-          return { id: 1, lectureName: 'Test Lecture' };
-        } else {
-          return null;
-        }
-      }),
-      getAllFeedbacksOfLecture: jest.fn().mockResolvedValue([
-        { id: 1, feedback: 'Feedback 1' },
-        { id: 2, feedback: 'Feedback 2' },
-      ]),
-      updateLecture: jest.fn().mockResolvedValue({ id: 1, lectureName: 'Updated Lecture' }),
-      deleteLecture: jest.fn().mockResolvedValue({ message: 'Lecture deleted successfully' }),
-    }));
-  
-    it('should create a new lecture', async () => {
-      // Testaa POST /lectures
-      // ...
+app.use(express.json());
+app.use("/lectures", router);
+
+// Mocking the dependencies
+jest.mock("../../services/lectureService");
+jest.mock("../../middlewares/verifyToken");
+const lectureService = require("../../services/lectureService");
+const verifyToken = require("../../middlewares/verifyToken");
+const courseService = require("../../services/courseService");
+
+jest.setTimeout(10000);
+
+const mockCourse = {
+  id: 1,
+  name: "Course 1",
+  description: "Description 1",
+  lecturerId: 5,
+  enrollments: [
+    { id: 1, userId: 1, courseId: 1, status: "APPROVED" },
+    { id: 2, userId: 2, courseId: 1, status: "APPROVED" },
+    { id: 1, userId: 3, courseId: 1, status: "REJECTED" },
+    { id: 1, userId: 4, courseId: 1, status: "REJECTED" },
+  ],
+  lectures: [
+    { id: 1, name: "Lecture 1" },
+    { id: 2, name: "Lecture 2" },
+  ],
+};
+
+const mockLecture = {
+    id: 1,
+    name: "Lecture 1",
+    courseId: "1"
+}
+
+describe("Courses API", () => {
+    beforeEach(() => {
+        courseService.getAllCourses.mockReset();
+        courseService.getCourseById.mockReset();
+        courseService.getAllParticipants.mockReset();
+        courseService.getAllLectures.mockReset();
+        courseService.createCourse.mockReset();
+        courseService.editCourse.mockReset();
+        courseService.deleteCourse.mockReset();
+        verifyToken.mockReset();
     });
-  
-    it('should get lecture feedback', async () => {
-      // Testaa GET /lectures/:id/feedback
-      // ...
-    });
-  
-    it('should update a lecture', async () => {
-      // Testaa PUT /lectures/:id
-      // ...
-    });
-  
-    it('should delete a lecture', async () => {
-      // Testaa DELETE /lectures/:id
-      // ...
-    });
-  
-    it('should get a lecture by ID', async () => {
-      // Testaa GET /lectures/:id
-      // ...
-    });
-  
-    // Lisää testejä tarpeen mukaan
-  });
+
+    describe("GET /api/lectures", () => {
+        it("should return 200 and the lecture", async () => {
+            lectureService.getLectureById.mockResolvedValue(mockLecture)
+
+            verifyToken.mockImplementation((req, res, next) => {
+                req.user = { id: 1, username: "test" };
+                next();
+            });
+
+            const { statusCode, body } = await request(app).get(
+                `/lectures/${mockCourse.id}`,
+            );
+
+            expect(statusCode).toBe(200);
+            expect(body).toEqual({
+                message: "Lecture found successfully",
+                course: mockLecture,
+            });
+        });  
+    })
+});    
