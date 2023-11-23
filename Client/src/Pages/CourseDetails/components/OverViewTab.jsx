@@ -134,7 +134,7 @@ const OverViewTab = () => {
               <h1 className="mt-10 text-lg font-bold text-center">
                 List of feedbacks
               </h1>
-              <ul>
+              <ul id="coursefeedbacklist">
                 {feedbackWithLecture.map(({ feedback, lecture }, index) => (
                   <li
                     className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"

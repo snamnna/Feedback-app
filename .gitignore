@@ -84,3 +84,7 @@ node_modules
 .idea
 /server/prisma/migrations/20230920085658_name/migration.sql
 /server/prisma/migrations/migration_lock.toml
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
