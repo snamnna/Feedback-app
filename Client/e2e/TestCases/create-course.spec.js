@@ -19,13 +19,9 @@ test.describe("create course", () => {
   test("should create a new course and display it", async ({ page }) => {
     // Open new course modal
     await page.getByRole("button", { name: "New Course" }).click();
-    // Generate random course name and description
-    courseName = Math.random().toString(36).substring(7);
-    courseDescription = Math.random()
-      .toString(36)
-      .substring(7)
-      .repeat(6)
-      .substring(0, 32);
+
+    courseName = "Testcourse";
+    courseDescription = "Details";
 
     // Fill course name and description
     await page
