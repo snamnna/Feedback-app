@@ -24,9 +24,13 @@ test.describe("Check lecture feedback", () => {
     await page.click('button:has-text("View feedback")');
     await page.waitForURL(`http://localhost:3000/lectures/2`);
 
-    // Check if the feedback list is visible
-    const feedbackListExists = await page.isVisible("#feedbackList");
+    // Wait that the elements are available
+    await page.waitForSelector("#lecturefeedbacklist");
 
-    expect(feedbackListExists).toBeTruthy();
+    // Search all li elements of the list
+    const feedbackListItems = await page.$$("#lecturefeedbacklist li");
+
+    // Check that there are element(s) in the list
+    expect(feedbackListItems.length).toBeGreaterThan(0);
   });
 });

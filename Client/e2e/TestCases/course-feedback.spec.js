@@ -25,12 +25,15 @@ test.describe("Check lecture feedback", () => {
     await page.waitForSelector('a:has-text("Feedback")', { visible: true });
     await page.click('a:has-text("Feedback")');
 
-    // Wait for the feedbacklist
-    await page.waitForSelector("#feedbackList", { visible: true });
+    await page.waitForURL("http://localhost:3000/courses/2");
 
-    // Check if the feedback list is visible
-    const feedbackListExists = await page.isVisible("#feedbackList");
+    // Wait that the elements are available
+    await page.waitForSelector("#coursefeedbacklist");
 
-    expect(feedbackListExists).toBeTruthy();
+    // Search all li elements of the list
+    const feedbackListItems = await page.$$("#coursefeedbacklist li");
+
+    // Check that there are element(s) in the list
+    expect(feedbackListItems.length).toBeGreaterThan(0);
   });
 });
