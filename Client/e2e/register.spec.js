@@ -9,7 +9,7 @@ test.describe("register", () => {
 
   test("renders register page correctly", async ({ page }) => {
     const loginFooter = page.getByText("Need an Account?");
-    expect(loginFooter).toContainText("Need an Account?");
+    expect(loginFooter).toContainText("Need an account?Register");
     expect(loginFooter).toBeVisible();
 
     const registerLink = page.getByRole("link", { name: "Register" });
@@ -41,9 +41,9 @@ test.describe("register", () => {
     await page.waitForURL(`${BASE_URL}/register`);
 
     await page.getByText("Username").fill("test");
-    await page.getByText("Password:", { exact: true }).fill("test");
-    await page.getByText("Confirm Password:").fill("test");
-    await page.getByText("Sign Up").click();
+    await page.getByText("Password:", { exact: true }).fill("Test123456789!");
+    await page.getByText("Confirm Password:").fill("Test123456789!");
+    await page.click("button#reg-btn");
 
     const error = page.getByText("Username Taken");
 
@@ -60,12 +60,13 @@ test.describe("register", () => {
     await page.waitForURL(`${BASE_URL}/register`);
 
     await page.getByText("Username").fill("te");
-    await page.getByText("Password:", { exact: true }).fill("test");
-    await page.getByText("Confirm Password:").fill("test");
-    await page.getByText("Sign Up").click();
+    await page.getByText("Password:", { exact: true }).fill("Test123456789!");
+    await page.getByText("Confirm Password:").fill("Test123456789!");
 
-    const error = page.getByText("Registration Failed");
-    expect(error.isVisible).toBeTruthy();
+    //submit button disabled if conditions not mer
+    const button = await page.$("#reg-btn");
+    const isDisabled = await button.isDisabled();
+    expect(isDisabled).toBeTruthy();
   });
 
   test("should register with valid credentials and redirect to '/'", async ({
@@ -81,10 +82,10 @@ test.describe("register", () => {
     const username = Math.random().toString(36).substring(7);
 
     await page.getByText("Username").fill(username);
-    await page.getByText("Password:", { exact: true }).fill("test");
-    await page.getByText("Confirm Password:").fill("test");
+    await page.getByText("Password:", { exact: true }).fill("Test123456789!");
+    await page.getByText("Confirm Password:").fill("Test123456789!");
 
-    await page.getByText("Sign Up").click();
+    await page.click("button#reg-btn");
 
     expect(
       page.getByRole("heading", {
@@ -106,15 +107,15 @@ test.describe("register", () => {
     expect(page.getByText("Password").isVisible).toBeTruthy();
     expect(page.getByText("login").isVisible).toBeTruthy();
 
-    // test that the user can login with the credentials they just registered with
+    // test that the user can log in with the credentials they just registered with
     await page.getByLabel("Username").fill(username);
-    await page.getByLabel("Password").fill("test");
-    await page.getByRole("button", { name: "login" }).click();
+    await page.getByLabel("Password").fill("Test123456789!");
+    await page.click("button#submit-btn");
 
     await page.waitForURL(BASE_URL);
 
     expect(page.getByText("log out").isVisible).toBeTruthy();
-    expect(page.getByText("FeedbackApp").isVisible).toBeTruthy();
+    expect(page.getByText("TeachWise").isVisible).toBeTruthy();
     expect(page.getByText("My Courses").isVisible).toBeTruthy();
   });
 });
