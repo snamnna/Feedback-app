@@ -40,7 +40,7 @@ test.describe("register", () => {
 
     await page.waitForURL(`${BASE_URL}/register`);
 
-    await page.getByText("Username").fill("test");
+    await page.getByText("Username").fill("uusiNimi");
     await page.getByText("Password:", { exact: true }).fill("Test123456789!");
     await page.getByText("Confirm Password:").fill("Test123456789!");
     await page.click("button#reg-btn");
@@ -93,13 +93,10 @@ test.describe("register", () => {
       }).isVisible
     ).toBeTruthy();
 
-    const signInLink = page.getByRole("link", {
-      name: "Sign in to your account",
-    });
+    await page.waitForSelector("a#sign-btn");
 
-    expect(signInLink).toBeVisible();
-
-    signInLink.click();
+    // Click the sign-in link
+    await page.click("a#sign-btn");
 
     await page.waitForURL(`${BASE_URL}/Login`);
 
@@ -108,11 +105,13 @@ test.describe("register", () => {
     expect(page.getByText("login").isVisible).toBeTruthy();
 
     // test that the user can log in with the credentials they just registered with
-    await page.getByLabel("Username").fill(username);
+    await page.getByText("Username").fill(username);
     await page.getByLabel("Password").fill("Test123456789!");
     await page.click("button#submit-btn");
 
     await page.waitForURL(BASE_URL);
+
+    await page.screenshot({ path: "screenshot.png" });
 
     expect(page.getByText("log out").isVisible).toBeTruthy();
     expect(page.getByText("TeachWise").isVisible).toBeTruthy();
