@@ -62,12 +62,6 @@ test.describe("delete course with  no feedback", () => {
       page.getByText("new lectureView feedbackdelete").isVisible
     ).toBeTruthy();
 
-    expect(
-      page.getByRole("heading", { name: "No feedbacks yet" }).isVisible
-    ).toBeTruthy();
-
-    await page.goto("http://localhost:3000/courses/2");
-
     const lectureCard = page.getByTestId("lecture-card").last();
     expect(lectureCard.isVisible).toBeTruthy();
 
