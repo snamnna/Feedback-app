@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 const BASE_URL = "http://localhost:3000";
 
-test.describe("delete course with  no feedback", () => {
+test.describe("delete course with feedback", () => {
   test("navigate and try to delete", async ({ page }) => {
     await page.goto(`${BASE_URL}/login`);
 
