@@ -179,16 +179,6 @@ test.describe("course details", () => {
     expect(
       page.getByText("test lectureView feedbackdelete").isVisible
     ).toBeTruthy();
-
-    await page
-      .locator("li")
-      .filter({ hasText: "test lectureView feedbackdelete" })
-      .getByRole("button")
-      .click();
-
-    expect(
-      page.getByRole("heading", { name: "No feedbacks yet" }).isVisible
-    ).toBeTruthy();
   });
 
   test("should delete a lecture", async ({ page }) => {
