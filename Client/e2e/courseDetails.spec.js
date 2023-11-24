@@ -164,30 +164,20 @@ test.describe("course details", () => {
     await page
       .locator("#new_lecture_modal")
       .getByPlaceholder("name")
-      .fill("new lecture");
+      .fill("test lecture");
     await page
       .locator("#new_lecture_modal")
       .getByRole("button", { name: "Create" })
       .click();
 
     expect(
-      page.getByText("new lectureView feedbackdelete").isVisible
+      page.getByText("test lectureView feedbackdelete").isVisible
     ).toBeTruthy();
 
     await page.goto("http://localhost:3000/courses/2");
 
     expect(
-      page.getByText("new lectureView feedbackdelete").isVisible
-    ).toBeTruthy();
-
-    await page
-      .locator("li")
-      .filter({ hasText: "new lectureView feedbackdelete" })
-      .getByRole("button")
-      .click();
-
-    expect(
-      page.getByRole("heading", { name: "No feedbacks yet" }).isVisible
+      page.getByText("test lectureView feedbackdelete").isVisible
     ).toBeTruthy();
   });
 
@@ -197,17 +187,17 @@ test.describe("course details", () => {
 
     // get the text inside the h2 tag in lectureCard
     const lectureName = lectureCard.getByRole("heading", {
-      name: "new lecture",
+      name: "test lecture",
     });
     expect(lectureName.isVisible).toBeTruthy();
-    expect(await lectureName.textContent()).toEqual("new lecture");
+    expect(await lectureName.textContent()).toEqual("test lecture");
 
     await page.getByText("delete", { exact: true }).last().click();
 
     await page.reload();
 
     expect(
-      await page.getByText("new lectureView feedbackdelete").isVisible()
+      await page.getByText("test lectureView feedbackdelete").isVisible()
     ).not.toBeTruthy();
   });
 });

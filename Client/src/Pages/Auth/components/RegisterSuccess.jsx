@@ -5,7 +5,7 @@ const RegisterSuccess = () => {
         <h1 className="text-2xl font-semibold">
           You have successfully registered.
         </h1>
-        <a href="/Login" className="btn btn-primary mt-5">
+        <a id="sign-btn" href="/Login" className="btn btn-primary mt-5">
           Sign in to your account
         </a>
       </div>

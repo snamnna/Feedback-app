@@ -10,17 +10,21 @@ test.describe("login", () => {
   test("should login with valid credentials and redirect to localhost:3000", async ({
     page,
   }) => {
-    await page.waitForURL(`${BASE_URL}/login`);
+    // Wait for the username input field to be ready before filling it
+    await page.waitForSelector("input#username");
+    await page.fill("input#username", "teacher2");
 
-    await page.getByLabel("Username").fill("test");
-    await page.getByLabel("Password").fill("test");
+    // Wait for the password input field to be ready before filling it
+    await page.waitForSelector("input#password");
+    await page.fill("input#password", "test");
 
-    await page.getByRole("button", { name: "login" }).click();
-
+    // Submit the form
+    await page.click("button#submit-btn");
+    await page.waitForURL(`${BASE_URL}`);
     await page.waitForURL(BASE_URL);
 
     expect(await page.isVisible("text=log out")).toBeTruthy();
-    expect(await page.isVisible("text=FeedbackApp")).toBeTruthy();
+    expect(await page.isVisible("text=TeachWise")).toBeTruthy();
     expect(await page.isVisible("text=My Courses")).toBeTruthy();
   });
 
