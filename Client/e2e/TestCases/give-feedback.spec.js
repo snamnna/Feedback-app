@@ -29,6 +29,22 @@ test.describe("Feedback", () => {
     ).toBeTruthy();
   });
 
+  test.describe("Try to give only a comment", () =>
+    test("Try to give only a comment", async ({ page }) => {
+      test("Try to give only a comment", async ({ page }) => {
+        // Wait for the input field to be present
+        await page.waitForSelector("input#comment");
+
+        // Fill in the comment input
+        await page.fill("input#comment", "feedback");
+
+        // Check if the "Send" button is not present
+        const sendButton = await page.$('button:has-text("Send")');
+
+        expect(sendButton).toBeNull(); // Assuming the button is not present
+      });
+    }));
+
   test.describe("Give a great feedback", () =>
     test("Give a great feedback", async ({ page }) => {
       const greatBtnSelector = 'button[style*="background-color: green"]';
