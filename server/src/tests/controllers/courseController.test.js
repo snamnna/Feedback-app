@@ -34,16 +34,7 @@ const mockCourse = {
 };
 
 describe("Courses API", () => {
-  beforeEach(() => {
-    courseService.getAllCourses.mockReset();
-    courseService.getCourseById.mockReset();
-    courseService.getAllParticipants.mockReset();
-    courseService.getAllLectures.mockReset();
-    courseService.createCourse.mockReset();
-    courseService.editCourse.mockReset();
-    courseService.deleteCourse.mockReset();
-    verifyToken.mockReset();
-  });
+  
 
   describe("GET /api/courses", () => {
     it("should return 200 and all courses", async () => {
