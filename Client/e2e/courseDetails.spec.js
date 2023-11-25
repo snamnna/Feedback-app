@@ -195,7 +195,7 @@ test.describe("course details", () => {
     await page.getByText("delete", { exact: true }).last().click();
 
     await page.reload();
-
+    //check the lecture is deleted
     expect(
       await page.getByText("test lectureView feedbackdelete").isVisible()
     ).not.toBeTruthy();
