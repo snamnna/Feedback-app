@@ -33,6 +33,11 @@ const mockCourse = {
   ],
 };
 
+const mockParticipants = [
+  { id: 1, username: "test", userType: "STUDENT" },
+  { id: 2, username: "test2", userType: "STUDENT" },
+];
+
 describe("Courses API", () => {
   
 
@@ -147,6 +152,10 @@ describe("Courses API", () => {
     });
 
     describe("/participants", () => {
+      beforeAll(() => {
+        courseService.getCourseById = jest.fn();
+        courseService.getAllParticipants = jest.fn();
+      });
       it("should return a message and an array of participants", async () => {
         courseService.getCourseById.mockResolvedValue(mockCourse);
         courseService.getAllParticipants.mockResolvedValue(mockParticipants);
