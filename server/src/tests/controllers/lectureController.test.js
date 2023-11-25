@@ -204,6 +204,24 @@ describe("DELETE /api/lectures/:id", () => {
       expect(app).toThrow();
     });
   });
+
+  describe("given the user is lecturer", () => {
+    it("lecture can not be deleted if it doesn't exist", async () => {
+      const lectureId = 5;
+
+      lectureService.getLectureById.mockResolvedValue(null);
+      lectureService.deleteLecture.mockResolvedValue(null);
+
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 6, userType: "TEACHER" };
+        next();
+      });
+
+      const res = await request(app).delete(`/lectures/${lectureId}`);
+
+      expect(res.statusCode).toBe(404);
+    });
+  });
 });
 
 // Muokkaaminen
@@ -246,4 +264,26 @@ describe("PUT /api/lectures/:id", () => {
       expect(app).toThrow();
     });
   });
+
+  describe("given the user is lecturer", () => {
+    it("lecture can not be updated if it doesn't exist", async () => {
+      const updatedLecture = { id: 1, name: "Updated Lecture" };
+      lectureService.updateLecture.mockResolvedValue(updatedLecture);
+
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 6, userType: "TEACHER" };
+        next();
+      });
+
+      const nonExistingLectureId = 999; 
+      lectureService.getLectureById.mockResolvedValue(null);
+
+      const { statusCode, body } = await request(app)
+        .put(`/lectures/${nonExistingLectureId}`)
+        .send({ lectureName: updatedLecture.name });
+
+      expect(statusCode).toBe(404);
+    });
+  });
+  
 });
