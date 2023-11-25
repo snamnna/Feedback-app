@@ -11,7 +11,7 @@ test.describe("Feedback", () => {
     await page.waitForURL(`${BASE_URL}`);
 
     // open course details page
-    await page.getByText("feedbacktest").first().click();
+    await page.getByText("palaute").first().click();
 
     await page.getByRole("button", { name: "Give feedback" }).click();
 
@@ -29,67 +29,54 @@ test.describe("Feedback", () => {
     ).toBeTruthy();
   });
 
-  test.describe("Try to give only a comment", () =>
-    test("Try to give only a comment", async ({ page }) => {
-      test("Try to give only a comment", async ({ page }) => {
-        // Wait for the input field to be present
-        await page.waitForSelector("input#comment");
+  test("Try to give only a comment", async ({ page }) => {
+    // Wait for the input field to be present
+    await page.waitForSelector("input#comment");
 
-        // Fill in the comment input
-        await page.fill("input#comment", "feedback");
+    // Fill in the comment input
+    await page.fill("input#comment", "feedback");
 
-        // Check if the "Send" button is not present
-        const sendButton = await page.$('button:has-text("Send")');
+    // Check if the "Send" button is not present
+    const sendButton = await page.$('button:has-text("Send")');
 
-        expect(sendButton).toBeNull(); // Assuming the button is not present
-      });
-    }));
+    expect(sendButton).toBeNull(); // Assuming the button is not present
+  });
 
-  test.describe("Give a great feedback", () =>
-    test("Give a great feedback", async ({ page }) => {
-      const greatBtnSelector = 'button[style*="background-color: green"]';
+  test("Give a great feedback", async ({ page }) => {
+    const greatBtnSelector = 'button[style*="background-color: green"]';
 
-      // Click the green button
-      await page.click(greatBtnSelector);
+    // Click the green button
+    await page.click(greatBtnSelector);
 
-      // Wait for the text "You have selected GREAT" to appear
-      await page.waitForSelector('p:has-text("You have selected GREAT")');
+    // Wait for the text "You have selected GREAT" to appear
+    await page.waitForSelector('p:has-text("You have selected GREAT")');
 
-      // Ensure the selected text is correct
-      const selectedText = await page.textContent(
-        'p:has-text("You have selected GREAT")'
-      );
-      expect(selectedText).toBe("You have selected GREAT");
+    // Ensure the selected text is correct
+    const selectedText = await page.textContent(
+      'p:has-text("You have selected GREAT")'
+    );
+    expect(selectedText).toBe("You have selected GREAT");
 
-      await page.waitForSelector("input#comment");
-      await page.fill("input#comment", "feedback");
+    await page.waitForSelector("input#comment");
+    await page.fill("input#comment", "feedback");
 
-      // Get the length of the entered text and assert it
-      const commentLength = await page.$eval(
-        "input#comment",
-        (input) => input.value.length
-      );
-      expect(commentLength).toBe(8);
+    // Get the length of the entered text and assert it
+    const commentLength = await page.$eval(
+      "input#comment",
+      (input) => input.value.length
+    );
+    expect(commentLength).toBe(8);
 
-      // Mock the Axios post request
-      // await page.route("**/feedback-endpoint", (route) => {
-      // route.fulfill({
-      //   status: 200,
-      //  contentType: "application/json",
-      //   body: JSON.stringify({ status: "Feedback submitted successfully" }),
-      //  });
-      // });
+    await page.getByRole("button", { name: "Send" }).click();
 
-      await page.getByRole("button", { name: "Send" }).click();
+    // Wait for the button to be disabled
+    await page.waitForSelector('button:has-text("Give feedback"):disabled');
 
-      // Wait for the button to be disabled
-      await page.waitForSelector('button:has-text("Give feedback"):disabled');
+    const feedbackBtnState = await page.$eval(
+      'button:has-text("Give feedback")',
+      (button) => button.disabled
+    );
 
-      const feedbackBtnState = await page.$eval(
-        'button:has-text("Give feedback")',
-        (button) => button.disabled
-      );
-
-      expect(feedbackBtnState).toBe(true); // Assuming the button is disabled after feedback is sent
-    }));
+    expect(feedbackBtnState).toBe(true); // Assuming the button is disabled after feedback is sent
+  });
 });
