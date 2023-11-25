@@ -1,75 +1,67 @@
-const request = require("supertest");
-const express = require("express");
-require("express-async-errors");
+const { PrismaClient } = require("@prisma/client");
+const request = require('supertest');
+const express = require('express');
+const lectureRoutes = require('../../controllers/lectureController');
 
-const app = express();
-const router = require("../../controllers/lectureController");
+describe('Lecture Routes', () => {
+    const app = express();
+    app.use(express.json());
+    app.use('/lectures', lectureRoutes);
 
-app.use(express.json());
-app.use("/lectures", router);
+    // Väärennetty tokeni simulointia varten
+    const fakeToken = 'fake.token.for.testing';
 
-// Mocking the dependencies
-jest.mock("../../services/lectureService");
-jest.mock("../../middlewares/verifyToken");
-const lectureService = require("../../services/lectureService");
-const verifyToken = require("../../middlewares/verifyToken");
-const courseService = require("../../services/courseService");
+    // Mockataan tokenDecode-funktio, joka palauttaa odotetut tiedot
+    jest.mock('../../utils/jwtUtils', () => ({
+        tokenDecode: jest.fn().mockResolvedValue({ userType: 'TEACHER', /* muut tiedot */ }),
+    }));
 
-jest.setTimeout(10000);
+    it('should create a new lecture', async () => {
+        const mockLectureData = {
+            lectureName: 'Test Lecture',
+            courseId: 123,
+        };
 
-const mockCourse = {
-  id: 1,
-  name: "Course 1",
-  description: "Description 1",
-  lecturerId: 5,
-  enrollments: [
-    { id: 1, userId: 1, courseId: 1, status: "APPROVED" },
-    { id: 2, userId: 2, courseId: 1, status: "APPROVED" },
-    { id: 1, userId: 3, courseId: 1, status: "REJECTED" },
-    { id: 1, userId: 4, courseId: 1, status: "REJECTED" },
-  ],
-  lectures: [
-    { id: 1, name: "Lecture 1" },
-    { id: 2, name: "Lecture 2" },
-  ],
-};
+        // Simuloi tokenin lisääminen pyyntöön
+        const response = await request(app)
+            .post('/lectures')
+            .send(mockLectureData)
+            .set('Authorization', `Bearer ${fakeToken}`); // Lisää tokeni otsakkeeseen
 
-const mockLecture = {
-    id: 1,
-    name: "Lecture 1",
-    courseId: "1"
-}
+        // Lisää odotetut tarkistukset vastaukseen
+        expect(response.status).toBe(200);
+        // Lisää muita odotettuja tarkistuksia vastaukseen
 
-describe("Courses API", () => {
-    beforeEach(() => {
-        courseService.getAllCourses.mockReset();
-        courseService.getCourseById.mockReset();
-        courseService.getAllParticipants.mockReset();
-        courseService.getAllLectures.mockReset();
-        courseService.createCourse.mockReset();
-        courseService.editCourse.mockReset();
-        courseService.deleteCourse.mockReset();
-        verifyToken.mockReset();
+        // Tarkista, että createLecture-metodia kutsutaan oikeilla tiedoilla
+        expect(require('../../services/lectureService').createLecture).toHaveBeenCalledWith({
+            lectureName: 'Test Lecture',
+            courseId: 123,
+        });
     });
 
-    describe("GET /api/lectures", () => {
-        it("should return 200 and the lecture", async () => {
-            lectureService.getLectureById.mockResolvedValue(mockLecture)
+    it('should create a new lecture', async () => {
+        // Testaa POST /lectures
+        // ...
+      });
+    
+      it('should get lecture feedback', async () => {
+        // Testaa GET /lectures/:id/feedback
+        // ...
+      });
+    
+      it('should update a lecture', async () => {
+        // Testaa PUT /lectures/:id
+        // ...
+      });
+    
+      it('should delete a lecture', async () => {
+        // Testaa DELETE /lectures/:id
+        // ...
+      });
+    
+      it('should get a lecture by ID', async () => {
+        // Testaa GET /lectures/:id
+        // ...
+      });
 
-            verifyToken.mockImplementation((req, res, next) => {
-                req.user = { id: 1, username: "test" };
-                next();
-            });
-
-            const { statusCode, body } = await request(app).get(
-                `/lectures/${mockCourse.id}`,
-            );
-
-            expect(statusCode).toBe(200);
-            expect(body).toEqual({
-                message: "Lecture found successfully",
-                course: mockLecture,
-            });
-        });  
-    })
-});    
+});

@@ -100,6 +100,7 @@ const FeedbackModal = () => {
           <p className="m-2 text-center">You have selected {feedbackType}</p>
           <p className="m-2 text-center">Give a comment (optional)</p>
           <input
+            id="comment"
             type="text"
             placeholder="comment"
             className="input w-full max-w-lg input-bordered"
