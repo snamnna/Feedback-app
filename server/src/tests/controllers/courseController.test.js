@@ -147,13 +147,6 @@ describe("Courses API", () => {
     });
 
     describe("/participants", () => {
-      const mockParticipants = [
-        { id: 1, username: "test", userType: "STUDENT" },
-        { id: 2, username: "test2", userType: "STUDENT" },
-      ];
-
-      let returnedBody;
-
       it("should return a message and an array of participants", async () => {
         courseService.getCourseById.mockResolvedValue(mockCourse);
         courseService.getAllParticipants.mockResolvedValue(mockParticipants);
@@ -161,20 +154,16 @@ describe("Courses API", () => {
           req.user = { id: 5, username: "lecturer", userType: "TEACHER" };
           next();
         });
-
+  
         const { statusCode, body } = await request(app).get(
           "/courses/1/participants",
         );
-
-        returnedBody = body;
-
+  
         expect(statusCode).toBe(200);
-        expect(body).toContainKeys(["message", "participants"]);
-        expect(body.participants).toBeArray();
-      });
-
-      it.each(mockParticipants)(`response should contain %p`, (participant) => {
-        expect(returnedBody.participants).toContainEqual(participant);
+        expect(body).toEqual({
+          message: "Participants found successfully",
+          participants: expect.arrayContaining(mockParticipants),
+        });
       });
     });
   });
