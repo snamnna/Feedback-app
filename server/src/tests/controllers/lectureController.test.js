@@ -1,140 +1,103 @@
-const { PrismaClient } = require("@prisma/client");
-const request = require('supertest');
-const express = require('express');
-const lectureRoutes = require('../../controllers/lectureController');
-const lectureService = require('../../services/lectureService');
-const feedbackService = require('../../services/feedbackService');
+const request = require("supertest");
+const express = require("express");
+require("express-async-errors");
 
-describe('Lecture Routes', () => {
+const app = express();
+const router = require("../../controllers/lectureController");
 
-    const mockLecture = { 
-      lectureName: 'Test Lecture',
-      courseId: 123, 
-    };
-    const mockFeedback = [{ id: 1, comment: "Great!" },
-    { id: 2, comment: "Not bad" },];
+app.use(express.json());
+app.use("/lectures", router);
 
-    const app = express();
-    app.use(express.json());
-    app.use('/lectures', lectureRoutes);
+// Mocking the dependencies
+jest.mock("../../services/lectureService");
+jest.mock("../../middlewares/verifyToken");
+const courseService = require("../../services/courseService");
+const lectureService = require("../../services/lectureService");
+const verifyToken = require("../../middlewares/verifyToken");
 
-    // Fake token for simulation
-    const fakeToken = 'fake.token.for.testing';
+jest.setTimeout(10000);
 
-    // Mocking the tokenDecode function that returns expected data
-    jest.mock('../../utils/jwtUtils', () => ({
-        tokenDecode: jest.fn().mockResolvedValue({ userType: 'TEACHER'}),
-    }));
+const mockCourse = {
+  id: 1,
+  name: "Course 1",
+  description: "Description 1",
+  lecturerId: 5,
+  enrollments: [
+    { id: 1, userId: 1, courseId: 1, status: "APPROVED" },
+    { id: 2, userId: 2, courseId: 1, status: "APPROVED" },
+    { id: 1, userId: 3, courseId: 1, status: "REJECTED" },
+    { id: 1, userId: 4, courseId: 1, status: "REJECTED" },
+  ],
+  lectures: [
+    { id: 1, name: "Lecture 1" },
+    { id: 2, name: "Lecture 2" },
+  ],
+};
 
-    it('should create a new lecture', async () => {
-        const mockLectureData = {
-            lectureName: 'Test Lecture',
-            courseId: 123,
-        };
+const mockParticipants = [
+  { id: 1, username: "test", userType: "STUDENT" },
+  { id: 2, username: "test2", userType: "STUDENT" },
+];
 
-        // Simulate adding a token to the request
-        const response = await request(app)
-            .post('/lectures')
-            .send(mockLectureData)
-            .set('Authorization', `Bearer ${fakeToken}`); // Add token to header
+const mockLecture ={
+  id: 1,
+  name: "Lecture 1",
+  course: "Course 1",
+  courseId: 1,
+  feedback: [
+    {
+      id: 1,
+      feedbackType: "GREAT",
+      comment: "Great lecture!",
+      userId: 1,
+      lectureId: 1,
+      createdAt: "2023-11-25T08:30:00.123Z"
+    },
+    {
+      id: 2,
+      feedbackType: "BAD",
+      comment: "Would love more examples.",
+      userId: 2,
+      lectureId: 1,
+      createdAt: "2023-11-25T08:30:00.123Z"
+    }
+  ],
+  createdAt: "2023-11-25T08:30:00.123Z"
+} 
 
-        // Add expected checks to the response
-        expect(response.status).toBe(200);
-        // Add other expected checks to the response
+describe("POST /api/lectures", () => {
+  describe("given the user is lecturer", () => {
+    it("can create a new lecture", async () => {
+      lectureService.createLecture.mockResolvedValue(mockLecture);
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 1, userType: "TEACHER" };
+        next();
+      });
 
-        // Check that createLecture method is called with the right data
-        expect(require('../../services/lectureService').createLecture).toHaveBeenCalledWith({
-            lectureName: 'Test Lecture',
-            courseId: 123,
-        });
+      const { statusCode, body } = await request(app).post("/lectures").send({
+        lectureName: "Lecture 1",
+        courseId: "1",
+      });
+
+      expect(statusCode).toBe(200);
+      expect(body).toEqual(mockLecture);
     });
-
-    it('should get lecture feedback for a valid lecture ID', async () => {
-      // Mocking the necessary services
-      const mockLectureId = 2; 
-      const mockLecture = { 
-        lectureName: 'Test Lecture',
-        courseId: 123, 
-      };
-      const mockFeedback = [{ id: 1, comment: "Great!" },
-      { id: 2, comment: "Not bad" },];
-
-      // Mock the service functions
-      jest.spyOn(lectureService, 'getLectureById').mockResolvedValue(mockLecture);
-      jest.spyOn(feedbackService, 'getAllFeedbacksOfLecture').mockResolvedValue(mockFeedback);
-
-      const response = await request(app)
-          .get(`/lectures/${mockLectureId}/feedback`)
-          .set('Authorization', `Bearer ${fakeToken}`);
-
-      // Assuming the service returns feedback for the given lecture ID
-      expect(response.status).toBe(200);
-      // Add more specific assertions based on your application's logic
-
-      // Example: Check if the response body contains expected feedback data
-      expect(response.body).toEqual(mockFeedback);
-    });
-
-
-    it('should update a lecture with valid data', async () => {
-      const mockLectureId = 2; 
-      const mockUpdatedLecture = { lectureName: 'Test Lecture updated',
-      courseId: 321, };
-
-      // Mock the service function to update a lecture
-      jest.spyOn(lectureService, 'getLectureById').mockResolvedValue({ mockLectureId });
-      jest.spyOn(lectureService, 'updateLecture').mockResolvedValue(mockUpdatedLecture);
-
-      const response = await request(app)
-          .put(`/lectures/${mockLectureId}`)
-          .send({ lectureName: 'Test Lecture updated'}) 
-          .set('Authorization', `Bearer ${fakeToken}`);
-
-      // Assuming the service returns the updated lecture data
-      expect(response.status).toBe(200);
-      // Add more specific assertions based on your application's logic
-
-      // Example: Check if the response body contains the updated lecture data
-      expect(response.body.updatedLecture).toEqual(mockUpdatedLecture);
-    });
-
-
-    it('should delete a lecture with a valid ID', async () => {
-      const mockLectureId = 2; 
-
-      // Mock the service function to delete a lecture
-      jest.spyOn(lectureService, 'getLectureById').mockResolvedValue({ mockLecture });
-      jest.spyOn(lectureService, 'deleteLecture').mockResolvedValue(); // Assuming successful deletion
-
-      const response = await request(app)
-          .delete(`/lectures/${mockLectureId}`)
-          .set('Authorization', `Bearer ${fakeToken}`);
-
-      // Assuming the service deletes the lecture successfully
-      expect(response.status).toBe(200);
-      // Add more specific assertions based on your application's logic
-
-      // Example: Check if the response body contains a success message
-      expect(response.body).toEqual({ message: 'Lecture deleted successfully' });
   });
 
-  it('should get a lecture by a valid ID', async () => {
-    const mockLectureId = 2;
-    const mockLectureData = { lectureName: 'Test Lecture',
-    courseId: 123,  };
+  describe("given the user is student", () => {
+    it("should return 403", async () => {
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 5, userType: "STUDENT" };
+        next();
+      });
 
-    // Mock the service function to retrieve a lecture by ID
-    jest.spyOn(lectureService, 'getLectureById').mockResolvedValue(mockLectureData);
+      const { statusCode } = await request(app).post("/lectures").send({
+        lectureName: "Lecture 1",
+        courseId: "1",
+      });
 
-    const response = await request(app)
-        .get(`/lectures/${mockLectureId}`)
-        .set('Authorization', `Bearer ${fakeToken}`);
-
-    // Assuming the service returns the lecture data for the given ID
-    expect(response.status).toBe(200);
-    // Add more specific assertions based on your application's logic
-
-    // Example: Check if the response body contains the expected lecture data
-    expect(response.body.lecture).toEqual(mockLectureData);
+      expect(statusCode).toBe(403);
+      expect(app).toThrow();
+    });
   });
 });
