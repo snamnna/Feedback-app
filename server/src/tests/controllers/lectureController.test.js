@@ -11,7 +11,6 @@ app.use("/lectures", router);
 // Mocking the dependencies
 jest.mock("../../services/lectureService");
 jest.mock("../../middlewares/verifyToken");
-const courseService = require("../../services/courseService");
 const lectureService = require("../../services/lectureService");
 const verifyToken = require("../../middlewares/verifyToken");
 
@@ -130,6 +129,22 @@ describe("GET /api/lectures/:id", () => {
       lecture: mockLecture,
     });
   });
+
+  // Feedbackin tarkastelu
+
+  it("should include feedback", async () => {
+    lectureService.getLectureById.mockResolvedValue(mockLecture);
+    verifyToken.mockImplementation((req, res, next) => {
+      req.user = { id: 6, userType: "TEACHER" };
+      next();
+    });
+
+    const { body, statusCode } = await request(app).get(
+      `/lectures/${mockLecture.id}`,
+    );
+    expect(statusCode).toBe(200);
+    expect(body.lecture).toHaveProperty("feedback");
+  });
 });
 
 // Poistaminen
@@ -156,4 +171,5 @@ describe("DELETE /api/lectures/:id", () => {
 });
 
 // Muokkaaminen
-// Feedbackin tarkastelu
+
+
