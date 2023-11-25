@@ -39,8 +39,6 @@ const mockParticipants = [
 ];
 
 describe("Courses API", () => {
-  
-
   describe("GET /api/courses", () => {
     it("should return 200 and all courses", async () => {
       const mockCourses = [
@@ -154,20 +152,18 @@ describe("Courses API", () => {
     describe("/participants", () => {
       beforeAll(() => {
         courseService.getCourseById = jest.fn();
-        courseService.getAllParticipants = jest.fn();
+        courseService.getParticipants = jest.fn();
       });
       it("should return a message and an array of participants", async () => {
         courseService.getCourseById.mockResolvedValue(mockCourse);
-        courseService.getAllParticipants.mockResolvedValue(mockParticipants);
+        courseService.getParticipants.mockResolvedValue(mockParticipants);
         verifyToken.mockImplementation((req, res, next) => {
-          req.user = { id: 5, username: "lecturer", userType: "TEACHER" };
+          req.user = { id: 5, userType: "TEACHER" };
           next();
         });
-  
-        const { statusCode, body } = await request(app).get(
-          "/courses/1/participants",
-        );
-  
+
+        const { statusCode, body } = await request(app).get("/courses/1");
+
         expect(statusCode).toBe(200);
         expect(body).toEqual({
           message: "Participants found successfully",
