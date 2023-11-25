@@ -92,7 +92,7 @@ describe("POST /api/lectures", () => {
     });
   });
 
-  describe("given the user is student", () => {
+  describe("given user is student", () => {
     it("should return 403", async () => {
       verifyToken.mockImplementation((req, res, next) => {
         req.user = { id: 1, userType: "STUDENT" };
@@ -132,18 +132,36 @@ describe("GET /api/lectures/:id", () => {
 
   // Feedbackin tarkastelu
 
-  it("should include feedback", async () => {
-    lectureService.getLectureById.mockResolvedValue(mockLecture);
-    verifyToken.mockImplementation((req, res, next) => {
-      req.user = { id: 6, userType: "TEACHER" };
-      next();
-    });
+  describe("given user is lecturer", () => {
+    it("should include feedback", async () => {
+      lectureService.getLectureById.mockResolvedValue(mockLecture);
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 6, userType: "TEACHER" };
+        next();
+      });
 
-    const { body, statusCode } = await request(app).get(
-      `/lectures/${mockLecture.id}`,
-    );
-    expect(statusCode).toBe(200);
-    expect(body.lecture).toHaveProperty("feedback");
+      const { body, statusCode } = await request(app).get(
+        `/lectures/${mockLecture.id}`,
+      );
+      expect(statusCode).toBe(200);
+      expect(body.lecture).toHaveProperty("feedback");
+    });
+  })
+  describe("given user is student", () => {
+    it("should return 403", async () => {
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 1, userType: "STUDENT" };
+        next();
+      });
+
+      const { statusCode } = await request(app).post("/lectures").send({
+        lectureName: "Lecture 1",
+        courseId: "1",
+      });
+
+      expect(statusCode).toBe(403);
+      expect(app).toThrow();
+    });
   });
 });
 
