@@ -209,24 +209,41 @@ describe("DELETE /api/lectures/:id", () => {
 // Muokkaaminen
 
 describe("PUT /api/lectures/:id", () => {
-  it("should update lecture", async () => {
-    const updatedLecture = { id: 1, name: "Updated Lecture" };
-    lectureService.getLectureById.mockResolvedValue(mockLecture);
-    lectureService.updateLecture.mockResolvedValue(updatedLecture);
+  describe("given the user is lecturer", () => {
+    it("should update lecture", async () => {const updatedLecture = { id: 1, name: "Updated Lecture" };
+      lectureService.getLectureById.mockResolvedValue(mockLecture);
+      lectureService.updateLecture.mockResolvedValue(updatedLecture);
 
-    verifyToken.mockImplementation((req, res, next) => {
-      req.user = { id: 6, userType: "TEACHER" };
-      next();
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 6, userType: "TEACHER" };
+        next();
+      });
+
+      const { statusCode, body } = await request(app)
+        .put(`/lectures/${mockLecture.id}`)
+        .send({ lectureName: updatedLecture.name });
+
+      expect(statusCode).toBe(200);
+      expect(body).toEqual({
+        message: "Lecture updated successfully",
+        updatedLecture,
+      });
     });
+  });
+  describe("given user is student", () => {
+    it("should return 403", async () => {
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 1, userType: "STUDENT" };
+        next();
+      });
 
-    const { statusCode, body } = await request(app)
-      .put(`/lectures/${mockLecture.id}`)
-      .send({ lectureName: updatedLecture.name });
+      const { statusCode } = await request(app).post("/lectures").send({
+        lectureName: "Lecture 1",
+        courseId: "1",
+      });
 
-    expect(statusCode).toBe(200);
-    expect(body).toEqual({
-      message: "Lecture updated successfully",
-      updatedLecture,
+      expect(statusCode).toBe(403);
+      expect(app).toThrow();
     });
   });
 });
