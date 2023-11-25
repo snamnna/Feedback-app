@@ -63,6 +63,15 @@ const mockLecture ={
     }
   ],
   createdAt: "2023-11-25T08:30:00.123Z"
+}  
+
+const mockLectureWithoutFeedback ={
+  id: 2,
+  name: "Lecture 2",
+  course: "Course 1",
+  courseId: 1,
+  feedback: [],
+  createdAt: "2023-11-25T08:30:00.123Z"
 } 
 
 describe("POST /api/lectures", () => {
@@ -122,3 +131,29 @@ describe("GET /api/lectures/:id", () => {
     });
   });
 });
+
+// Poistaminen
+
+describe("DELETE /api/lectures/:id", () => {
+  it("should delete lecture and return 200", async () => {
+    const lectureId = 2;
+
+    lectureService.getLectureById.mockResolvedValue(mockLectureWithoutFeedback);
+    lectureService.deleteLecture.mockResolvedValue(undefined);
+
+    verifyToken.mockImplementation((req, res, next) => {
+      req.user = { id: 6, userType: "TEACHER"};
+      next();
+    });
+
+    const res = await request(app).delete(`/lectures/${lectureId}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("message");
+    expect(res.body).toEqual({ message: "Lecture deleted successfully" });
+    expect(lectureService.deleteLecture).toHaveBeenCalledExactlyOnceWith(lectureId);
+  });
+});
+
+// Muokkaaminen
+// Feedbackin tarkastelu
