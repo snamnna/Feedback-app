@@ -168,23 +168,41 @@ describe("GET /api/lectures/:id", () => {
 // Poistaminen
 
 describe("DELETE /api/lectures/:id", () => {
-  it("should delete lecture and return 200", async () => {
-    const lectureId = 2;
+  describe("given the user is lecturer", () => {
+    it("should delete lecture and return 200", async () => {
+      const lectureId = 2;
 
-    lectureService.getLectureById.mockResolvedValue(mockLectureWithoutFeedback);
-    lectureService.deleteLecture.mockResolvedValue(undefined);
+      lectureService.getLectureById.mockResolvedValue(mockLectureWithoutFeedback);
+      lectureService.deleteLecture.mockResolvedValue(undefined);
 
-    verifyToken.mockImplementation((req, res, next) => {
-      req.user = { id: 6, userType: "TEACHER"};
-      next();
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 6, userType: "TEACHER"};
+        next();
+      });
+
+      const res = await request(app).delete(`/lectures/${lectureId}`);
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toHaveProperty("message");
+      expect(res.body).toEqual({ message: "Lecture deleted successfully" });
+      expect(lectureService.deleteLecture).toHaveBeenCalledExactlyOnceWith(lectureId);
     });
+  });
+  describe("given user is student", () => {
+    it("should return 403", async () => {
+      verifyToken.mockImplementation((req, res, next) => {
+        req.user = { id: 1, userType: "STUDENT" };
+        next();
+      });
 
-    const res = await request(app).delete(`/lectures/${lectureId}`);
+      const { statusCode } = await request(app).post("/lectures").send({
+        lectureName: "Lecture 1",
+        courseId: "1",
+      });
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty("message");
-    expect(res.body).toEqual({ message: "Lecture deleted successfully" });
-    expect(lectureService.deleteLecture).toHaveBeenCalledExactlyOnceWith(lectureId);
+      expect(statusCode).toBe(403);
+      expect(app).toThrow();
+    });
   });
 });
 
