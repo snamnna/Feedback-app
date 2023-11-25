@@ -87,7 +87,7 @@ describe("POST /api/lectures", () => {
   describe("given the user is student", () => {
     it("should return 403", async () => {
       verifyToken.mockImplementation((req, res, next) => {
-        req.user = { id: 5, userType: "STUDENT" };
+        req.user = { id: 1, userType: "STUDENT" };
         next();
       });
 
@@ -98,6 +98,27 @@ describe("POST /api/lectures", () => {
 
       expect(statusCode).toBe(403);
       expect(app).toThrow();
+    });
+  });
+});
+
+describe("GET /api/lectures/:id", () => {
+  it("should return 200 and the lecture", async () => {
+    lectureService.getLectureById.mockResolvedValue(mockLecture);
+
+    verifyToken.mockImplementation((req, res, next) => {
+      req.user = { id: 6, userType: "TEACHER" };
+      next();
+    });
+
+    const { statusCode, body } = await request(app).get(
+      `/lectures/${mockLecture.id}`,
+    );
+
+    expect(statusCode).toBe(200);
+    expect(body).toEqual({
+      message: "Lecture found successfully",
+      lecture: mockLecture,
     });
   });
 });
