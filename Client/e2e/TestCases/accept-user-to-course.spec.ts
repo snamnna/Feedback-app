@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { ElementHandleForTag } from "playwright-core/types/structs";
 
 const BASE_URL = "http://localhost:3000";
 
@@ -27,38 +28,38 @@ test.describe("Teacher feature: accept user (student) to a course", () => {
         expect(submitButton).toBeVisible();
         await submitButton.click();
         await page.waitForURL(`${BASE_URL}`);
+
+        // Confirm location on Dashboard
         const dashboardText = page.getByText('My Courses');
         expect(dashboardText).toBeVisible;
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(500);
     });
 
     test('find request and accept user', async ({ page }) => {
+        test.setTimeout(60000); // Set execution timeout to 1 minute
+        let courseFound = false;
 
         let liElements = await page.locator('li:has(div[data-testid="course-card"])').elementHandles(); // Look for course cards
-        let courseFound = false;
-        
-        if (liElements) { // Continue if courses were found
+        let liElementsLength = await page.locator('li:has(div[data-testid="course-card"])').count(); // Count course cards
+
+        if (liElementsLength > 0) { // Continue if courses were found
             courseFound = true;
-            console.log("Courses were found");
 
             // Start going through courses one by one to find the first one with a pending enrollment request
-            for (let i = 1; i <= liElements.length; i++) {
+            for (let i = 1; i <= liElementsLength; i++) {
+                let liElement = page.locator(`li:has(div[data-testid="course-card"]):nth-child(${i})`); // Locate the i-th course card
 
-                await liElements[i - 1].click();
+                await liElement.click();
                 await page.waitForLoadState();  // Ensure the page is loaded
-                liElements = await page.locator('li:has(div[data-testid="course-card"])').elementHandles();  // Re-locate the elements
-                console.log("Clicked on course card.");
+                //liElements = await page.locator('li:has(div[data-testid="course-card"])').elementHandles();  // Re-locate the course cards
 
                 let currentUrl = page.url();
-                console.log("Course URL: " + currentUrl);
-
                 let courseId = currentUrl.replace(`${BASE_URL}/courses/`, '');
-                console.log("Course ID currently: " + courseId);
+                console.log("Course ID: " + courseId);
 
                 const enrollmentsTab = page.locator('a:has-text("Enrollments")');
                 if (enrollmentsTab) {
                     await enrollmentsTab.click();
-                    console.log("Clicked on Enrollments tab.");
                     await expect(enrollmentsTab).toHaveClass('tab tab-active'); // Make sure Enrollments tab is selected
                 }
 
@@ -66,14 +67,13 @@ test.describe("Teacher feature: accept user (student) to a course", () => {
                     await page.waitForSelector('li:has(button:has-text("Accept"))', { state: 'attached', timeout: 5000 });
                 } catch (error) {
                     console.log("No enrollment requests found. Returning to Dashboard and trying again.\n");
-                    page.goBack(); // Return to Dashboard and try again
-                    await page.waitForTimeout(2000);
                 }
 
                 await page.waitForLoadState();
                 const noEnrollments = page.locator('text="No enrollments available"'); // This text is visible if there are no requests
 
                 if (!(await noEnrollments.isVisible())) { // Continue if "no enrollments" text wasn't found
+                    console.log("Enrollment request was found.");
                     const liElements = await page.$$('li');
                     let firstPendingRequest;
 
@@ -85,31 +85,27 @@ test.describe("Teacher feature: accept user (student) to a course", () => {
                         }
                     }
 
-                    //const firstPendingRequest = await page.$('li:has(button:has-text("Accept"))');  // Requests are in a list structure, look for first one
-
                     if (firstPendingRequest) { // First request was located
-                        console.log("Pending request located on Enrollments tab.");
                         const studentIdElement = await firstPendingRequest.$('p'); // Find the <p> element
                         const studentIdElementText = await studentIdElement?.innerText(); // <p> element contains student id
-                        console.log(`Student ID Element Text: ${studentIdElementText}`);
                         studentId = studentIdElementText.split(': ')[1];
                         
                         // Find Accept button & click
                         const acceptButton = await firstPendingRequest.$('button:has-text("Accept")');
-                        await page.waitForTimeout(1000);
                         await acceptButton?.click();
                         console.log(`Enrollment accepted for student with ID: ${studentId}`);
                         break;
                     }
+                } else {
+                    page.goBack(); // Return to Dashboard and try again
                 }
             }
         } else {
-            throw new Error('No courses found on the Dashboard.');
+            expect(courseFound, 'Dashboard contains no courses').toBeTruthy();
         }
-        expect(courseFound).toBeTruthy();
     });
 
-/* WORK IN DEVELOPMENT
+/* WORK IN PROGRESS
     test('find accepted student', async ({ page }) => {
 
         page.goto(`${BASE_URL}/courses/${courseId}`);
