@@ -222,6 +222,7 @@ const CourseDetails = () => {
           onClick={() => handleEnroll()}
           id="req-btn"
           className="btn btn-primary my-2"
+          disabled={!enrollBtn}
         >
           Request to join the course
         </button>
