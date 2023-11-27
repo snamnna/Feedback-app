@@ -1,10 +1,16 @@
 import { test, expect } from "@playwright/test";
-import { ElementHandleForTag } from "playwright-core/types/structs";
 
 const BASE_URL = "http://localhost:3000";
 
 test.describe("Teacher feature: accept user (student) to a course", () => {
-  let studentId;
+
+/**
+ * PREREQUISITES for the test to pass:
+ * 
+ * - test user is a teacher with ID 3 (called "teacher2")
+ * - user needs to be a lecturer on at least one course
+ * - the course needs to have at least one pending enrollment request
+ */
 
   // Login before each test
   test.beforeEach(async ({ page }) => {
@@ -35,6 +41,7 @@ test.describe("Teacher feature: accept user (student) to a course", () => {
 
   test("find request and accept user", async ({ page }) => {
     test.setTimeout(60000); // Set execution timeout to 1 minute
+    let studentId;
     let courseFound = false;
 
     let liElements = await page
@@ -121,7 +128,7 @@ test.describe("Teacher feature: accept user (student) to a course", () => {
     }
   });
 
-  /* WORK IN PROGRESS
+/* WORK IN PROGRESS: confirm that accepted user is on the participants list
     test('find accepted student', async ({ page }) => {
 
         page.goto(`${BASE_URL}/courses/${courseId}`);
@@ -149,4 +156,5 @@ test.describe("Teacher feature: accept user (student) to a course", () => {
         expect(studentFound).toBeTruthy();
     });
 */
+
 });
