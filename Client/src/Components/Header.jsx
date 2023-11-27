@@ -97,7 +97,11 @@ const Header = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <a className="btn btn-ghost normal-case text-xl" href="/">
+        <a
+          id="teachwise"
+          className="btn btn-ghost normal-case text-xl"
+          href="/"
+        >
           TeachWise
         </a>
       </div>

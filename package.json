@@ -1,0 +1,19 @@
+{
+  "name": "feedback-app",
+  "version": "1.0.0",
+  "description": "In the project, a Feedback application has been developed, through which students can provide feedback directly to the teacher about the lectures. Giving feedback is done anonymously, and the feedback is given after the lecture. The purpose of the application is to enable the teacher to improve their teaching and customize it for each teaching group, even during the course. By tailoring the instruction, students' learning outcomes also improve, as the teaching becomes more supportive of individual learning. The application has been designed to be simple, making it easy to provide feedback after each lecture.",
+  "main": "index.js",
+  "dependencies": {
+    "playwright": "^1.40.0",
+    "playwright-core": "^1.40.0",
+    "undici-types": "^5.26.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.9.4"
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

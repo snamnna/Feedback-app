@@ -133,7 +133,7 @@ const LectureDetails = () => {
               <h1 className="text-xl font-bold text-center">
                 List of feedbacks
               </h1>
-              <ul>
+              <ul id="lecturefeedbacklist">
                 {feedback.map((feedback, index) => (
                   <li
                     className="border rounded-md max-w-2xl p-3 my-5 mx-auto text-center"
@@ -181,6 +181,7 @@ const LectureDetails = () => {
                   <Link
                     to={`/feedback/${feedback.userId}`}
                     className="link text-primary"
+                    id={`user-${feedback.userId}`}
                   >
                     User: {feedback.userId}
                   </Link>

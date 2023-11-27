@@ -11,6 +11,7 @@ import OverViewTab from "./components/OverViewTab";
 import ParticipantsTab from "./components/ParticipantsTab";
 import EnrollmentTab from "./components/EnrollmentTab";
 import { useNavigate } from "react-router-dom";
+import feedbackService from "../../services/feedbackService";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -90,6 +91,20 @@ const CourseDetails = () => {
 
   //delete course
   const handleDelete = async () => {
+    //check if there is feedback
+    const courseFeedbackExists = await feedbackService.courseFeedback(
+      courseId,
+      token
+    );
+
+    console.log("haetaan feedbackit jos on" + courseFeedbackExists);
+
+    //if feedback, alert and return
+    if (courseFeedbackExists.length > 0) {
+      alert("Cannot delete course with existing feedback");
+      return;
+    }
+
     const deleteCourse = await courseService.deleteCourse(courseId, token);
     console.log(deleteCourse);
     navigate("/");
@@ -106,6 +121,7 @@ const CourseDetails = () => {
             </h1>
             {!isOwner && enrollmentStatus === "APPROVED" && (
               <button
+                id="leaveCourse"
                 className="ml-2 mt-1 btn btn-primary btn-sm"
                 onClick={() => handleLeave()}
               >
@@ -203,7 +219,11 @@ const CourseDetails = () => {
         <h1 className=" text-2xl font-bold">{course.name}</h1>
         <h2 className="text-md font-bold">Description:</h2>
         <p className="italic">{course.description}</p>
-        <button onClick={() => handleEnroll()} className="btn btn-primary my-2">
+        <button
+          onClick={() => handleEnroll()}
+          id="req-btn"
+          className="btn btn-primary my-2"
+        >
           Request to join the course
         </button>
       </div>

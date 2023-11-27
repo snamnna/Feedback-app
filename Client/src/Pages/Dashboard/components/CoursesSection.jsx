@@ -65,6 +65,7 @@ export const CoursesSection = () => {
           )}
         </div>
         <input
+          id="courseSearch"
           className="border border-gray-300 rounded-md shadow-md"
           type="text"
           placeholder="Search from all courses"
@@ -92,7 +93,12 @@ const CourseList = ({ courses }) => {
   return (
     <ul className="grid grid-cols-1 md:grid-cols-3 mx-7">
       {courses.map((course, index) => (
-        <li className="p-3" key={index} onClick={() => handleClick(course.id)}>
+        <li
+          className="p-3"
+          key={index}
+          id={`course-${course.id}`}
+          onClick={() => handleClick(course.id)}
+        >
           <CourseCard key={index} course={course} />
         </li>
       ))}
