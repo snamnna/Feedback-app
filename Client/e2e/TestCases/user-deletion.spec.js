@@ -46,20 +46,25 @@ test.describe("course details", () => {
     // Klikkaa "NO" -nappia peruttaaksesi käyttäjän poiston
     await page.click("button#del-conf-no");
 
+    // Tarkista, että newName-kentän arvo on tyhjä
     const newNameInputElement = await page.$("input#newName");
-    const newNameInputPlaceholder =
-      await newNameInputElement.getAttribute("placeholder");
-    expect(newNameInputPlaceholder).toBe("New Username");
+    const newNameInputValue = await newNameInputElement.evaluate(
+      (el) => el.value
+    );
+    expect(newNameInputValue).toBe(""); // Varmista, että arvo on tyhjä
 
+    // Tarkista, että newPassword-kentän arvo on tyhjä
     const newPasswordInputElement = await page.$("input#newPassword");
-    const newPasswordInputPlaceholder =
-      await newPasswordInputElement.getAttribute("placeholder");
-    expect(newPasswordInputPlaceholder).toBe("New password");
+    const newPasswordInputValue = await newPasswordInputElement.evaluate(
+      (el) => el.value
+    );
+    expect(newPasswordInputValue).toBe(""); // Varmista, että arvo on tyhjä
 
+    // Tarkista, että confirmPassword-kentän arvo on tyhjä
     const confirmPasswordInputElement = await page.$("input#confirmPassword");
-    const confirmPasswordInputPlaceholder =
-      await confirmPasswordInputElement.getAttribute("placeholder");
-    expect(confirmPasswordInputPlaceholder).toBe("Confirm Password:");
+    const confirmPasswordInputValue =
+      await confirmPasswordInputElement.evaluate((el) => el.value);
+    expect(confirmPasswordInputValue).toBe("");
   });
 
   test("Delete user account", async ({ page }) => {
