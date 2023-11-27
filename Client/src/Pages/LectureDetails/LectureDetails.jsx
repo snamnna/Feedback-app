@@ -65,11 +65,12 @@ const LectureDetails = () => {
         setCanGiveFeedback(!userHasGivenFeedback);
         calculateFeedbackStatistics(feedbacks);
       } catch (error) {
-        console.error("Error fetching feedback:", error);
+        console.error("Error fetching feedback and lecture:", error);
       }
     };
     fetchFeedback();
   }, [token]);
+
   const calculateFeedbackStatistics = (feedbacks) => {
     console.log("calculating feedback statistics...");
     console.log("feedbacks: ", feedbacks);
@@ -89,12 +90,9 @@ const LectureDetails = () => {
       }
     });
 
-    totalFeedback = goodfb + badfb + neutralfb;
-
     setGoodfb(goodfb);
     setBadfb(badfb);
     setNeutralfb(neutralfb);
-    setTotalFeedback(totalFeedback);
   };
 
   const openNewFeedbackModal = () => {

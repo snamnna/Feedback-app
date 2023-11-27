@@ -72,7 +72,6 @@ const CourseDetails = () => {
   );
 
   //muista implementoida samalla tavalla kun on tehty enrollment tabissa (status rejected)
-  //TODO: toteuta
   const handleLeave = async () => {
     try {
       const data = {

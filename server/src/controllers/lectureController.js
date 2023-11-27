@@ -98,7 +98,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
 router.get("/:id", verifyToken, async (req, res) => {
   const lectureId = parseInt(req.params.id, 10);
 
-  if (req.user.userType !== "TEACHER") {
+  if (req.user.userType == "STUDENT") {
     return res.status(403).json({ message: "Permission denied" });
   }
 

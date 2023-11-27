@@ -46,9 +46,6 @@ const OverViewTab = () => {
     let goodfb = 0;
     let badfb = 0;
     let neutralfb = 0;
-    let totalFeedback = 0;
-    let positivePercentage = 0;
-    let negativePercentage = 0;
 
     feedbacks.forEach((fb) => {
       console.log("feedback: ", fb);
@@ -60,17 +57,9 @@ const OverViewTab = () => {
         neutralfb++;
       }
     });
-
-    totalFeedback = goodfb + badfb + neutralfb;
-    positivePercentage = (goodfb / totalFeedback) * 100;
-    negativePercentage = (badfb / totalFeedback) * 100;
-
     setGoodfb(goodfb);
     setBadfb(badfb);
     setNeutralfb(neutralfb);
-    setTotalFeedback(totalFeedback);
-    setPositivePercentage(positivePercentage);
-    setNegativePercentage(negativePercentage);
   };
 
   useEffect(() => {

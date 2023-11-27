@@ -18,7 +18,7 @@ const feedbackCreateSchema = Joi.object({
 router.get("/:id", verifyToken, async (req, res) => {
   const courseId = parseInt(req.params.id, 10);
 
-  if (req.user.userType !== "TEACHER") {
+  if (req.user.userType == "STUDENT") {
     return res.status(403).json({ message: "Permission denied" });
   }
 
@@ -65,7 +65,7 @@ router.post("/", verifyToken, async (req, res) => {
 router.get("/user/:id", verifyToken, async (req, res) => {
   const userId = parseInt(req.params.id, 10);
 
-  if (req.user.userType !== "TEACHER") {
+  if (req.user.userType == "STUDENT") {
     return res.status(403).json({ message: "Permission denied" });
   }
   const feedback = await feedbackService.getUserFeedback(userId);
