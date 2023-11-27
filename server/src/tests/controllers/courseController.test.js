@@ -33,18 +33,12 @@ const mockCourse = {
   ],
 };
 
-describe("Courses API", () => {
-  beforeEach(() => {
-    courseService.getAllCourses.mockReset();
-    courseService.getCourseById.mockReset();
-    courseService.getAllParticipants.mockReset();
-    courseService.getAllLectures.mockReset();
-    courseService.createCourse.mockReset();
-    courseService.editCourse.mockReset();
-    courseService.deleteCourse.mockReset();
-    verifyToken.mockReset();
-  });
+const mockParticipants = [
+  { id: 1, username: "test", userType: "STUDENT" },
+  { id: 2, username: "test2", userType: "STUDENT" },
+];
 
+describe("Courses API", () => {
   describe("GET /api/courses", () => {
     it("should return 200 and all courses", async () => {
       const mockCourses = [
@@ -156,34 +150,25 @@ describe("Courses API", () => {
     });
 
     describe("/participants", () => {
-      const mockParticipants = [
-        { id: 1, username: "test", userType: "STUDENT" },
-        { id: 2, username: "test2", userType: "STUDENT" },
-      ];
-
-      let returnedBody;
-
+      beforeAll(() => {
+        courseService.getCourseById = jest.fn();
+        courseService.getParticipants = jest.fn();
+      });
       it("should return a message and an array of participants", async () => {
         courseService.getCourseById.mockResolvedValue(mockCourse);
-        courseService.getAllParticipants.mockResolvedValue(mockParticipants);
+        courseService.getParticipants.mockResolvedValue(mockParticipants);
         verifyToken.mockImplementation((req, res, next) => {
-          req.user = { id: 5, username: "lecturer", userType: "TEACHER" };
+          req.user = { id: 5, userType: "TEACHER" };
           next();
         });
 
-        const { statusCode, body } = await request(app).get(
-          "/courses/1/participants",
-        );
-
-        returnedBody = body;
+        const { statusCode, body } = await request(app).get("/courses/1");
 
         expect(statusCode).toBe(200);
-        expect(body).toContainKeys(["message", "participants"]);
-        expect(body.participants).toBeArray();
-      });
-
-      it.each(mockParticipants)(`response should contain %p`, (participant) => {
-        expect(returnedBody.participants).toContainEqual(participant);
+        expect(body).toEqual({
+          message: "Participants found successfully",
+          participants: expect.arrayContaining(mockParticipants),
+        });
       });
     });
   });
