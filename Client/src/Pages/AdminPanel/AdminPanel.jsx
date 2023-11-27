@@ -36,11 +36,13 @@ const AdminPanel = () => {
           <input
             className="border border-gray-300 shadow-md rounded-md"
             type="text"
+            id="user-search"
             onChange={handleUserSearch}
             placeholder="Search by username"
           />
           <div className="text-center mb-5 p-4">
             <button
+              id="search-btn"
               className="btn btn-sm btn-primary shadow-md"
               type="button"
               onClick={handleBtnClick}
@@ -59,6 +61,7 @@ const AdminPanel = () => {
               {JSON.stringify(data.username).replace(/["]+/g, "")}
             </div>
             <select
+              id="role-select"
               className="mx-2 mt-3 select select-bordered justify-center"
               defaultValue={data.userType}
               onChange={handleUserTypeChange}
@@ -68,6 +71,7 @@ const AdminPanel = () => {
               <option value="ADMIN">Admin</option>
             </select>
             <button
+              id="role-sbmt-btn"
               className="btn btn-sm btn-primary shadow-md"
               type="button"
               onClick={handleSubmitClick}
