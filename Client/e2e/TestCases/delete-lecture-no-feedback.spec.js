@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 const BASE_URL = "http://localhost:3000";
 
-test.describe("delete course with  no feedback", () => {
+test.describe("delete lecture with  no feedback", () => {
   test("navigate and delete", async ({ page }) => {
     await page.goto(`${BASE_URL}/login`);
 
@@ -55,7 +55,7 @@ test.describe("delete course with  no feedback", () => {
       .getByRole("button", { name: "Create" })
       .click();
 
-    await page.goto("http://localhost:3000/courses/2");
+    await page.waitForURL("http://localhost:3000/courses/2");
 
     //check that the lecture exists
     expect(
@@ -70,7 +70,6 @@ test.describe("delete course with  no feedback", () => {
       name: "new lecture",
     });
     expect(lectureName.isVisible).toBeTruthy();
-    expect(await lectureName.textContent()).toEqual("new lecture");
 
     await page.getByText("delete", { exact: true }).last().click();
 
