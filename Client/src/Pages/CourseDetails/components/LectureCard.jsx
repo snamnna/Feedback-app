@@ -99,7 +99,9 @@ const LectureCard = ({ lecture }) => {
           className="card-body rounded bg-base-100 flex flex-row"
           data-testid="lecture-card-body"
         >
-          <h2 className="card-title">{lecture.name}</h2>
+          <h2 id="lecture-card-h" className="card-title">
+            {lecture.name}
+          </h2>
           <div className="flex-grow"></div>
           {isOwner ? (
             <>

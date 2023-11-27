@@ -57,6 +57,7 @@ export const CoursesSection = () => {
           )}
           {isAdmin && (
             <button
+              id="admin-btn"
               className="btn btn-xs btn-primary shadow-md m-0 px-1.5 py-1 box-content text-sm ml-4"
               onClick={handleAdminClick}
             >

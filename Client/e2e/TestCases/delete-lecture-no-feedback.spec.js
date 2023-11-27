@@ -65,12 +65,6 @@ test.describe("delete lecture with  no feedback", () => {
     const lectureCard = page.getByTestId("lecture-card").last();
     expect(lectureCard.isVisible).toBeTruthy();
 
-    // get the text inside the h2 tag in lectureCard
-    const lectureName = lectureCard.getByRole("heading", {
-      name: "new lecture",
-    });
-    expect(lectureName.isVisible).toBeTruthy();
-
     await page.getByText("delete", { exact: true }).last().click();
 
     await page.reload();

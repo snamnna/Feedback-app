@@ -111,8 +111,6 @@ test.describe("register", () => {
 
     await page.waitForURL(BASE_URL);
 
-    await page.screenshot({ path: "screenshot.png" });
-
     expect(page.getByText("log out").isVisible).toBeTruthy();
     expect(page.getByText("TeachWise").isVisible).toBeTruthy();
     expect(page.getByText("My Courses").isVisible).toBeTruthy();
