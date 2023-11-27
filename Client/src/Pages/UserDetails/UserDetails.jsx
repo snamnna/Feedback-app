@@ -164,6 +164,7 @@ const UserDetails = () => {
                 <p className="">{t("info-text")}</p>
               </div>
               <button
+                id="edit-user-btn"
                 type="button"
                 onClick={handleEditUser}
                 className="btn btn-sm btn-primary shadow-md"

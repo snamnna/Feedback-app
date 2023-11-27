@@ -5,18 +5,33 @@ const BASE_URL = "http://localhost:3000";
 test.describe("course details", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`${BASE_URL}/login`);
-    await page.getByLabel("Username").fill("uusiNimi");
-    await page.getByLabel("Password").fill("Test123456789!");
-    await page.getByRole("button", { name: "login" }).click();
+
+    // Wait for the username input field to be ready before filling it
+    await page.waitForSelector("input#username");
+    await page.fill("input#username", "uusiNimi");
+
+    // Wait for the password input field to be ready before filling it
+    await page.waitForSelector("input#password");
+    await page.fill("input#password", "Test123456789!");
+
+    await page.click("button#submit-btn");
     await page.waitForURL(`${BASE_URL}`);
 
     await page.click('a[href="/user"]');
 
     await page.waitForURL(`${BASE_URL}/user`);
 
-    expect(
-      page.getByRole("heading", { name: "User Settings" }).isVisible
-    ).toBeTruthy();
+    await page.click('a[href="/user"]');
+
+    await page.waitForURL(`${BASE_URL}/user`);
+
+    const elementId = "user-set";
+
+    const isElementVisible = await page.$eval(`#${elementId}`, (element) => {
+      return element !== null && element.offsetParent !== null;
+    });
+
+    expect(isElementVisible).toBeTruthy();
   });
 
   test("should display an error message if username is less than 4 characters", async ({
@@ -29,7 +44,7 @@ test.describe("course details", () => {
     await page.waitForSelector("input#confirmPassword");
     await page.fill("input#confirmPassword", "Test123456789!");
 
-    await page.getByRole("button", { name: "Edit User" }).click();
+    await page.click("button#edit-user-btn");
 
     page.on("dialog", async (dialog) => {
       expect(dialog.message()).toEqual(
@@ -49,7 +64,7 @@ test.describe("course details", () => {
     await page.waitForSelector("input#confirmPassword");
     await page.fill("input#confirmPassword", "Test123456789?");
 
-    await page.getByRole("button", { name: "Edit User" }).click();
+    await page.click("button#edit-user-btn");
 
     page.on("dialog", async (dialog) => {
       expect(dialog.message()).toEqual(
@@ -69,7 +84,7 @@ test.describe("course details", () => {
     await page.waitForSelector("input#confirmPassword");
     await page.fill("input#confirmPassword", "Test123456789");
 
-    await page.getByRole("button", { name: "Edit User" }).click();
+    await page.click("button#edit-user-btn");
 
     page.on("dialog", async (dialog) => {
       expect(dialog.message()).toEqual(
@@ -89,7 +104,7 @@ test.describe("course details", () => {
     await page.waitForSelector("input#confirmPassword");
     await page.fill("input#confirmPassword", "Test123456789!");
 
-    await page.getByRole("button", { name: "Edit User" }).click();
+    await page.click("button#edit-user-btn");
 
     page.on("dialog", async (dialog) => {
       expect(dialog.message()).toEqual(
@@ -109,7 +124,7 @@ test.describe("course details", () => {
     await page.waitForSelector("input#confirmPassword");
     await page.fill("input#confirmPassword", "Test123456789!");
 
-    await page.getByRole("button", { name: "Edit User" }).click();
+    await page.click("button#edit-user-btn");
 
     page.on("dialog", async (dialog) => {
       expect(dialog.message()).toEqual(
@@ -129,7 +144,7 @@ test.describe("course details", () => {
     await page.waitForSelector("input#confirmPassword");
     await page.fill("input#confirmPassword", "");
 
-    await page.getByRole("button", { name: "Edit User" }).click();
+    await page.click("button#edit-user-btn");
 
     page.on("dialog", async (dialog) => {
       expect(dialog.message()).toEqual(
@@ -149,21 +164,26 @@ test.describe("course details", () => {
     await page.waitForSelector("input#confirmPassword");
     await page.fill("input#confirmPassword", "Test123!");
 
-    await page.getByRole("button", { name: "Edit User" }).click();
+    await page.click("button#edit-user-btn");
 
+    // Tarkista, että newName-kentän arvo on tyhjä
     const newNameInputElement = await page.$("input#newName");
-    const newNameInputPlaceholder =
-      await newNameInputElement.getAttribute("placeholder");
-    expect(newNameInputPlaceholder).toBe("New Username");
+    const newNameInputValue = await newNameInputElement.evaluate(
+      (el) => el.value
+    );
+    expect(newNameInputValue).toBe(""); // Varmista, että arvo on tyhjä
 
+    // Tarkista, että newPassword-kentän arvo on tyhjä
     const newPasswordInputElement = await page.$("input#newPassword");
-    const newPasswordInputPlaceholder =
-      await newPasswordInputElement.getAttribute("placeholder");
-    expect(newPasswordInputPlaceholder).toBe("New password");
+    const newPasswordInputValue = await newPasswordInputElement.evaluate(
+      (el) => el.value
+    );
+    expect(newPasswordInputValue).toBe(""); // Varmista, että arvo on tyhjä
 
+    // Tarkista, että confirmPassword-kentän arvo on tyhjä
     const confirmPasswordInputElement = await page.$("input#confirmPassword");
-    const confirmPasswordInputPlaceholder =
-      await confirmPasswordInputElement.getAttribute("placeholder");
-    expect(confirmPasswordInputPlaceholder).toBe("Confirm Password:");
+    const confirmPasswordInputValue =
+      await confirmPasswordInputElement.evaluate((el) => el.value);
+    expect(confirmPasswordInputValue).toBe("");
   });
 });
