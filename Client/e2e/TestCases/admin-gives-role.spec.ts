@@ -5,10 +5,10 @@ const BASE_URL = "http://localhost:3000";
 test.describe("Admin feature: admin gives teacher role to user", () => {
 
 /**
- * 
  * PREREQUISITES for the test to pass:
- * - user with ID 108 has to be admin
  * 
+ * - user with ID 108 has to be admin
+ * - user with ID 109 has to be student
  */
     
     // Login before each test
