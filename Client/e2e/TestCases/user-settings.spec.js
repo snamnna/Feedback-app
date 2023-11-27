@@ -21,10 +21,6 @@ test.describe("course details", () => {
 
     await page.waitForURL(`${BASE_URL}/user`);
 
-    await page.click('a[href="/user"]');
-
-    await page.waitForURL(`${BASE_URL}/user`);
-
     const elementId = "user-set";
 
     const isElementVisible = await page.$eval(`#${elementId}`, (element) => {
