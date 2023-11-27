@@ -86,9 +86,7 @@ describe("Lecture Service", () => {
       { id: 2, content: "Feedback 2" },
     ];
 
-    PrismaClientMocked.lecture.findMany.mockResolvedValue({
-      feedback: mockFeedbacks,
-    });
+    PrismaClientMocked.lecture.findMany.mockResolvedValue(mockFeedbacks);
 
     const result = await getAllFeedbacksOfLecture(mockId, mockCourseId);
     expect(result).toEqual(mockFeedbacks);

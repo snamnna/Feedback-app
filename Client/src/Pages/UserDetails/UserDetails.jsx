@@ -90,7 +90,10 @@ const UserDetails = () => {
       </select>
       <div className="w-screen flex justify-center items-center pb-5 ">
         <div className="px-20 py-5 mb-10 rounded-lg border">
-          <h1 className="text-2xl font-semibold mb-4 flex justify-center">
+          <h1
+            id="user-set"
+            className="text-2xl font-semibold mb-4 flex justify-center"
+          >
             {t("user-settings")}
           </h1>
           <div>
@@ -161,6 +164,7 @@ const UserDetails = () => {
                 <p className="">{t("info-text")}</p>
               </div>
               <button
+                id="edit-user-btn"
                 type="button"
                 onClick={handleEditUser}
                 className="btn btn-sm btn-primary shadow-md"
@@ -168,6 +172,7 @@ const UserDetails = () => {
                 {t("edit-user")}
               </button>
               <button
+                id="del-user-btn"
                 type="button"
                 onClick={handleDeleteUser}
                 className="btn btn-sm btn-natural shadow-md mt-5"
