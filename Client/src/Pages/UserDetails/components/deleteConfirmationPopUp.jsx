@@ -8,9 +8,13 @@ const DelConf = ({ onCancel, onConfirm }) => {
 
   return (
     <div className="delete-conf flex flex-col items-center">
-      <p>{t("delete-confirm-text")}</p>
-      <button onClick={onConfirm}>{t("yes")}</button>
-      <button onClick={onCancel}>{t("no")}</button>
+      <p id="del-conf"> {t("delete-confirm-text")}</p>
+      <button id="del-conf-yes" onClick={onConfirm}>
+        {t("yes")}
+      </button>
+      <button id="del-conf-no" onClick={onCancel}>
+        {t("no")}
+      </button>
     </div>
   );
 };
