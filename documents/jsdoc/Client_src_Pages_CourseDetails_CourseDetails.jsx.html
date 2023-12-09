@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Client/src/Pages/CourseDetails/CourseDetails.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Client/src/Pages/CourseDetails/CourseDetails.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module courseDetails
  * @file React component for displaying details of a course.
  */
@@ -138,24 +166,24 @@ const CourseDetails = () => {
    */
   if (enrollmentStatus === "APPROVED") {
     return (
-      <div className="">
-        <div className="flex justify-between px-10 py-3 bg-base-100 ">
-          <div className="flex flex-row ">
-            <h1 className="my-2 text-xl font-bold">
+      &lt;div className="">
+        &lt;div className="flex justify-between px-10 py-3 bg-base-100 ">
+          &lt;div className="flex flex-row ">
+            &lt;h1 className="my-2 text-xl font-bold">
               Details for {course.name}
-            </h1>
-            {!isOwner && enrollmentStatus === "APPROVED" && (
-              <button
+            &lt;/h1>
+            {!isOwner &amp;&amp; enrollmentStatus === "APPROVED" &amp;&amp; (
+              &lt;button
                 id="leaveCourse"
                 className="ml-2 mt-1 btn btn-primary btn-sm"
                 onClick={() => handleLeave()}
               >
                 Leave the course
-              </button>
+              &lt;/button>
             )}
             {isOwner ? (
-              <>
-                <DropdownMenu
+              &lt;>
+                &lt;DropdownMenu
                   onAddLecture={() =>
                     document.getElementById("new_lecture_modal").showModal()
                   }
@@ -164,99 +192,99 @@ const CourseDetails = () => {
                   }
                   onDeleteCourse={() => handleDelete()}
                 />
-                <div className=" mb-3 tabs">
-                  <a
+                &lt;div className=" mb-3 tabs">
+                  &lt;a
                     onClick={() => setActive("le")}
                     className={`tab ${active === "le" ? "tab-active " : ""}`}
                   >
                     Lectures
-                  </a>
-                  <a
+                  &lt;/a>
+                  &lt;a
                     onClick={() => setActive("ow")}
                     className={`tab ${active === "ow" ? "tab-active" : ""}`}
                   >
                     Feedback
-                  </a>
-                  <a
+                  &lt;/a>
+                  &lt;a
                     onClick={() => setActive("pa")}
                     className={`tab ${active === "pa" ? "tab-active" : ""}`}
                   >
                     Participants
-                  </a>
-                  <a
+                  &lt;/a>
+                  &lt;a
                     onClick={() => setActive("en")}
                     className={`tab ${active === "en" ? "tab-active" : ""}`}
                   >
                     Enrollments
-                  </a>
-                </div>
-              </>
+                  &lt;/a>
+                &lt;/div>
+              &lt;/>
             ) : (
-              <></>
+              &lt;>&lt;/>
             )}
-          </div>
-          {!isOwner && (
-            <div>
-              <input
+          &lt;/div>
+          {!isOwner &amp;&amp; (
+            &lt;div>
+              &lt;input
                 className="border border-gray-300 shadow-md rounded-md ml-2"
                 type="text"
                 placeholder="Search Lectures"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-            </div>
+            &lt;/div>
           )}
-          {isOwner && active === "le" && (
-            <div>
-              <input
+          {isOwner &amp;&amp; active === "le" &amp;&amp; (
+            &lt;div>
+              &lt;input
                 className=" border border-gray-300 shadow-md rounded-md"
                 type="text"
                 placeholder="Search Lectures"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-            </div>
+            &lt;/div>
           )}
-        </div>
-        {isOwner && active === "le" && (
-          <div className="flex justify-center max-w-full">
-            <LectureList lectures={filterLectures} isOwner={isOwner} />
-          </div>
+        &lt;/div>
+        {isOwner &amp;&amp; active === "le" &amp;&amp; (
+          &lt;div className="flex justify-center max-w-full">
+            &lt;LectureList lectures={filterLectures} isOwner={isOwner} />
+          &lt;/div>
         )}
-        {!isOwner && (
-          <div className="flex w-2xl ">
-            <LectureList lectures={filterLectures} isOwner={isOwner} />
-          </div>
+        {!isOwner &amp;&amp; (
+          &lt;div className="flex w-2xl ">
+            &lt;LectureList lectures={filterLectures} isOwner={isOwner} />
+          &lt;/div>
         )}
         {/* Overview active */}
-        {isOwner && active === "ow" && <OverViewTab />}
+        {isOwner &amp;&amp; active === "ow" &amp;&amp; &lt;OverViewTab />}
         {/* Participants tab active */}
-        {isOwner && active === "pa" && <ParticipantsTab />}
+        {isOwner &amp;&amp; active === "pa" &amp;&amp; &lt;ParticipantsTab />}
         {/* Enroll tab active */}
-        {isOwner && active === "en" && <EnrollmentTab />}
-      </div>
+        {isOwner &amp;&amp; active === "en" &amp;&amp; &lt;EnrollmentTab />}
+      &lt;/div>
     );
   }
   /**
    * React component for displaying details when the user is not yet enrolled in the course.
    */
   return (
-    <div className="flex justify-center max-w-screen">
-      <div className="my-10 max-w-xl border rounded-md py-10 px-16 text-center">
-        <p className="text-lg">You are not yet enrolled in course</p>
-        <h1 className=" text-2xl font-bold">{course.name}</h1>
-        <h2 className="text-md font-bold">Description:</h2>
-        <p className="italic">{course.description}</p>
-        <button
+    &lt;div className="flex justify-center max-w-screen">
+      &lt;div className="my-10 max-w-xl border rounded-md py-10 px-16 text-center">
+        &lt;p className="text-lg">You are not yet enrolled in course&lt;/p>
+        &lt;h1 className=" text-2xl font-bold">{course.name}&lt;/h1>
+        &lt;h2 className="text-md font-bold">Description:&lt;/h2>
+        &lt;p className="italic">{course.description}&lt;/p>
+        &lt;button
           onClick={() => handleEnroll()}
           id="req-btn"
           className="btn btn-primary my-2"
           disabled={!enrollBtn}
         >
           Request to join the course
-        </button>
-      </div>
-    </div>
+        &lt;/button>
+      &lt;/div>
+    &lt;/div>
   );
 };
 
@@ -287,18 +315,18 @@ const LectureList = ({ lectures }) => {
    */
   if (lectures.length > 0) {
     return (
-      <div className="">
-        <h1 className="text-center font-bold">Lectures:</h1>
-        <div className="flex justify-center items-center w-screen ">
-          <ul className="mt-3 mb-5">
+      &lt;div className="">
+        &lt;h1 className="text-center font-bold">Lectures:&lt;/h1>
+        &lt;div className="flex justify-center items-center w-screen ">
+          &lt;ul className="mt-3 mb-5">
             {lectures.map((lecture) => (
-              <li className="mx-10 w-full" key={lecture.id}>
-                <LectureCard lecture={lecture} />
-              </li>
+              &lt;li className="mx-10 w-full" key={lecture.id}>
+                &lt;LectureCard lecture={lecture} />
+              &lt;/li>
             ))}
-          </ul>
-        </div>
-      </div>
+          &lt;/ul>
+        &lt;/div>
+      &lt;/div>
     );
   }
 
@@ -306,21 +334,21 @@ const LectureList = ({ lectures }) => {
    * Rendered component when there are no lectures.
    */
   return (
-    <div className="flex justify-center items-center w-screen my-20">
-      <div className="mx-auto border py-7 px-10 rounded-md text-center">
-        <p>No lectures yet</p>
-        {isOwner && (
-          <button
+    &lt;div className="flex justify-center items-center w-screen my-20">
+      &lt;div className="mx-auto border py-7 px-10 rounded-md text-center">
+        &lt;p>No lectures yet&lt;/p>
+        {isOwner &amp;&amp; (
+          &lt;button
             className="btn btn-sm btn-primary mt-3"
             onClick={() =>
               document.getElementById("new_lecture_modal").showModal()
             }
           >
             New lecture
-          </button>
+          &lt;/button>
         )}
-      </div>
-    </div>
+      &lt;/div>
+    &lt;/div>
   );
 };
 
@@ -338,3 +366,26 @@ LectureList.propTypes = {
 };
 
 export default CourseDetails;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-courseController.html">courseController</a></li><li><a href="module-courseService.html">courseService</a></li><li><a href="module-courseSlice.html">courseSlice</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CourseDetails">CourseDetails</a></li><li><a href="global.html#LectureList">LectureList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sat Dec 09 2023 23:47:47 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
