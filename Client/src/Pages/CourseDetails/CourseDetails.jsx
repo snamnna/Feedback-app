@@ -1,6 +1,7 @@
 /**
- * @module courseDetails
+ * @module Client/CourseDetails
  * @file React component for displaying details of a course.
+ * @exports CourseDetails
  */
 
 import React, { useEffect, useState } from "react";
