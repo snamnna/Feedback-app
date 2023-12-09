@@ -178,8 +178,7 @@ const deleteEnrollment = async (data, token) => {
 };
 
 /**
- * Gets a course by its ID.
- *
+ * @description Gets a course by its ID.
  * @param {string} courseId - The ID of the course.
  * @param {string} token - The user's authentication token.
  * @returns {Promise} Course data.
