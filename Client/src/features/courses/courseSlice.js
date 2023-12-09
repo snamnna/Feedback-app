@@ -1,5 +1,5 @@
 /**
- * @module courseSlice
+ * @module Client/courseSlice
  * @description Redux slice managing the state related to courses.
  */
 

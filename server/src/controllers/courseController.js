@@ -1,5 +1,5 @@
 /**
- * @module courseController
+ * @module server/courseController
  * @description Express router for handling course-related endpoints.
  */
 

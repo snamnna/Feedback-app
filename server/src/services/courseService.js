@@ -1,5 +1,5 @@
 /**
- * @module courseService
+ * @module server/courseService
  * @description Provides functions for managing courses, lectures, and enrollments in a database.
  */
 

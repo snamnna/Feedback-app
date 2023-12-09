@@ -1,5 +1,5 @@
 /**
- * @module courseService
+ * @module Client/courseService
  * @description Service module for managing courses on the frontend.
  */
 
